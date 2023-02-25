@@ -20,8 +20,10 @@ public class User {
         Credit = credit;
     }
 
+
     public String toString () {
         return this.userName + " -> " + this.password;
     }
+
 
 }
