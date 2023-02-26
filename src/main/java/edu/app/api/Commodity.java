@@ -1,8 +1,27 @@
 package edu.app.api;
 
-public class Commodity {
+import java.util.ArrayList;
+import java.util.List;
 
-    Commodity(String jsonInfo) {
+public class Commodity {
+    long id;
+    String name;
+    long providerId;
+    long price;
+    String[] categories;
+    double rating;
+    long inStock;
+    String[] userIds;
+
+
+    public Commodity(long id, String name, long providerId, long price, String[] categories, double rating, long inStock) {
+        this.id = id;
+        this.name = name;
+        this.providerId = providerId;
+        this.price = price;
+        this.categories = categories;
+        this.rating = rating;
+        this.inStock = inStock;
 
     }
 
