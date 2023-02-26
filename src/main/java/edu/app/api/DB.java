@@ -8,7 +8,4 @@ public class DB {
     List<Commodity> commodities = new ArrayList<Commodity>();
     List<Provider> providers = new ArrayList<Provider>();
 
-
-
-
 }

@@ -12,7 +12,7 @@ public class Main {
         Handler handler = new Handler();
        while (true) {
            String input = in.nextLine();
-           handler.getCommand(input);
+           handler.handleCommand(input);
        }
     }
 }
