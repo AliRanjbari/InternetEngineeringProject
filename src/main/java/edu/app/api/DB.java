@@ -14,7 +14,7 @@ public class DB {
         this.providers = new ArrayList<Provider>();
     }
 
-    void addUser(String jsonString) {
+    void addUser(User new_user) {
         System.out.println("adding user");
     }
 

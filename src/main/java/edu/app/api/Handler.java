@@ -1,22 +1,26 @@
 package edu.app.api;
 
+import org.json.simple.parser.ParseException;
+
 public class Handler {
 
     DB dataBase = new DB();
     public void handleCommand(String input) {
         String[] arguments = input.split(" ");
-        if (arguments.length != 2){
-            System.err.println("Incorrect format have to be like [command] [json]");
-            return;
-        }
 
         String command = arguments[0];
-        String jsonString = arguments[1];
+        String jsonString = input.substring((command.length() + 1) , (input.length()));
+
 
         switch (command) {
             case "addUser":
             {
-                dataBase.addUser(jsonString);
+                try {
+                    JsonHandler.addUser(jsonString, dataBase);
+                } catch (ParseException e) {
+                    System.err.println("error");
+                    // throw new RuntimeException(e);
+                }
                 break;
             }
             case "addProvider":
