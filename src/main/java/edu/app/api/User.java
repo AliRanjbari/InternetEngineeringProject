@@ -20,7 +20,7 @@ public class User {
     LocalDate birthDay;
     String address;
     List<Commodity> commodities = new ArrayList<Commodity>();
-    int Credit;
+    long Credit;
 
 /*    public User(String userName, String password, String email, LocalDate birthDay, String address, int credit) {
         this.userName = userName;
@@ -42,6 +42,7 @@ public class User {
 
         Object o = new JSONParser().parse(json_input);
 
+
         JSONObject j = (JSONObject) o;
 
         this.userName = (String) j.get("username");
@@ -49,7 +50,7 @@ public class User {
         this.email = (String) j.get("email");
         this.address = (String) j.get("address");
         this.birthDay = LocalDate.parse((String) j.get("birthDate"));
-        this.Credit = (int) j.get("credit");
+        this.Credit = (long) j.get("credit");
 
 //new_user
 

@@ -9,9 +9,10 @@ public class Handler {
 
     DB dataBase;
     public void handleCommand(String input) throws ParseException {
+        String new_input = input;
         String[] arguments = input.split(" ");
         String command = arguments[0];
-        String jason_data = input.substring((command.length() + 1) , input.length());
+        String jason_data = new_input.substring((command.length() + 1) , (new_input.length()));
 
         switch (command) {
             case "addUser":
