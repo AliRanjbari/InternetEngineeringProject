@@ -51,7 +51,7 @@ public class User {
         this.birthDay = (LocalDate) j.get("birthDate");
         this.Credit = (int) j.get("credit");
 
-
+//new_user
 
     }
 
