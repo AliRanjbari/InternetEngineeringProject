@@ -1,13 +1,5 @@
 package edu.app.api;
 
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.*;
-
-import java.io.File;
-import java.io.FileReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,28 +23,13 @@ public class User {
         this.Credit = credit;
     }
 
-
     public String toString () {
         return this.userName + " -> " + this.password;
     }
 
-/*    public User(String json_input) throws ParseException {
-
-        Object o = new JSONParser().parse(json_input);
 
 
-        JSONObject j = (JSONObject) o;
 
-        this.userName = (String) j.get("username");
-        this.password = (String) j.get("password");
-        this.email = (String) j.get("email");
-        this.address = (String) j.get("address");
-        this.birthDay = LocalDate.parse((String) j.get("birthDate"));
-        this.Credit = (long) j.get("credit");
-
-//new_user
-
-    }*/
 
 
 }

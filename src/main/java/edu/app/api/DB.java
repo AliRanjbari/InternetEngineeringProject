@@ -54,4 +54,11 @@ public class DB {
         return "getting buy list [json format] ";
     }
 
+    boolean does_user_exists(String userName) {
+        for (User user: this.users) {
+
+
+        }
+    }
+
 }

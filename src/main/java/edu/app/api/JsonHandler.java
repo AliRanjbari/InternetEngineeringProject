@@ -7,7 +7,6 @@ import java.time.LocalDate;
 
 public class JsonHandler {
 
-
     static public void addUser(String jsonString, DB dataBase) throws ParseException {
 
         Object o = new JSONParser().parse(jsonString);

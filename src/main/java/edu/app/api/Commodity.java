@@ -22,7 +22,6 @@ public class Commodity {
         this.categories = categories;
         this.rating = rating;
         this.inStock = inStock;
-
     }
 
 }
