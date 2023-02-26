@@ -16,5 +16,3 @@ public class Main {
        }
     }
 }
-// Kiram to matin
-// change
