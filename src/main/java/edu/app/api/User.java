@@ -48,7 +48,7 @@ public class User {
         this.password = (String) j.get("password");
         this.email = (String) j.get("email");
         this.address = (String) j.get("address");
-        this.birthDay = (LocalDate) j.get("birthDate");
+        this.birthDay = LocalDate.parse((String) j.get("birthDate"));
         this.Credit = (int) j.get("credit");
 
 //new_user
