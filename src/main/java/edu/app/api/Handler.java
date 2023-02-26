@@ -17,9 +17,9 @@ public class Handler {
         switch (command) {
             case "addUser":
             {
-                User user = new User(jason_data);
+/*                User user = new User(jason_data);
                 System.out.println(user.userName);
-                System.out.println(user.address);
+                System.out.println(user.address);*/
                 break;
             }
             case "addProvider":
