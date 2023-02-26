@@ -56,3 +56,4 @@ public class User {
 
 }
 
+//{"username" : "ali" , "password" : "123" , "email" : "1234" , "address" : "sohanak" , "birthDate" : "1977-09-15" , "credit" : 75}
