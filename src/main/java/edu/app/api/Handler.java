@@ -6,7 +6,6 @@ import java.lang.reflect.Array;
 public class Handler {
 
     DB dataBase;
-
     public void handleCommand(String input) {
         String[] arguments = input.split(" ");
         String command = arguments[0];
@@ -14,7 +13,6 @@ public class Handler {
         switch (command) {
             case "addUser":
             {
-
                 break;
             }
             case "addProvider":
