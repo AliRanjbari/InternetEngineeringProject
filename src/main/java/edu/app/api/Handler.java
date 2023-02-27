@@ -8,7 +8,7 @@ public class Handler {
     public void handleCommand(String input) {
         String[] arguments = input.split(" ");
         if (arguments.length < 2){
-            System.err.println("Command Should be line [command] [jsonString]");
+            System.err.println("Command Should be like [command] <jsonData>");
             return;
         }
 
@@ -19,10 +19,12 @@ public class Handler {
             switch (command) {
                 case "addUser": {
                     JsonHandler.addUser(jsonString, dataBase);
+                    System.out.println("user added");
                     break;
                 }
                 case "addProvider": {
-                    dataBase.addProvider(jsonString);
+                    JsonHandler.addProvider(jsonString, dataBase);
+                    System.out.println("provider added");
                     break;
                 }
                 case "addCommodity": {

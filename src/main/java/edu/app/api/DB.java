@@ -25,8 +25,14 @@ public class DB {
         }
     }
 
-    void addProvider(String jsonString) {
-        System.out.println("adding provider");
+    void addProvider(long id, String name, LocalDate registryDate) {
+        if(findProvider(id) != null) {
+            Provider provider = findProvider(id);
+            provider.update(name, registryDate);
+        } else {
+            Provider newProvider = new Provider(id, name, registryDate);
+            this.providers.add(newProvider);
+        }
     }
 
     void addCommodity(String jsonString) {
@@ -67,5 +73,14 @@ public class DB {
                 return user;
         return null;
     }
+
+    private Provider findProvider(long id) {
+        for (Provider provider : this.providers)
+            if(provider.getId() == id)
+                return provider;
+        return null;
+    }
+
+
 }
 
