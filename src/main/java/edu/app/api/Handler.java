@@ -28,7 +28,8 @@ public class Handler {
                     break;
                 }
                 case "addCommodity": {
-                    dataBase.addCommodity(jsonString);
+                    JsonHandler.addCommodity(jsonString, dataBase);
+                    System.out.println("commodity added");
                     break;
                 }
                 case "getCommoditiesList": {

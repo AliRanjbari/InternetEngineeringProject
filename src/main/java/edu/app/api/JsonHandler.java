@@ -4,11 +4,13 @@ package edu.app.api;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 
 public class JsonHandler {
     static String[] addUserJsonVariables = {"username", "password", "email", "address", "birthDate", "credit"};
     static String[] addProviderJsonVariables = {"id", "name", "registryDate"};
+    static String[] addCommodityJsonVariables = {"id", "name", "providerId", "price", "categories", "rating", "inStock"};
 
     static public void addUser(String jsonString, DB dataBase) throws Exception {
 
@@ -40,10 +42,27 @@ public class JsonHandler {
         dataBase.addProvider(id, name, registryDate);
     }
 
+    static public void addCommodity(String jsonString, DB dataBase) throws Exception {
+        Object o = new JSONParser().parse(jsonString);
+        JSONObject j = (JSONObject) o;
+
+        checkVariables(addCommodityJsonVariables, j);
+        long testLong;
+        long id = (long) j.get(addCommodityJsonVariables[0]);
+        String name = (String) j.get(addCommodityJsonVariables[1]);
+        long providerId = (long) j.get(addCommodityJsonVariables[2]);
+        long price = (long) j.get(addCommodityJsonVariables[3]);
+        ArrayList<String> categories = (ArrayList<String>) j.get(addCommodityJsonVariables[4]);
+        double rating = (double)(long) j.get(addCommodityJsonVariables[5]);
+        long inStock = (long) j.get(addCommodityJsonVariables[6]);
+
+        dataBase.addCommodity(id, name, providerId, price, categories, rating, inStock);
+    }
+
     static public void checkVariables(String[] variables, JSONObject j) {
         for (String var : variables)
             if (j.get(var) == null)
-                throw new RuntimeException("Variable [" + var + "] not defined");
+                throw new RuntimeException("Variable \"" + var + "\" not defined");
     }
 
 }

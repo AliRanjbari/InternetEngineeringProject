@@ -35,8 +35,17 @@ public class DB {
         }
     }
 
-    void addCommodity(String jsonString) {
-        System.out.println("adding commodity");
+    void addCommodity(long id, String name, long providerId, long price, ArrayList<String> categories, double rating, long inStock) {
+        if(findProvider(providerId) == null)
+            throw new RuntimeException("Provider does not exists");
+
+        if(findCommodity(id) != null) {
+            Commodity commodity = findCommodity(id);
+            commodity.update(name, providerId, price, categories, rating, inStock);
+        } else {
+            Commodity newCommodity = new Commodity(id, name, providerId, price, categories, rating, inStock);
+            this.commodities.add(newCommodity);
+        }
     }
 
     String getCommodityList(String jsonString){
@@ -78,6 +87,13 @@ public class DB {
         for (Provider provider : this.providers)
             if(provider.getId() == id)
                 return provider;
+        return null;
+    }
+
+    private Commodity findCommodity(long id) {
+        for (Commodity commodity : this.commodities)
+            if (commodity.getId() == id)
+                return commodity;
         return null;
     }
 
