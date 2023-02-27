@@ -1,5 +1,6 @@
 package edu.app.api;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +15,14 @@ public class DB {
         this.providers = new ArrayList<Provider>();
     }
 
-    void addUser(User new_user) {
-        System.out.println("adding user");
+    void addUser(String userName, String password, String email, LocalDate birthDay, String address, long credit) {
+        if (findUser(userName) != null){
+            User user = findUser(userName);
+            user.update(password, email, birthDay, address, credit);
+        } else {
+            User newUser = new User(userName, password, email, birthDay, address, credit);
+            users.add(newUser);
+        }
     }
 
     void addProvider(String jsonString) {
@@ -54,11 +61,11 @@ public class DB {
         return "getting buy list [json format] ";
     }
 
-    boolean does_user_exists(String userName) {
-        for (User user: this.users) {
-
-
-        }
+    private User findUser(String userName) {
+        for (User user : this.users)
+            if (userName.equals(user.getUserName()))
+                return user;
+        return null;
     }
-
 }
+

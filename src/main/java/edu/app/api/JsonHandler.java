@@ -1,13 +1,15 @@
 package edu.app.api;
 
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 import java.time.LocalDate;
+import java.util.Map;
 
 
 public class JsonHandler {
 
-    static public void addUser(String jsonString, DB dataBase) throws ParseException {
+    static public void addUser(String jsonString, DB dataBase) throws Exception {
 
         Object o = new JSONParser().parse(jsonString);
         JSONObject j = (JSONObject) o;
@@ -19,8 +21,11 @@ public class JsonHandler {
         LocalDate birthDay = LocalDate.parse((String) j.get("birthDate"));
         long credit = (long) j.get("credit");
 
-        /*dataBase.addUser(new User(userName, password, email, address, birthDay, credit));*/
+        if(userName == null || password == null || email == null || address == null){
+            throw new RuntimeException("Must define all variables");
+        }
 
+        dataBase.addUser(userName, password, email, birthDay, address, credit);
     }
 
 }
