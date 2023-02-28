@@ -5,14 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Commodity {
-    long id;
-    String name;
-    long providerId;
-    long price;
-    ArrayList<String> categories;
-    double rating;
-    long inStock;
-    Map<String, Double> userRates = new HashMap<String, Double>();
+    private long id;
+    private String name;
+    private long providerId;
+    private long price;
+    private ArrayList<String> categories;
+    private double rating;
+    private long inStock;
+    private Map<String, Double> userRates = new HashMap<String, Double>();
 
 
     public Commodity(long id, String name, long providerId, long price, ArrayList<String> categories, double rating, long inStock) {
@@ -50,5 +50,33 @@ public class Commodity {
 
     public long getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public long getProviderId() {
+        return providerId;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public ArrayList<String> getCategories() {
+        return categories;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public long getInStock() {
+        return inStock;
+    }
+
+    public Map<String, Double> getUserRates() {
+        return userRates;
     }
 }
