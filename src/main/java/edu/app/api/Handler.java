@@ -49,7 +49,7 @@ public class Handler {
                     break;
                 }
                 case "getCommodityById": {
-                    System.out.println(dataBase.getCommodityById(jsonString));
+                    System.out.println(JsonHandler.getCommodityById(jsonString , dataBase));
                     break;
                 }
                 case "getCommoditiesByCategory": {

@@ -11,6 +11,7 @@ public class JsonHandler {
     static String[] addUserJsonVariables = {"username", "password", "email", "address", "birthDate", "credit"};
     static String[] addProviderJsonVariables = {"id", "name", "registryDate"};
     static String[] addCommodityJsonVariables = {"id", "name", "providerId", "price", "categories", "rating", "inStock"};
+    static String[] getCommodityByIdJsonVariables = {"id"};
 
     static public void addUser(String jsonString, DB dataBase) throws Exception {
 
@@ -63,6 +64,26 @@ public class JsonHandler {
         for (String var : variables)
             if (j.get(var) == null)
                 throw new RuntimeException("Variable \"" + var + "\" not defined");
+    }
+
+    static public String getCommodityById(String jsonString , DB database) throws ParseException {
+        Object o = new JSONParser().parse(jsonString);
+        JSONObject  in = (JSONObject) o;
+        JSONObject out = new JSONObject();
+
+        checkVariables(getCommodityByIdJsonVariables, in);
+        long id = (long) in.get(getCommodityByIdJsonVariables[0]);
+        Commodity commodity = database.getCommodityById(id);
+        String providerName = database.findProvider(commodity.getProviderId()).getName();
+        out.put("id" , commodity.getId());
+        out.put("name",commodity.getName());
+        out.put("provider",providerName);
+        out.put("price",commodity.getPrice());
+        out.put("categories",commodity.getCategories());
+        out.put("rating",commodity.getRating());
+        out.put("inStock",commodity.getInStock());
+
+        return out.toString();
     }
 
 }

@@ -64,8 +64,10 @@ public class DB {
         System.out.println("removing from buy list");
     }
 
-    String getCommodityById(String jsonString) {
-        return "getting commodity by id [json format]";
+    Commodity getCommodityById(long id) {
+        Commodity commodity = findCommodity(id);
+
+        return commodity;
     }
 
     String getCommoditiesByCategory(String jsonString) {
@@ -83,7 +85,7 @@ public class DB {
         return null;
     }
 
-    private Provider findProvider(long id) {
+    public Provider findProvider(long id) {
         for (Provider provider : this.providers)
             if(provider.getId() == id)
                 return provider;
