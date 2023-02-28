@@ -13,8 +13,8 @@ public class RateTest {
 
     @BeforeEach
     public void initTest() {
-          commodity = new Commodity(10, "shoes", 5, 300,
-                                    new ArrayList<>(Arrays.asList("ALI", "MAMAD")), 0, 0);
+        commodity = new Commodity(10, "shoes", 5, 300,
+                new ArrayList<>(Arrays.asList("ALI", "MAMAD")), 0, 0);
     }
 
     @Test
@@ -33,7 +33,6 @@ public class RateTest {
         commodity.rate("ali" , 1);
         assertEquals(7,commodity.getRating());
         //now the score should be 7 because ali's score has changed
-
     }
 
 }
