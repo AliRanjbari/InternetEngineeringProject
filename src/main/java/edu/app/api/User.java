@@ -50,6 +50,10 @@ public class User {
         return -1;
     }
 
+    public static boolean isValidUsername(String username) {
+        return !username.matches(".*[!@#].*");
+    }
+
     public String toString () {
         return this.userName + " -> " + this.password;
     }

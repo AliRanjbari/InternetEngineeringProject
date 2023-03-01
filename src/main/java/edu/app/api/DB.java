@@ -18,6 +18,9 @@ public class DB {
     }
 
     public void addUser(String userName, String password, String email, LocalDate birthDay, String address, long credit) {
+        if(User.isValidUsername(userName) == false)
+            throw new RuntimeException("Wrong username format");
+
         if (findUser(userName) != null){
             User user = findUser(userName);
             user.update(password, email, birthDay, address, credit);
