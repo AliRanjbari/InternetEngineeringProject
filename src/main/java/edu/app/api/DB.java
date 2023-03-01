@@ -25,6 +25,28 @@ public class DB {
         }
     }
 
+
+    public void addUser(User user){
+        if (findUser(user.getUserName()) != null){
+            User newUser = findUser(user.getUserName());
+            newUser.update(user.getPassword(), user.getEmail(),
+                            user.getBirthDay(), user.getAddress(), user.getCredit());
+        } else {
+            User newUser = new User(user.getUserName(), user.getPassword(),
+                                    user.getEmail(), user.getBirthDay(), user.getAddress(),
+                                    user.getCredit());
+            users.add(newUser);
+        }
+    }
+    public void addProvider(Provider provider){
+        if(findProvider(provider.getId()) != null) {
+            Provider newProvider = findProvider(provider.getId());
+            newProvider.update(provider.getName(), provider.getRegistryDate());
+        } else {
+            Provider newProvider = new Provider(provider.getId(), provider.getName(), provider.getRegistryDate());
+            this.providers.add(newProvider);
+        }
+    }
     public void addProvider(long id, String name, LocalDate registryDate) {
         if(findProvider(id) != null) {
             Provider provider = findProvider(id);

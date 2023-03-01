@@ -35,8 +35,10 @@ public class Tests {
                         LocalDate.parse("1999-1-1"),"sohanak",10000);
         user2 = new User("userName2","1234","email2.com",
                 LocalDate.parse("1999-1-1"),"tajrish",10000);
-        dataBase.addCommodity(1, "shoes", 1, 300,
-                new ArrayList<>(Arrays.asList("clothes", "feet")), 0, 10);
+        dataBase.addCommodity(commodity1);
+        dataBase.addCommodity(commodity2);
+
+
     }
 
     @Test
@@ -60,7 +62,7 @@ public class Tests {
     @Test
     public void testGetCommodityById() throws ParseException {
         String jsonString = "{\"id\" : 2}";
-        assertEquals("{}" , JsonHandler.getCommodityById(jsonString , database));
+        assertEquals("{}" , JsonHandler.getCommodityById(jsonString , dataBase));
 
     }
 }

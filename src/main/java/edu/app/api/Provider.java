@@ -25,4 +25,8 @@ public class Provider {
     public long getId() {
         return id;
     }
+
+    public LocalDate getRegistryDate() {
+        return registryDate;
+    }
 }
