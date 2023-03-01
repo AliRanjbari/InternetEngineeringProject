@@ -28,17 +28,17 @@ public class Tests {
         commodity2 = new Commodity(2, "hats", 2, 300,
                 new ArrayList<>(Arrays.asList("clothes", "head")), 0, 10);
 
-        provider1 = new Provider(1,"Provider1", LocalDate.parse("2023-10-10"));
-        provider2 = new Provider(2,"Provider2", LocalDate.parse("2023-10-10"));
+        provider1 = new Provider(1,"Provider1", LocalDate.of(2023,10,10));
+        provider2 = new Provider(2,"Provider2", LocalDate.of(2023,10,10));
 
         user1 = new User("userName1","1234","email1.com",
-                        LocalDate.parse("1999-1-1"),"sohanak",10000);
+                        LocalDate.of(1999,1,1),"sohanak",10000);
         user2 = new User("userName2","1234","email2.com",
-                LocalDate.parse("1999-1-1"),"tajrish",10000);
-        dataBase.addCommodity(commodity1);
-        dataBase.addCommodity(commodity2);
+                LocalDate.of(1999,1,1),"tajrish",10000);
         dataBase.addProvider(provider1);
         dataBase.addProvider(provider2);
+        dataBase.addCommodity(commodity1);
+        dataBase.addCommodity(commodity2);
         dataBase.addUser(user1);
         dataBase.addUser(user2);
     }
@@ -64,7 +64,15 @@ public class Tests {
     @Test
     public void testGetCommodityById() throws ParseException {
         String jsonString = "{\"id\" : 2}";
-        assertEquals("{}" , JsonHandler.getCommodityById(jsonString , dataBase));
+        assertEquals("{\"provider\":\"Provider2\",\"price\":300," +
+                                "\"name\":\"hats\",\"rating\":0.0,\"inStock\":10," +
+                                "\"id\":2,\"categories\":[\"clothes\",\"head\"]}" ,
+                                    JsonHandler.getCommodityById(jsonString , dataBase));
+
+    }
+
+    @Test
+    public void addToBuyList(){
 
     }
 }
