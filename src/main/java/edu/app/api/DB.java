@@ -15,7 +15,7 @@ public class DB {
         this.providers = new ArrayList<Provider>();
     }
 
-    void addUser(String userName, String password, String email, LocalDate birthDay, String address, long credit) {
+    public void addUser(String userName, String password, String email, LocalDate birthDay, String address, long credit) {
         if (findUser(userName) != null){
             User user = findUser(userName);
             user.update(password, email, birthDay, address, credit);
@@ -25,7 +25,7 @@ public class DB {
         }
     }
 
-    void addProvider(long id, String name, LocalDate registryDate) {
+    public void addProvider(long id, String name, LocalDate registryDate) {
         if(findProvider(id) != null) {
             Provider provider = findProvider(id);
             provider.update(name, registryDate);
@@ -35,7 +35,7 @@ public class DB {
         }
     }
 
-    void addCommodity(long id, String name, long providerId, long price, ArrayList<String> categories, double rating, long inStock) {
+    public void addCommodity(long id, String name, long providerId, long price, ArrayList<String> categories, double rating, long inStock) {
         if(findProvider(providerId) == null)
             throw new RuntimeException("Provider does not exists");
 
