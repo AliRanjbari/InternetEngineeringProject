@@ -22,25 +22,24 @@ public class Handler {
         }
 
 
+        boolean success = false;
+        String data = "";
         try {
             switch (command) {
                 case "addUser": {
                     JsonHandler.addUser(jsonString, dataBase);
-                    System.out.println("user added");
                     break;
                 }
                 case "addProvider": {
                     JsonHandler.addProvider(jsonString, dataBase);
-                    System.out.println("provider added");
                     break;
                 }
                 case "addCommodity": {
                     JsonHandler.addCommodity(jsonString, dataBase);
-                    System.out.println("commodity added");
                     break;
                 }
                 case "getCommoditiesList": {
-                    System.out.println(JsonHandler.getCommoditiesList(dataBase));
+                    data = JsonHandler.getCommoditiesList(dataBase);
                     break;
                 }
                 case "rateCommodity": {
@@ -56,24 +55,35 @@ public class Handler {
                     break;
                 }
                 case "getCommodityById": {
-                    System.out.println(JsonHandler.getCommodityById(jsonString , dataBase));
+                    data = JsonHandler.getCommodityById(jsonString , dataBase);
                     break;
                 }
                 case "getCommoditiesByCategory": {
-                    System.out.println(JsonHandler.getCommoditiesByCategory(jsonString, dataBase));
+                    data = JsonHandler.getCommoditiesByCategory(jsonString, dataBase);
                     break;
                 }
                 case "getBuyList": {
-                    System.out.println(JsonHandler.getBuyList(jsonString, dataBase));
+                    data = JsonHandler.getBuyList(jsonString, dataBase);
                     break;
                 }
                 default:
                     System.err.println("Incorrect Command");
             }
+            success = true;
         } catch (ParseException e) {
-            System.err.println("Wrong json format!");
+            data = "Wrong json format!";
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            data = e.getMessage();
+        }
+
+
+
+        // output message
+        if (success) {
+            System.out.println("{\"success\": true, \"data\":" + data + "}");
+
+        } else {
+            System.out.println("{\"success\": false, \"data\": \"" + data + "\"}");
         }
 
     }
