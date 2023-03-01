@@ -14,7 +14,7 @@ public class Handler {
         if (command.equals("getCommoditiesList")) {
             jsonString = "";
         }   else {
-            if (arguments.length < 2 && command != "getCommoditiesList"){
+            if (arguments.length < 2 && !command.equals("getCommoditiesList")){
                 System.err.println("Command Should be like [command] <jsonData>");
                 return;
             }
@@ -44,7 +44,7 @@ public class Handler {
                     break;
                 }
                 case "rateCommodity": {
-                    dataBase.rateCommodity(jsonString);
+                    JsonHandler.rateCommodity(jsonString, dataBase);
                     break;
                 }
                 case "addToBuyList": {

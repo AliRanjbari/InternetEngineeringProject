@@ -13,4 +13,6 @@ addCommodity {"id": 1, "name": "Headphone", "providerId": 1, "price": 35000, "ca
 4. 
 getCommoditiesList
 5. 
+rateCommodity {"username": "user1", "commodityId": 1, "score": 7}
+6.
 getCommodityById {"id":1}

@@ -70,8 +70,14 @@ public class DB {
         return this.commodities;
     }
 
-    void rateCommodity(String jsonString) {
-        System.out.println("rating commodity");
+    void rateCommodity(String username, long commodityId, double score) {
+        if(findUser(username) == null)
+            throw new RuntimeException("User not found");
+        if(findCommodity(commodityId) == null)
+            throw new RuntimeException("Commodity not found");
+
+        Commodity commodity = findCommodity(commodityId);
+        commodity.rate(username, score);
     }
 
     void addToBuyList(String jsonString) {
