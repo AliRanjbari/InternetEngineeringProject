@@ -7,13 +7,20 @@ public class Handler {
     DB dataBase = new DB();
     public void handleCommand(String input) {
         String[] arguments = input.split(" ");
-        if (arguments.length < 2){
-            System.err.println("Command Should be like [command] <jsonData>");
-            return;
-        }
 
         String command = arguments[0];
-        String jsonString = input.substring((command.length() + 1));
+        String jsonString;
+
+        if (command.equals("getCommoditiesList")) {
+            jsonString = "";
+        }   else {
+            if (arguments.length < 2 && command != "getCommoditiesList"){
+                System.err.println("Command Should be like [command] <jsonData>");
+                return;
+            }
+            jsonString = input.substring((command.length() + 1));
+        }
+
 
         try {
             switch (command) {
@@ -33,7 +40,7 @@ public class Handler {
                     break;
                 }
                 case "getCommoditiesList": {
-                    System.out.println(dataBase.getCommodityList(jsonString));
+                    System.out.println(JsonHandler.getCommoditiesList(dataBase));
                     break;
                 }
                 case "rateCommodity": {

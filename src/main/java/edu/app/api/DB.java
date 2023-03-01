@@ -9,7 +9,7 @@ public class DB {
     List<Commodity> commodities;
     List<Provider> providers;
 
-    DB() {
+    public DB() {
         this.users = new ArrayList<User>();
         this.commodities = new ArrayList<Commodity>();
         this.providers = new ArrayList<Provider>();
@@ -48,8 +48,8 @@ public class DB {
         }
     }
 
-    String getCommodityList(String jsonString){
-        return "Commodity list";
+    List<Commodity> getCommodities() {
+        return this.commodities;
     }
 
     void rateCommodity(String jsonString) {

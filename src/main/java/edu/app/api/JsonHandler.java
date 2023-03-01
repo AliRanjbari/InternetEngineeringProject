@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class JsonHandler {
@@ -60,10 +61,28 @@ public class JsonHandler {
         dataBase.addCommodity(id, name, providerId, price, categories, rating, inStock);
     }
 
-    static public void checkVariables(String[] variables, JSONObject j) {
-        for (String var : variables)
-            if (j.get(var) == null)
-                throw new RuntimeException("Variable \"" + var + "\" not defined");
+
+    static public String getCommoditiesList (DB database) throws ParseException{
+        JSONObject out = new JSONObject();
+
+        List<Commodity> commodities = database.getCommodities();
+        List<JSONObject> commoditiesJson = new ArrayList<JSONObject>();
+
+        for (Commodity commodity : commodities) {
+            JSONObject commodityJson = new JSONObject();
+            commodityJson.put("id" , commodity.getId());
+            commodityJson.put("name",commodity.getName());
+            commodityJson.put("providerId",commodity.getProviderId());
+            commodityJson.put("price",commodity.getPrice());
+            commodityJson.put("categories",commodity.getCategories());
+            commodityJson.put("rating",commodity.getRating());
+            commodityJson.put("inStock",commodity.getInStock());
+
+            commoditiesJson.add(commodityJson);
+        }
+
+        out.put("commoditiesList", commoditiesJson);
+        return out.toString();
     }
 
     static public String getCommodityById(String jsonString , DB database) throws ParseException {
@@ -84,6 +103,13 @@ public class JsonHandler {
         out.put("inStock",commodity.getInStock());
 
         return out.toString();
+    }
+
+
+    static public void checkVariables(String[] variables, JSONObject j) {
+        for (String var : variables)
+            if (j.get(var) == null)
+                throw new RuntimeException("Variable \"" + var + "\" not defined");
     }
 
 
