@@ -35,6 +35,21 @@ public class User {
         this.buyList.add(commodity);
     }
 
+    public void removeCommodity (long commodityId) {
+        if (findItemId(commodityId) == -1)
+            throw new RuntimeException("This commodity is not in the Buy List");
+
+        int index = findItemId(commodityId);
+        this.buyList.remove(index);
+    }
+
+    private int findItemId (long commodityId) {
+        for (int i = 0; i < this.buyList.size(); i++)
+            if (this.buyList.get(i).getId() == commodityId)
+                return i;
+        return -1;
+    }
+
     public String toString () {
         return this.userName + " -> " + this.password;
     }
@@ -42,6 +57,28 @@ public class User {
     public String getUserName() {
         return this.userName;
     }
-}
 
-//{"username" : "ali" , "password" : "123" , "email" : "1234" , "address" : "sohanak" , "birthDate" : "1977-09-15" , "credit" : 75}
+    public String getPassword() {
+        return password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public LocalDate getBirthDay() {
+        return birthDay;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public List<Commodity> getBuyList() {
+        return buyList;
+    }
+
+    public long getCredit() {
+        return Credit;
+    }
+}
