@@ -14,6 +14,7 @@ public class JsonHandler {
     static String[] addProviderJsonVariables = {"id", "name", "registryDate"};
     static String[] addCommodityJsonVariables = {"id", "name", "providerId", "price", "categories", "rating", "inStock"};
     static String[] rateCommodityJsonVariables = {"username", "commodityId", "score"};
+    static String[] addToBuyListJsonVariable = {"username", "commodityId"};
     static String[] getCommodityByIdJsonVariables = {"id"};
 
     static public void addUser(String jsonString, DB dataBase) throws Exception {
@@ -92,12 +93,23 @@ public class JsonHandler {
 
         checkVariables(rateCommodityJsonVariables, j);
 
-
         String username = j.get(rateCommodityJsonVariables[0]).toString();
         long commodityId = (long) j.get(rateCommodityJsonVariables[1]);
         double score = (double) (long) j.get(rateCommodityJsonVariables[2]);
 
         database.rateCommodity(username, commodityId, score);
+    }
+
+    static public void addToBuyList (String jsonString, DB database) throws ParseException {
+        Object o = new JSONParser().parse(jsonString);
+        JSONObject j = (JSONObject) o;
+
+        checkVariables(addToBuyListJsonVariable, j);
+
+        String username = j.get(addToBuyListJsonVariable[0]).toString();
+        long commodityId = (long) j.get(addToBuyListJsonVariable[1]);
+
+        database.addToBuyList(username, commodityId);
     }
 
     static public String getCommodityById(String jsonString, DB database) throws ParseException {

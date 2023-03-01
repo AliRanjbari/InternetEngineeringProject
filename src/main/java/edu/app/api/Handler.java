@@ -48,7 +48,7 @@ public class Handler {
                     break;
                 }
                 case "addToBuyList": {
-                    dataBase.addToBuyList(jsonString);
+                    JsonHandler.addToBuyList(jsonString, dataBase);
                     break;
                 }
                 case "removeFromBuyList": {

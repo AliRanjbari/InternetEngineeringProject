@@ -1,7 +1,6 @@
 # InternetEngineeringProject
 
 
-
 ## commands
 
 1. 
@@ -15,4 +14,6 @@ getCommoditiesList
 5. 
 rateCommodity {"username": "user1", "commodityId": 1, "score": 7}
 6.
+addToBuyList {"username": "user1", "commodityId": 1}
+8.
 getCommodityById {"id":1}

@@ -47,7 +47,6 @@ public class Commodity {
         }
     }
 
-
     public long getId() {
         return id;
     }

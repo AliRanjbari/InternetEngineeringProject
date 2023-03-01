@@ -31,6 +31,10 @@ public class User {
         this.Credit = credit;
     }
 
+    public void addItemToList (Commodity commodity) {
+        this.buyList.add(commodity);
+    }
+
     public String toString () {
         return this.userName + " -> " + this.password;
     }

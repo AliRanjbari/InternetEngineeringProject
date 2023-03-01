@@ -80,8 +80,15 @@ public class DB {
         commodity.rate(username, score);
     }
 
-    void addToBuyList(String jsonString) {
-        System.out.println("adding to buy list");
+    void addToBuyList(String username, long commodityId) {
+        if (findUser(username) == null)
+            throw new RuntimeException("User not found");
+        if (findCommodity(commodityId) == null)
+            throw new RuntimeException("Commodity not found");
+
+        User user = findUser(username);
+        Commodity commodity = findCommodity(commodityId);
+        user.addItemToList(commodity);
     }
 
     void removeFromBuyList(String jsonString) {
@@ -122,7 +129,6 @@ public class DB {
                 return commodity;
         return null;
     }
-
 
 }
 
