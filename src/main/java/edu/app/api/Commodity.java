@@ -35,16 +35,22 @@ public class Commodity {
     }
 
     public void rate(String userName , double score){
-        if (userRates.containsKey(userName)) {
-            double rateToRemove = userRates.remove(userName);
-            userRates.put(userName, score);
-            double sumOfRates = (this.rating * this.userRates.size() - rateToRemove) + score;
-            this.rating = sumOfRates / userRates.size();
-        } else {
-            double sumOfRates = this.rating * this.userRates.size() + score;
-            userRates.put(userName, score);
-            this.rating = sumOfRates / userRates.size();
-        }
+        if(score > 10)
+            throw new RuntimeException("Score is more than 10");
+        else if(score < 1)
+            throw new RuntimeException("Score os lower than 1");
+
+            if (userRates.containsKey(userName)) {
+                double rateToRemove = userRates.remove(userName);
+                userRates.put(userName, score);
+                double sumOfRates = (this.rating * this.userRates.size() - rateToRemove) + score;
+                this.rating = sumOfRates / userRates.size();
+            } else {
+                double sumOfRates = this.rating * this.userRates.size() + score;
+                userRates.put(userName, score);
+                this.rating = sumOfRates / userRates.size();
+            }
+
     }
 
     public boolean doesCategoryExists(String searchCategory) {

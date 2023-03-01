@@ -1,7 +1,13 @@
 import edu.app.api.*;
 import org.json.simple.parser.ParseException;
+import org.junit.Rule;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.rules.ExpectedException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,6 +23,8 @@ public class Tests {
     private User user1, user2;
     private DB dataBase;
 
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
 
     @BeforeEach
     public void initTest() {
@@ -102,8 +110,26 @@ public class Tests {
         JsonHandler.removeFromBuyList(jsonStringRemove , dataBase);
         //commodity 1 has been removed and buy list should only contain commodity 2
         assertEquals(dataBase.findCommodity(2), dataBase.findUser("user1").getBuyList().get(0));
+    }
 
 
+    @Test
+    public void testFalseGetCommodityById() throws ParseException {
+            String jsonString = "{\"id\" : 4}";
+            assertThrows( RuntimeException.class, () ->JsonHandler.getCommodityById(jsonString , dataBase));
+    }
+
+    @Test
+    public void testRateIsMoreThanTen() throws ParseException{
+        commodity1.rate("matin" , 5);
+        assertThrows( RuntimeException.class, () ->commodity1.rate("ali" , 17));
+
+    }
+
+    @Test
+    public void testRateIsLessThanOne() throws ParseException{
+        commodity1.rate("matin" , 5);
+        assertThrows( RuntimeException.class, () ->commodity1.rate("ali" , -1));
     }
 }
 
