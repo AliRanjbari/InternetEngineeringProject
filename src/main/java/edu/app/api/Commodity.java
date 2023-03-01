@@ -47,6 +47,13 @@ public class Commodity {
         }
     }
 
+    public boolean doesCategoryExists(String searchCategory) {
+        for (String category : this.categories)
+            if(searchCategory.equals(category))
+                return true;
+        return false;
+    }
+
     public long getId() {
         return id;
     }

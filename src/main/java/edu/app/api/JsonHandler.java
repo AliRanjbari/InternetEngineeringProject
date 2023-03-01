@@ -10,13 +10,15 @@ import java.util.List;
 
 
 public class JsonHandler {
-    static String[] addUserJsonVariables = {"username", "password", "email", "address", "birthDate", "credit"};
-    static String[] addProviderJsonVariables = {"id", "name", "registryDate"};
-    static String[] addCommodityJsonVariables = {"id", "name", "providerId", "price", "categories", "rating", "inStock"};
-    static String[] rateCommodityJsonVariables = {"username", "commodityId", "score"};
-    static String[] addToBuyListJsonVariable = {"username", "commodityId"};
-    static String[] removeFromBuyListJsonVariable = {"username", "commodityId"};
-    static String[] getCommodityByIdJsonVariables = {"id"};
+    private static String[] addUserJsonVariables = {"username", "password", "email", "address", "birthDate", "credit"};
+    private static String[] addProviderJsonVariables = {"id", "name", "registryDate"};
+    private static String[] addCommodityJsonVariables = {"id", "name", "providerId", "price", "categories", "rating", "inStock"};
+    private static String[] rateCommodityJsonVariables = {"username", "commodityId", "score"};
+    private static String[] addToBuyListJsonVariable = {"username", "commodityId"};
+    private static String[] removeFromBuyListJsonVariable = {"username", "commodityId"};
+    private static String[] getCommodityByIdJsonVariables = {"id"};
+    private static String[] getCommoditiesByCategory = {"category"};
+    private static String[] getBuyList = {"username"};
 
     static public void addUser(String jsonString, DB dataBase) throws Exception {
 
@@ -147,12 +149,44 @@ public class JsonHandler {
         return out.toString();
     }
 
+    static public String getCommoditiesByCategory (String jsonString, DB database) throws ParseException {
+        // getting input
+        Object o = new JSONParser().parse(jsonString);
+        JSONObject in = (JSONObject) o;
 
-    static public void checkVariables(String[] variables, JSONObject j) {
+
+        checkVariables(getCommoditiesByCategory, in);
+        String category = in.get(getCommoditiesByCategory[0]).toString();
+        List<Commodity> commodities = database.getCommoditiesByCategory(category);
+
+
+        // generating output
+        JSONObject out = new JSONObject();
+
+        List<JSONObject> commoditiesJson = new ArrayList<JSONObject>();
+
+        for (Commodity commodity : commodities) {
+            JSONObject commodityJson = new JSONObject();
+            commodityJson.put("id", commodity.getId());
+            commodityJson.put("name", commodity.getName());
+            commodityJson.put("providerId", commodity.getProviderId());
+            commodityJson.put("price", commodity.getPrice());
+            commodityJson.put("categories", commodity.getCategories());
+            commodityJson.put("rating", commodity.getRating());
+            commodityJson.put("inStock", commodity.getInStock());
+
+            commoditiesJson.add(commodityJson);
+        }
+
+        out.put("commoditiesListByCategory", commoditiesJson);
+        return out.toString();
+    }
+
+
+     static private void checkVariables(String[] variables, JSONObject j) {
         for (String var : variables)
             if (j.get(var) == null)
                 throw new RuntimeException("Variable \"" + var + "\" not defined");
     }
-
 
 }

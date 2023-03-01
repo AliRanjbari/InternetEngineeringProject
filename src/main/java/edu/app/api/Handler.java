@@ -60,7 +60,7 @@ public class Handler {
                     break;
                 }
                 case "getCommoditiesByCategory": {
-                    System.out.println(dataBase.getCommoditiesByCategory(jsonString));
+                    System.out.println(JsonHandler.getCommoditiesByCategory(jsonString, dataBase));
                     break;
                 }
                 case "getBuyList": {

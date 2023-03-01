@@ -1,5 +1,7 @@
 package edu.app.api;
 
+import com.sun.source.tree.LiteralTree;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -123,9 +125,13 @@ public class DB {
         user.removeCommodity(commodityId);
     }
 
+    List<Commodity> getCommoditiesByCategory(String categoryName) {
+        List<Commodity> listCommodityByCategory = new ArrayList<Commodity>();
+        for (Commodity commodity : this.commodities)
+            if (commodity.doesCategoryExists(categoryName))
+                listCommodityByCategory.add(commodity);
 
-    String getCommoditiesByCategory(String jsonString) {
-        return "getting commodity by category [json format]";
+        return listCommodityByCategory;
     }
 
     String getBuyList(String jsonString) {
