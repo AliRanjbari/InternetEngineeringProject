@@ -37,8 +37,10 @@ public class Tests {
                 LocalDate.parse("1999-1-1"),"tajrish",10000);
         dataBase.addCommodity(commodity1);
         dataBase.addCommodity(commodity2);
-
-
+        dataBase.addProvider(provider1);
+        dataBase.addProvider(provider2);
+        dataBase.addUser(user1);
+        dataBase.addUser(user2);
     }
 
     @Test

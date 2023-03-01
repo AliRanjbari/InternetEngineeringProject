@@ -120,6 +120,8 @@ public class JsonHandler {
         checkVariables(getCommodityByIdJsonVariables, in);
         long id = (long) in.get(getCommodityByIdJsonVariables[0]);
         Commodity commodity = database.getCommodityById(id);
+        if (commodity == null)
+            throw new RuntimeException("commodity has not found");
         String providerName = database.findProvider(commodity.getProviderId()).getName();
         out.put("id", commodity.getId());
         out.put("name", commodity.getName());
