@@ -134,8 +134,15 @@ public class DB {
         return listCommodityByCategory;
     }
 
-    String getBuyList(String jsonString) {
-        return "getting buy list [json format] ";
+
+
+    List<Commodity> getBuyList(String username) {
+        if (findUser(username) == null)
+            throw new RuntimeException("User not found");
+
+        User user = findUser(username);
+
+        return  user.getBuyList();
     }
 
     private User findUser(String userName) {

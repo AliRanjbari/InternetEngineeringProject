@@ -1,11 +1,13 @@
 package edu.app.api;
 
 
+import jdk.jfr.Category;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -17,8 +19,8 @@ public class JsonHandler {
     private static String[] addToBuyListJsonVariable = {"username", "commodityId"};
     private static String[] removeFromBuyListJsonVariable = {"username", "commodityId"};
     private static String[] getCommodityByIdJsonVariables = {"id"};
-    private static String[] getCommoditiesByCategory = {"category"};
-    private static String[] getBuyList = {"username"};
+    private static String[] getCommoditiesByCategoryJsonVariables = {"category"};
+    private static String[] getBuyListJsonVariables = {"username"};
 
     static public void addUser(String jsonString, DB dataBase) throws Exception {
 
@@ -68,26 +70,8 @@ public class JsonHandler {
 
 
     static public String getCommoditiesList(DB database) throws ParseException {
-        JSONObject out = new JSONObject();
-
         List<Commodity> commodities = database.getCommodities();
-        List<JSONObject> commoditiesJson = new ArrayList<JSONObject>();
-
-        for (Commodity commodity : commodities) {
-            JSONObject commodityJson = new JSONObject();
-            commodityJson.put("id", commodity.getId());
-            commodityJson.put("name", commodity.getName());
-            commodityJson.put("providerId", commodity.getProviderId());
-            commodityJson.put("price", commodity.getPrice());
-            commodityJson.put("categories", commodity.getCategories());
-            commodityJson.put("rating", commodity.getRating());
-            commodityJson.put("inStock", commodity.getInStock());
-
-            commoditiesJson.add(commodityJson);
-        }
-
-        out.put("commoditiesList", commoditiesJson);
-        return out.toString();
+        return commoditiesToJsonString(commodities);
     }
 
     static public void rateCommodity(String jsonString, DB database) throws ParseException {
@@ -121,8 +105,8 @@ public class JsonHandler {
 
         checkVariables(removeFromBuyListJsonVariable, j);
 
-        String username = j.get(addToBuyListJsonVariable[0]).toString();
-        long commodityId = (long) j.get(addToBuyListJsonVariable[1]);
+        String username = j.get(removeFromBuyListJsonVariable[0]).toString();
+        long commodityId = (long) j.get(removeFromBuyListJsonVariable[1]);
 
         database.removeFromBuyList(username, commodityId);
     }
@@ -155,12 +139,26 @@ public class JsonHandler {
         JSONObject in = (JSONObject) o;
 
 
-        checkVariables(getCommoditiesByCategory, in);
-        String category = in.get(getCommoditiesByCategory[0]).toString();
+        checkVariables(getCommoditiesByCategoryJsonVariables, in);
+        String category = in.get(getCommoditiesByCategoryJsonVariables[0]).toString();
         List<Commodity> commodities = database.getCommoditiesByCategory(category);
 
 
-        // generating output
+        return commoditiesToJsonString(commodities);
+    }
+
+    static public String getBuyList (String jsonString, DB database) throws ParseException {
+        Object o = new JSONParser().parse(jsonString);
+        JSONObject in = (JSONObject) o;
+
+        checkVariables(getBuyListJsonVariables, in);
+        String category = in.get(getBuyListJsonVariables[0]).toString();
+        List<Commodity> commodities = database.getBuyList(category);
+
+        return commoditiesToJsonString(commodities);
+    }
+
+    static private String commoditiesToJsonString (List<Commodity> commodities) {
         JSONObject out = new JSONObject();
 
         List<JSONObject> commoditiesJson = new ArrayList<JSONObject>();
@@ -181,7 +179,6 @@ public class JsonHandler {
         out.put("commoditiesListByCategory", commoditiesJson);
         return out.toString();
     }
-
 
      static private void checkVariables(String[] variables, JSONObject j) {
         for (String var : variables)

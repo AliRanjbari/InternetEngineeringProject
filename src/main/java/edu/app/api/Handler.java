@@ -64,10 +64,9 @@ public class Handler {
                     break;
                 }
                 case "getBuyList": {
-                    System.out.println(dataBase.getBuyList(jsonString));
+                    System.out.println(JsonHandler.getBuyList(jsonString, dataBase));
                     break;
                 }
-
                 default:
                     System.err.println("Incorrect Command");
             }
