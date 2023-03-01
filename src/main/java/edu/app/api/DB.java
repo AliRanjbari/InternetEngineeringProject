@@ -48,6 +48,24 @@ public class DB {
         }
     }
 
+    public void addCommodity(Commodity inputCommodity){
+        if(findProvider(inputCommodity.getProviderId()) == null)
+            throw new RuntimeException("Provider does not exists");
+
+        if(findCommodity(inputCommodity.getId()) != null) {
+            Commodity newCommodity = findCommodity(inputCommodity.getId());
+            newCommodity.update(inputCommodity.getName(), inputCommodity.getProviderId(),
+                                inputCommodity.getPrice(), inputCommodity.getCategories(),
+                                inputCommodity.getRating(), inputCommodity.getInStock());
+        } else {
+            Commodity newCommodity = new Commodity(inputCommodity.getId(), inputCommodity.getName(),
+                                                    inputCommodity.getProviderId(), inputCommodity.getPrice(),
+                                                    inputCommodity.getCategories(), inputCommodity.getRating(),
+                                                    inputCommodity.getInStock());
+            this.commodities.add(newCommodity);
+        }
+    }
+
     List<Commodity> getCommodities() {
         return this.commodities;
     }
