@@ -79,7 +79,30 @@ public class Tests {
     }
 
     @Test
-    public void getCommoditiesByCategory(){
+    public void getCommoditiesByCategoryTest() throws ParseException {
+        String jsonString = "{\"category\" : \"clothes\"}";
+        JsonHandler.getCommoditiesByCategory(jsonString , dataBase);
+        assertEquals("{\"commoditiesListByCategory\":[{\"providerId\":1," +
+                                "\"price\":300,\"name\":\"shoes\",\"rating\":0.0," +
+                                "\"inStock\":10,\"id\":1,\"categories\":[\"clothes\"," +
+                                "\"feet\"]},{\"providerId\":2,\"price\":300,\"name\":\"hats\"," +
+                                "\"rating\":0.0,\"inStock\":10,\"id\":2," +
+                                "\"categories\":[\"clothes\",\"head\"]}]}" ,
+                                JsonHandler.getCommoditiesByCategory(jsonString , dataBase));
+    }
+
+    @Test
+    public void removeFromBuyListTest() throws ParseException {
+        String jsonStringRemove = "{\"username\": \"user1\", \"commodityId\": 1}";
+        String jsonStringAdd1 = "{\"username\": \"user1\", \"commodityId\": 1}";
+        String jsonStringAdd2 = "{\"username\": \"user1\", \"commodityId\": 2}";
+        JsonHandler.addToBuyList(jsonStringAdd1 , dataBase);
+        JsonHandler.addToBuyList(jsonStringAdd2 , dataBase);
+        // commodity added to buyList
+        JsonHandler.removeFromBuyList(jsonStringRemove , dataBase);
+        //commodity 1 has been removed and buy list should only contain commodity 2
+        assertEquals(dataBase.findCommodity(2), dataBase.findUser("user1").getBuyList().get(0));
+
 
     }
 }
