@@ -145,7 +145,7 @@ public class DB {
         return  user.getBuyList();
     }
 
-    private User findUser(String userName) {
+    public User findUser(String userName) {
         for (User user : this.users)
             if (userName.equals(user.getUserName()))
                 return user;

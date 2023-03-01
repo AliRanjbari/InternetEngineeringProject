@@ -31,9 +31,9 @@ public class Tests {
         provider1 = new Provider(1,"Provider1", LocalDate.of(2023,10,10));
         provider2 = new Provider(2,"Provider2", LocalDate.of(2023,10,10));
 
-        user1 = new User("userName1","1234","email1.com",
+        user1 = new User("user1","1234","email1.com",
                         LocalDate.of(1999,1,1),"sohanak",10000);
-        user2 = new User("userName2","1234","email2.com",
+        user2 = new User("user2","1234","email2.com",
                 LocalDate.of(1999,1,1),"tajrish",10000);
         dataBase.addProvider(provider1);
         dataBase.addProvider(provider2);
@@ -72,7 +72,14 @@ public class Tests {
     }
 
     @Test
-    public void addToBuyList(){
+    public void addToBuyListUserTest() throws ParseException {
+        String jsonString = "{\"username\": \"user1\", \"commodityId\": 1}";
+        JsonHandler.addToBuyList(jsonString , dataBase);
+        assertEquals(dataBase.findCommodity(1), dataBase.findUser("user1").getBuyList().get(0));
+    }
+
+    @Test
+    public void getCommoditiesByCategory(){
 
     }
 }
