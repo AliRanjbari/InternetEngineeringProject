@@ -113,15 +113,16 @@ public class DB {
         user.addItemToList(commodity);
     }
 
-    void removeFromBuyList(String jsonString) {
-        System.out.println("removing from buy list");
+    void removeFromBuyList(String username, long commodityId) {
+        if (findUser(username) == null)
+            throw new RuntimeException("User not found");
+        if (findCommodity(commodityId) == null)
+            throw new RuntimeException("Commodity not found");
+
+        User user = findUser(username);
+        user.removeCommodity(commodityId);
     }
 
-    Commodity getCommodityById(long id) {
-        Commodity commodity = findCommodity(id);
-
-        return commodity;
-    }
 
     String getCommoditiesByCategory(String jsonString) {
         return "getting commodity by category [json format]";
@@ -145,7 +146,7 @@ public class DB {
         return null;
     }
 
-    private Commodity findCommodity(long id) {
+    public Commodity findCommodity(long id) {
         for (Commodity commodity : this.commodities)
             if (commodity.getId() == id)
                 return commodity;

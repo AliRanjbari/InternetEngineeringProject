@@ -15,5 +15,7 @@ getCommoditiesList
 rateCommodity {"username": "user1", "commodityId": 1, "score": 7}
 6.
 addToBuyList {"username": "user1", "commodityId": 1}
+7. 
+removeFromBuyList {"username": "user1", "commodityId": 1}
 8.
 getCommodityById {"id":1}

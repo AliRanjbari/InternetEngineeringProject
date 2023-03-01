@@ -15,6 +15,7 @@ public class JsonHandler {
     static String[] addCommodityJsonVariables = {"id", "name", "providerId", "price", "categories", "rating", "inStock"};
     static String[] rateCommodityJsonVariables = {"username", "commodityId", "score"};
     static String[] addToBuyListJsonVariable = {"username", "commodityId"};
+    static String[] removeFromBuyListJsonVariable = {"username", "commodityId"};
     static String[] getCommodityByIdJsonVariables = {"id"};
 
     static public void addUser(String jsonString, DB dataBase) throws Exception {
@@ -112,6 +113,18 @@ public class JsonHandler {
         database.addToBuyList(username, commodityId);
     }
 
+    static public void removeFromBuyList (String jsonString, DB database) throws ParseException {
+        Object o = new JSONParser().parse(jsonString);
+        JSONObject j = (JSONObject) o;
+
+        checkVariables(removeFromBuyListJsonVariable, j);
+
+        String username = j.get(addToBuyListJsonVariable[0]).toString();
+        long commodityId = (long) j.get(addToBuyListJsonVariable[1]);
+
+        database.removeFromBuyList(username, commodityId);
+    }
+
     static public String getCommodityById(String jsonString, DB database) throws ParseException {
         Object o = new JSONParser().parse(jsonString);
         JSONObject in = (JSONObject) o;
@@ -119,7 +132,7 @@ public class JsonHandler {
 
         checkVariables(getCommodityByIdJsonVariables, in);
         long id = (long) in.get(getCommodityByIdJsonVariables[0]);
-        Commodity commodity = database.getCommodityById(id);
+        Commodity commodity = database.findCommodity(id);
         if (commodity == null)
             throw new RuntimeException("commodity has not found");
         String providerName = database.findProvider(commodity.getProviderId()).getName();

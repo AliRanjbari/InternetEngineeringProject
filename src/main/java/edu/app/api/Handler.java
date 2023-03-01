@@ -52,7 +52,7 @@ public class Handler {
                     break;
                 }
                 case "removeFromBuyList": {
-                    dataBase.removeFromBuyList(jsonString);
+                    JsonHandler.removeFromBuyList(jsonString, dataBase);
                     break;
                 }
                 case "getCommodityById": {
