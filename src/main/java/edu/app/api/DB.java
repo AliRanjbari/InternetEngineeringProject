@@ -169,5 +169,12 @@ public class DB {
         return null;
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public List<Provider> getProviders() {
+        return providers;
+    }
 }
 
