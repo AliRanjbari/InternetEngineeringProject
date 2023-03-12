@@ -62,7 +62,7 @@ public class JsonHandler {
         long providerId = (long) j.get(addCommodityJsonVariables[2]);
         long price = (long) j.get(addCommodityJsonVariables[3]);
         ArrayList<String> categories = (ArrayList<String>) j.get(addCommodityJsonVariables[4]);
-        double rating = (double) (long) j.get(addCommodityJsonVariables[5]);
+        double rating = (double) j.get(addCommodityJsonVariables[5]);
         long inStock = (long) j.get(addCommodityJsonVariables[6]);
 
         dataBase.addCommodity(id, name, providerId, price, categories, rating, inStock);

@@ -91,4 +91,8 @@ public class Commodity {
     public Map<String, Double> getUserRates() {
         return userRates;
     }
+
+    public String toString () {
+        return this.name + " -> " + this.id;
+    }
 }

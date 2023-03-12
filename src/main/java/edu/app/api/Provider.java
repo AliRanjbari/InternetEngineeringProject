@@ -17,6 +17,9 @@ public class Provider {
         this.name = name;
         this.registryDate = registryDate;
     }
+    public String toString () {
+        return this.name + " -> " + this.id;
+    }
 
     public String getName() {
         return name;

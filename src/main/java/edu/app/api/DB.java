@@ -93,9 +93,6 @@ public class DB {
         }
     }
 
-    List<Commodity> getCommodities() {
-        return this.commodities;
-    }
 
     void rateCommodity(String username, long commodityId, double score) {
         if(findUser(username) == null)
@@ -176,5 +173,10 @@ public class DB {
     public List<Provider> getProviders() {
         return providers;
     }
+
+    public List<Commodity> getCommodities() {
+        return this.commodities;
+    }
+
 }
 
