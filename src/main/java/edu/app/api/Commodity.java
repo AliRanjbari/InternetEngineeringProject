@@ -13,6 +13,8 @@ public class Commodity {
     private double rating;
     private long inStock;
     private Map<String, Double> userRates = new HashMap<String, Double>();
+    //TODO:
+    //list Comment
 
 
     public Commodity(long id, String name, long providerId, long price, ArrayList<String> categories, double rating, long inStock) {
@@ -33,6 +35,10 @@ public class Commodity {
         this.rating = rating;
         this.inStock = inStock;
     }
+
+    /*ToDO:
+    void addComment(Comment) {}
+     */
 
     public void rate(String userName , double score){
         if(score > 10)

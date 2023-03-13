@@ -52,6 +52,12 @@ public class JsonHandler {
         dataBase.addProvider(id, name, registryDate);
     }
 
+    /* TODO:
+    static public void addComment(String jsonString, DB dataBase) throws Exception {
+
+    }
+    */
+
     static public void addCommodity(String jsonString, DB dataBase) throws Exception {
         Object o = new JSONParser().parse(jsonString);
         JSONObject j = (JSONObject) o;

@@ -10,6 +10,8 @@ public class DB {
     List<User> users;
     List<Commodity> commodities;
     List<Provider> providers;
+    // TODO:
+    //List<Comment> comments;
 
     public DB() {
         this.users = new ArrayList<User>();
@@ -74,6 +76,17 @@ public class DB {
             this.commodities.add(newCommodity);
         }
     }
+
+    /* TODO:
+    public void addComment(args...){
+           // first search by commodity id
+            //Comment comment;
+            // add in two:
+            // 1. commodity
+            // 2. this.comment
+    }
+    */
+
 
     public void addCommodity(Commodity inputCommodity){
         if(findProvider(inputCommodity.getProviderId()) == null)
