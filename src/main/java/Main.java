@@ -1,19 +1,12 @@
-// import org.json.simple.JSONObject;
-import edu.app.api.User;
+import edu.app.api.DB;
 
-import java.util.Scanner;
-
-// import java.time.LocalDate;
-import edu.app.api.Handler;
+import edu.app.site.HttpServer;
 import org.json.simple.parser.ParseException;
 
 public class Main {
     public static void main(String[] args) throws ParseException {
-        Scanner in = new Scanner(System.in);
-        Handler handler = new Handler();
-       while (true) {
-           String input = in.nextLine();
-           handler.handleCommand(input);
-       }
+
+        HttpServer httpServer = new HttpServer();
+        httpServer.startServer(7070);
     }
 }
