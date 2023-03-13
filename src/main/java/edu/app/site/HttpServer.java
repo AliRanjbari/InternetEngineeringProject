@@ -18,8 +18,11 @@ public class HttpServer {
         Initial.initDatabase(this.database);
         this.app  = Javalin.create(/*config*/);
 
-        app.get("/commod", ctx -> {
-           ctx.html(getFileContent("src/pages/index.html"));
+        app.get("/200", ctx -> {
+           ctx.html(getFileContent("src/pages/template/200.html"));
+        });
+        app.get("/ok", ctx -> {
+           ctx.render("src/pages/template/index.html");
         });
     }
 
@@ -39,6 +42,7 @@ public class HttpServer {
     }
 
     public static void main(String[] args) {
+
         /*Javalin app  = Javalin.create(*//*config*//*)
                 .get("/", ctx -> ctx.result("Hello World"))
                 .start(7070);*/
