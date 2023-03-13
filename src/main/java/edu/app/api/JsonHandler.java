@@ -21,6 +21,7 @@ public class JsonHandler {
     private static String[] getCommodityByIdJsonVariables = {"id"};
     private static String[] getCommoditiesByCategoryJsonVariables = {"category"};
     private static String[] getBuyListJsonVariables = {"username"};
+    private static String[] addCommentJsonVariables = {"userEmail", "commodityId", "text", "date"};
 
     static public void addUser(String jsonString, DB dataBase) throws Exception {
 
@@ -52,11 +53,22 @@ public class JsonHandler {
         dataBase.addProvider(id, name, registryDate);
     }
 
-    /* TODO:
+
     static public void addComment(String jsonString, DB dataBase) throws Exception {
+        Object o = new JSONParser().parse(jsonString);
+        JSONObject j = (JSONObject) o;
+
+        checkVariables(addCommentJsonVariables, j);
+
+        String email = (String) j.get(addCommentJsonVariables[0]);
+        long commodityId = (long) j.get(addCommentJsonVariables[1]);
+        String text = (String) j.get(addCommentJsonVariables[2]);
+        LocalDate commentDate = LocalDate.parse((String) j.get(addCommentJsonVariables[3]));
+
+        dataBase.addComment(email , commodityId , text , commentDate);
 
     }
-    */
+
 
     static public void addCommodity(String jsonString, DB dataBase) throws Exception {
         Object o = new JSONParser().parse(jsonString);

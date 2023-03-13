@@ -10,13 +10,13 @@ public class DB {
     List<User> users;
     List<Commodity> commodities;
     List<Provider> providers;
-    // TODO:
-    //List<Comment> comments;
+    List<Comment> comments;
 
     public DB() {
         this.users = new ArrayList<User>();
         this.commodities = new ArrayList<Commodity>();
         this.providers = new ArrayList<Provider>();
+        this.comments = new ArrayList<Comment>();
     }
 
     public void addUser(String userName, String password, String email, LocalDate birthDay, String address, long credit) {
@@ -77,15 +77,24 @@ public class DB {
         }
     }
 
-    /* TODO:
-    public void addComment(args...){
-           // first search by commodity id
-            //Comment comment;
-            // add in two:
-            // 1. commodity
-            // 2. this.comment
+
+    public void addComment(String email, long commodityId, String text, LocalDate commentDate){
+
+        if(findCommodity(commodityId) == null)
+            throw new RuntimeException("Commodity does not exists");
+
+
+
+        Comment comment = new Comment(email, text, commentDate);
+
+        Commodity commodity = findCommodity(commodityId);
+
+        this.comments.add(comment);
+        commodity.addComment(comment);
+
+
     }
-    */
+
 
 
     public void addCommodity(Commodity inputCommodity){
@@ -190,6 +199,8 @@ public class DB {
     public List<Commodity> getCommodities() {
         return this.commodities;
     }
-
-}
+    public List<Comment> getComments(){
+        return this.comments;
+    }
+ }
 

@@ -13,10 +13,12 @@ import static edu.app.api.JsonHandler.*;
 public class Initial {
      static String baseUrl = "http://5.253.25.110:5000/api";
 
-    public static  void initDatabase(DB database) {
+    public static  void initDatabase(DB database) throws Exception {
+        getUsers(database);
+        getProviders(database);
+        getCommodities(database);
+        getComments(database);
     }
-
-    //Use json handler to fill database
     private static void getUsers(DB database) throws Exception {
         String stringInput = Jsoup.connect(baseUrl + "/users").ignoreContentType(true).execute().body();
         Object o = new JSONParser().parse(stringInput);
@@ -49,15 +51,8 @@ public class Initial {
         Object o = new JSONParser().parse(stringInput);
         JSONArray jasonInput = (JSONArray) o;
 
+        for(int i = 0; i < jasonInput.size() ; i++)
+            addComment(jasonInput.get(i).toString(), database);
     }
-    public static void main(String [] args) throws Exception {
-        DB database = new DB();
-        getUsers(database);
-        getProviders(database);
-        getCommodities(database);
-        System.out.println(database.getUsers());
-        System.out.println(database.getProviders());
-        System.out.println(database.getCommodities());
-    }
-    //salam
+
 }
