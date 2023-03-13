@@ -16,10 +16,9 @@ public class HttpServer {
     public HttpServer() throws Exception{
         this.database = new DB();
         Initial.initDatabase(this.database);
-        this.app  = Javalin.create(/*config*/)
-                .get("/", ctx -> ctx.result("Hello World"));
+        this.app  = Javalin.create(/*config*/);
 
-        app.get("/index", ctx -> {
+        app.get("/commod", ctx -> {
            ctx.html(getFileContent("src/pages/index.html"));
         });
     }
