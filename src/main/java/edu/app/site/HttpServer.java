@@ -13,8 +13,9 @@ public class HttpServer {
     Javalin app;
     DB database;
 
-    public HttpServer() {
+    public HttpServer() throws Exception{
         this.database = new DB();
+        Initial.initDatabase(this.database);
         this.app  = Javalin.create(/*config*/)
                 .get("/", ctx -> ctx.result("Hello World"));
 
