@@ -1,5 +1,5 @@
 .idea
-src/pages/site/
+src/pages/site/*.html
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -12,7 +12,7 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
-# Eclipse m2e generated files
+# Eclipse m2e generated fles
 # Eclipse Core
 .project
 # JDT-specific (Eclipse Java Development Tools)
