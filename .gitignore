@@ -1,5 +1,4 @@
 .idea
-src/pages/site/*.html
 target/
 pom.xml.tag
 pom.xml.releaseBackup
