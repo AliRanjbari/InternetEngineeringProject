@@ -3,6 +3,7 @@ package edu.app.site;
 
 import edu.app.api.Commodity;
 import edu.app.api.DB;
+import edu.app.api.Provider;
 import io.javalin.Javalin;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -31,11 +32,21 @@ public class HttpServer {
         app.get("/commodities", ctx -> {
            ctx.html(getFileContent(baseSiteAddress + "commodities.html"));
         });
-        for (Commodity commodity : this.database.getCommodities()) {
-            app.get("/commodities/" +commodity.getId(), ctx -> {
-                ctx.html(getFileContent(baseSiteAddress + "commodity_"+commodity.getId()+".html"));
-            });
-        }
+        app.get("/commodities/{id}", ctx -> {
+            String path = baseSiteAddress + "commodity_"+ctx.pathParam("id")+".html";
+            if (doesFileExists(path))
+                ctx.html(getFileContent(path));
+            else
+                ctx.html(getFileContent("src/pages/template/404.html"));
+        });
+
+        app.get("/providers/{id}", ctx -> {
+            String path = baseSiteAddress + "provider_"+ctx.pathParam("id")+".html";
+            if (doesFileExists(path))
+                ctx.html(getFileContent(path));
+            else
+                ctx.html(getFileContent("src/pages/template/404.html"));
+        });
     }
 
     private static String getFileContent(String fileName) {
@@ -48,6 +59,12 @@ public class HttpServer {
         }
     }
 
+    static boolean doesFileExists(String path) {
+        File f = new File(path);
+        if(f.exists() && !f.isDirectory())
+            return true;
+        return false;
+    }
 
     public void startServer(int port) {
         this.app.start(port);

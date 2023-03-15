@@ -74,6 +74,8 @@ public class DB {
         } else {
             Commodity newCommodity = new Commodity(id, name, providerId, price, categories, rating, inStock);
             this.commodities.add(newCommodity);
+            Provider provider = findProvider(providerId);
+            provider.addCommodity(newCommodity);
         }
     }
 

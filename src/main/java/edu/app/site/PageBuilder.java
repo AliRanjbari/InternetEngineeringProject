@@ -3,6 +3,7 @@ package edu.app.site;
 import edu.app.api.Comment;
 import edu.app.api.DB;
 import edu.app.api.Commodity;
+import edu.app.api.Provider;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,13 +20,16 @@ public class PageBuilder {
     static void createPages(DB database) throws Exception {
         clearSiteFolder();
         createCommoditiesPage(database.getCommodities());
+
+        for (Provider provider : database.getProviders())
+            createProviderPage(provider);
     }
 
     private static void clearSiteFolder() {
         File file = new File(baseSiteAddress);
         File filesList[] = file.listFiles();
         for(File f : filesList) {
-            if(f.isFile())
+            if(f.isFile() && f.getName() != ".gitignore")
                 f.delete();
         }
     }
@@ -80,6 +84,38 @@ public class PageBuilder {
         }
 
         File output = new File(baseSiteAddress + "commodity_"+commodity.getId()+".html");
+        FileWriter writer = new FileWriter(output);
+        doc.outputSettings().prettyPrint(true);
+        writer.write(doc.outerHtml());
+        writer.close();
+    }
+
+    private static void createProviderPage(Provider provider) throws Exception {
+        File input = new File(baseTemplateAddress + "Provider.html");
+        Document doc = Jsoup.parse(input, "UTF-8");
+
+        // change ul block
+        Element ul = doc.select("ul").first();
+        ul.getElementById("id").text("Id: " + provider.getId());
+        ul.getElementById("name").text("Name: " + provider.getName());
+        ul.getElementById("registryDate").text("Registry Date: " + provider.getRegistryDate().toString());
+
+        // add commodities
+        Element table = doc.select("table").first();
+        for (Commodity commodity : provider.getCommodities()) {
+            Element newRow = table.appendElement("tr");
+            newRow.appendElement("td").text(String.valueOf(commodity.getId()));
+            newRow.appendElement("td").text(commodity.getName());
+            newRow.appendElement("td").text(String.valueOf(commodity.getPrice()));
+            newRow.appendElement("td").text(commodity.getCategories().toString());
+            newRow.appendElement("td").text(String.valueOf(commodity.getRating()));
+            newRow.appendElement("td").text(String.valueOf(commodity.getInStock()));
+            Element link = newRow.appendElement("td").appendElement("a");
+            link.text("Link");
+            link.attr("href", "/commodities/" + commodity.getId());
+        }
+
+        File output = new File(baseSiteAddress + "provider_"+provider.getId()+".html");
         FileWriter writer = new FileWriter(output);
         doc.outputSettings().prettyPrint(true);
         writer.write(doc.outerHtml());
