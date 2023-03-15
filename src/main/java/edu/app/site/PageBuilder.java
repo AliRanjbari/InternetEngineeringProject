@@ -29,7 +29,7 @@ public class PageBuilder {
         File file = new File(baseSiteAddress);
         File filesList[] = file.listFiles();
         for(File f : filesList) {
-            if(f.isFile() && f.getName() != ".gitignore")
+            if(f.isFile() &&  !f.getName().equals(".gitignore"))
                 f.delete();
         }
     }
