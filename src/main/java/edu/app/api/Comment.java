@@ -39,6 +39,21 @@ public class Comment {
             this.rate = this.rate + score;
             userRates.put(userName, score);
         }
+    }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public long getRate() {
+        return rate;
+    }
+
+    public LocalDate getCommentDate() {
+        return commentDate;
     }
 }

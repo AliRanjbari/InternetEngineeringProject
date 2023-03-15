@@ -107,4 +107,8 @@ public class Commodity {
     public String toString () {
         return this.name + " -> " + this.id;
     }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
 }

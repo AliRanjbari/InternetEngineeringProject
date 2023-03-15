@@ -1,18 +1,14 @@
 package edu.app.site;
 
+import edu.app.api.Comment;
 import edu.app.api.DB;
-import edu.app.api.User;
 import edu.app.api.Commodity;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class PageBuilder {
@@ -62,8 +58,9 @@ public class PageBuilder {
     private static void createCommodityPage(Commodity commodity) throws Exception{
         File input = new File(baseTemplateAddress + "Commodity.html");
         Document doc = Jsoup.parse(input, "UTF-8");
-        Element ul = doc.getElementsByTag("ul").get(0);
 
+        // fill commodity information
+        Element ul = doc.getElementsByTag("ul").get(0);
         ul.getElementById("id").text("Id: " + commodity.getId());
         ul.getElementById("name").text("Name: " + commodity.getName());
         ul.getElementById("providerId").text("Provider Id: " + commodity.getProviderId());
@@ -71,6 +68,16 @@ public class PageBuilder {
         ul.getElementById("categories").text("Categories :" + commodity.getCategories());
         ul.getElementById("rating").text("Rating :" + commodity.getRating());
         ul.getElementById("inStock").text("In Stock :" + commodity.getInStock());
+
+        // fill comments
+        Element table = doc.select("table").first();
+        for (Comment comment : commodity.getCommentList()) {
+            Element newRow = table.appendElement("tr");
+            newRow.appendElement("td").text(comment.getEmail());
+            newRow.appendElement("td").text(comment.getText());
+            newRow.appendElement("td").text(comment.getCommentDate().toString());
+
+        }
 
         File output = new File(baseSiteAddress + "commodity_"+commodity.getId()+".html");
         FileWriter writer = new FileWriter(output);
