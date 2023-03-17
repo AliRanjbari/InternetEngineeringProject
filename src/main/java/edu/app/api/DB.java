@@ -97,8 +97,6 @@ public class DB {
 
     }
 
-
-
     public void addCommodity(Commodity inputCommodity){
         if(findProvider(inputCommodity.getProviderId()) == null)
             throw new RuntimeException("Provider does not exists");
@@ -117,6 +115,13 @@ public class DB {
         }
     }
 
+
+    public void addCredit(String username, long credit) {
+        if(findUser(username) == null)
+            throw new RuntimeException("User not found");
+        User user = findUser(username);
+        user.addCredit(credit);
+    }
 
     void rateCommodity(String username, long commodityId, double score) {
         if(findUser(username) == null)

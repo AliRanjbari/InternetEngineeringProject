@@ -105,4 +105,8 @@ public class User {
     public long getCredit() {
         return credit;
     }
+
+    void addCredit(long credit) {
+        this.credit += credit;
+    }
 }

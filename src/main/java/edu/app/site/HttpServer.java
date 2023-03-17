@@ -29,6 +29,7 @@ public class HttpServer {
     }
 
     private void addHandlers() {
+        String status200Path = "src/pages/template/200.html";
         app.error(403, ctx -> {
             ctx.html(getFileContent("src/pages/template/403.html"));
         });
@@ -62,6 +63,16 @@ public class HttpServer {
                 ctx.html(getFileContent(path));
             else
                 ctx.status(404);
+        });
+
+        app.get("/addCredit/{username}/{credit}", ctx -> {
+            try {
+                this.database.addCredit(ctx.pathParam("username"),
+                        Long.parseLong(ctx.pathParam("credit")));
+                ctx.html(getFileContent(status200Path));
+            } catch (Exception e) {
+                ctx.status(403);
+            }
         });
     }
 
