@@ -141,6 +141,8 @@ public class PageBuilder {
         ul.getElementById("credit").text("Credit: " + user.getCredit());
         ul.getElementById("payment_button").select("form").attr("action", "/payAll/" + user.getUserName());
 
+        doc.select("form").get(1).attr("action", "/addCredit/" + user.getUserName());
+
         // add buyList
         Element table = doc.select("table").first();
         for (Commodity commodity : user.getBuyList()) {
@@ -157,9 +159,11 @@ public class PageBuilder {
             link.text("Link");
             link.attr("href", "/commodities/" + commodity.getId());
             // remove link
-            Element removeLink = newRow.appendElement("td").appendElement("a");
-            link.text("Remove");
-            link.attr("href", "/removeFromBuyList/" + user.getUserName() + "/" + commodity.getId());
+            Element removeForm = newRow.appendElement("td").appendElement("form");
+            Element removeButton = removeForm.appendElement("button");
+            removeForm.attr("action", "/removeFromBuyList/" + user.getUserName() + "/" + commodity.getId());
+            removeForm.attr("method", "POST");
+            removeButton.text("Remove");
         }
 
         // add purchasedList

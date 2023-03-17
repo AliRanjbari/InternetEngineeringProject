@@ -79,6 +79,16 @@ public class HttpServer {
             }
         });
 
+        app.post("/addCredit/{username}", ctx -> {
+            try {
+                this.database.addCredit(ctx.pathParam("username"),
+                        Long.parseLong(ctx.formParam("amount")));
+                ctx.redirect("/user/" + ctx.pathParam("username"));
+            } catch (Exception e) {
+                ctx.status(403);
+            }
+        });
+
         app.get("/addToBuyList/{username}/{commodityId}", ctx -> {
             try {
                 this.database.addToBuyList(ctx.pathParam("username"),
@@ -90,7 +100,13 @@ public class HttpServer {
         });
 
         app.post("/addToBuyList/{commodityId}", ctx -> {
-            ctx.redirect("/addToBuyList/"+ctx.formParam("username")+"/" +ctx.pathParam("commodityId"));
+            try {
+                this.database.addToBuyList(ctx.formParam("username"),
+                        Long.parseLong(ctx.pathParam("commodityId")));
+                ctx.redirect("/commodities/" + ctx.pathParam("commodityId"));
+            } catch (Exception e) {
+                ctx.status(403);
+            }
         });
 
         app.get("/removeFromBuyList/{username}/{commodityId}", ctx -> {
@@ -98,6 +114,16 @@ public class HttpServer {
                 this.database.removeFromBuyList(ctx.pathParam("username"),
                         Long.parseLong(ctx.pathParam("commodityId")));
                 ctx.html(getFileContent(status200Path));
+            } catch (Exception e) {
+                ctx.status(403);
+            }
+        });
+
+        app.post("/removeFromBuyList/{username}/{commodityId}", ctx -> {
+            try {
+                this.database.removeFromBuyList(ctx.pathParam("username"),
+                        Long.parseLong(ctx.pathParam("commodityId")));
+                ctx.redirect("/user/" + ctx.pathParam("username"));
             } catch (Exception e) {
                 ctx.status(403);
             }
@@ -115,8 +141,14 @@ public class HttpServer {
         });
 
         app.post("/rateCommodity/{commodityId}", ctx -> {
-            ctx.redirect("/rateCommodity/" + ctx.formParam("username") +
-                    "/" + ctx.pathParam("commodityId") + "/" + ctx.formParam("quantity"));
+            try {
+                this.database.rateCommodity(ctx.formParam("username"),
+                        Long.parseLong(ctx.pathParam("commodityId")),
+                        Double.parseDouble(ctx.formParam("quantity")));
+                ctx.redirect("/commodities/" + ctx.pathParam("commodityId"));
+            } catch (Exception e) {
+                ctx.status(403);
+            }
         });
 
         app.get("/voteComment/{username}/{commentId}/{vote}", ctx -> {
@@ -153,7 +185,7 @@ public class HttpServer {
         app.get("/payAll/{username}", ctx -> {
             try {
                 this.database.purchaseBuyList(ctx.pathParam("username"));
-                ctx.html(getFileContent(status200Path));
+                ctx.redirect("/user/" + ctx.pathParam("username"));
             } catch (Exception e) {
                 ctx.status(403);
             }
