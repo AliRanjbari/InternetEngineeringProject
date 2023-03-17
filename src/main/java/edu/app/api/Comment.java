@@ -9,7 +9,7 @@ public class Comment {
 
     private String email ;
     private String text;
-    private long rate;
+    private long likes;
     private LocalDate commentDate;
 
     private Map<String, Long> userRates = new HashMap<String, Long>();
@@ -18,7 +18,7 @@ public class Comment {
         this.id = id;
         this.email = email;
         this.text = text;
-        this.rate =  0;
+        this.likes =  0;
         this.commentDate = commentDate;
     }
 
@@ -31,16 +31,15 @@ public class Comment {
             throw new RuntimeException("Score should be 1 or -1 or 0");
         }
 
-
         if (userRates.containsKey(userName)) {
             long rateToRemove = userRates.remove(userName);
-            userRates.put(userName, score);
-            this.rate = (this.rate - rateToRemove) + score;
-
-        } else {
-            this.rate = this.rate + score;
-            userRates.put(userName, score);
+            if (rateToRemove == 1)
+                this.likes -= 1;
         }
+
+        this.userRates.put(userName, score);
+        if (score == 1)
+            this.likes += 1;
     }
 
     public String getEmail() {
@@ -51,11 +50,16 @@ public class Comment {
         return text;
     }
 
-    public long getRate() {
-        return rate;
+    public long getLikes() {
+        return this.likes;
     }
+    public long getDislikes() {return this.userRates.size() - this.likes;}
 
     public LocalDate getCommentDate() {
         return commentDate;
+    }
+
+    public long getId() {
+        return id;
     }
 }

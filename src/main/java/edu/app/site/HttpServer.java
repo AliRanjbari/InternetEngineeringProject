@@ -162,6 +162,26 @@ public class HttpServer {
             }
         });
 
+        app.post("/likeComment/{commodityId}", ctx -> {
+            try {
+                this.database.voteComment(ctx.formParam("username"),
+                        Integer.parseInt(ctx.formParam("commentId")), 1);
+                ctx.redirect("/commodities/" + ctx.pathParam("commodityId"));
+            } catch (Exception e) {
+                ctx.status(403);
+            }
+        });
+
+        app.post("/dislikeComment/{commodityId}", ctx -> {
+            try {
+                this.database.voteComment(ctx.formParam("username"),
+                        Integer.parseInt(ctx.formParam("commentId")), -1);
+                ctx.redirect("/commodities/" + ctx.pathParam("commodityId"));
+            } catch (Exception e) {
+                ctx.status(403);
+            }
+        });
+
         app.get("/commodities/search/{start_price}/{end_price}", ctx -> {
             try {
                 List<Commodity> commodities = this.database.findCommodityByPrice(

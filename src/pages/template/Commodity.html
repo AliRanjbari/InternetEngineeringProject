@@ -33,21 +33,22 @@
       <input type="number" id="quantity" name="quantity" min="1" max="10">
       <button type="submit">Rate</button>
     </form>
-    <br><br>
+    <br>
     <form action="" method="POST">
       <label>Your ID:</label>
       <input type="text" name="username" value="" />
       <button type="submit">Add to BuyList</button>
     </form>
-    <br/>
+    <br/><br/><br/>
 
     <table>
       <tr>
+        <th>Id</th>
         <th>username</th>
         <th>comment</th>
         <th>date</th>
-        <th></th>
-        <th></th>
+        <th>likes</th>
+        <th>dislikes</th>
       </tr>
       <!--<tr>
         <td>user1</td>
@@ -79,6 +80,22 @@
         </td>
       </tr>-->
     </table>
-   
+    <br/><br/><br/>
+    <h3>Like or Dislike Above Comments:</h3>
+    <form action="" method="POST">
+      <label>Your Name:</label>
+      <input type="text" name="username" value="" />
+      <label>Comment Id:</label>
+      <input type="number" name="commentId" value="" />
+      <button type="submit">Like</button>
+    </form>
+    <br/>
+    <form action="" method="POST">
+      <label>Your Name:</label>
+      <input type="text" name="username" value="" />
+      <label>Comment Id:</label>
+      <input type="number" name="commentId" value="" />
+      <button type="submit">DisLike</button>
+    </form>
   </body>
 </html>

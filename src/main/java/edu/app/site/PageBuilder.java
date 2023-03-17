@@ -77,15 +77,19 @@ public class PageBuilder {
         Elements forms = doc.select("form");
         forms.get(0).attr("action", "/rateCommodity/" + commodity.getId());
         forms.get(1).attr("action", "/addToBuyList/" + commodity.getId());
+        forms.get(2).attr("action", "/likeComment/" + commodity.getId());
+        forms.get(3).attr("action", "/dislikeComment/" + commodity.getId());
 
         // fill comments
         Element table = doc.select("table").first();
         for (Comment comment : commodity.getCommentList()) {
             Element newRow = table.appendElement("tr");
+            newRow.appendElement("td").text(String.valueOf(comment.getId()));
             newRow.appendElement("td").text(comment.getEmail());
             newRow.appendElement("td").text(comment.getText());
             newRow.appendElement("td").text(comment.getCommentDate().toString());
-
+            newRow.appendElement("td").text(String.valueOf(comment.getLikes()));
+            newRow.appendElement("td").text(String.valueOf(comment.getDislikes()));
         }
 
         File output = new File(baseSiteAddress + "commodity_"+commodity.getId()+".html");
