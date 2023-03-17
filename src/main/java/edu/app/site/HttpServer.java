@@ -89,6 +89,10 @@ public class HttpServer {
             }
         });
 
+        app.post("/addToBuyList/{commodityId}", ctx -> {
+            ctx.redirect("/addToBuyList/"+ctx.formParam("username")+"/" +ctx.pathParam("commodityId"));
+        });
+
         app.get("/removeFromBuyList/{username}/{commodityId}", ctx -> {
             try {
                 this.database.removeFromBuyList(ctx.pathParam("username"),
@@ -108,6 +112,11 @@ public class HttpServer {
             } catch (Exception e) {
                 ctx.status(403);
             }
+        });
+
+        app.post("/rateCommodity/{commodityId}", ctx -> {
+            ctx.redirect("/rateCommodity/" + ctx.formParam("username") +
+                    "/" + ctx.pathParam("commodityId") + "/" + ctx.formParam("quantity"));
         });
 
         app.get("/voteComment/{username}/{commentId}/{vote}", ctx -> {

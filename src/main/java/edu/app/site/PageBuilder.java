@@ -4,6 +4,7 @@ import edu.app.api.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -72,6 +73,10 @@ public class PageBuilder {
         ul.getElementById("categories").text("Categories :" + commodity.getCategories());
         ul.getElementById("rating").text("Rating :" + commodity.getRating());
         ul.getElementById("inStock").text("In Stock :" + commodity.getInStock());
+
+        Elements forms = doc.select("form");
+        forms.get(0).attr("action", "/rateCommodity/" + commodity.getId());
+        forms.get(1).attr("action", "/addToBuyList/" + commodity.getId());
 
         // fill comments
         Element table = doc.select("table").first();
