@@ -1,9 +1,6 @@
 package edu.app.site;
 
-import edu.app.api.Comment;
-import edu.app.api.DB;
-import edu.app.api.Commodity;
-import edu.app.api.Provider;
+import edu.app.api.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -23,6 +20,9 @@ public class PageBuilder {
 
         for (Provider provider : database.getProviders())
             createProviderPage(provider);
+
+        for (User user : database.getUsers())
+            createUserPage(user);
     }
 
     private static void clearSiteFolder() {
@@ -121,6 +121,64 @@ public class PageBuilder {
         writer.write(doc.outerHtml());
         writer.close();
     }
+
+    private static void createUserPage(User user) throws Exception {
+        File input = new File(baseTemplateAddress + "User.html");
+        Document doc = Jsoup.parse(input, "UTF-8");
+
+        // change ul block
+        Element ul = doc.select("ul").first();
+        ul.getElementById("username").text("Username: " + user.getUserName());
+        ul.getElementById("email").text("Email: " + user.getEmail());
+        ul.getElementById("birthDate").text("Birth Date: " + user.getBirthDay().toString());
+        ul.getElementById("address").text(user.getAddress());
+        ul.getElementById("credit").text("Credit: " + user.getCredit());
+
+        // add buyList
+        Element table = doc.select("table").first();
+        for (Commodity commodity : user.getBuyList()) {
+            Element newRow = table.appendElement("tr");
+            newRow.appendElement("td").text(String.valueOf(commodity.getId()));
+            newRow.appendElement("td").text(commodity.getName());
+            newRow.appendElement("td").text(String.valueOf(commodity.getProviderId()));
+            newRow.appendElement("td").text(String.valueOf(commodity.getPrice()));
+            newRow.appendElement("td").text(commodity.getCategories().toString());
+            newRow.appendElement("td").text(String.valueOf(commodity.getRating()));
+            newRow.appendElement("td").text(String.valueOf(commodity.getInStock()));
+            // link
+            Element link = newRow.appendElement("td").appendElement("a");
+            link.text("Link");
+            link.attr("href", "/commodities/" + commodity.getId());
+            // button
+            Element removeLink = newRow.appendElement("td").appendElement("a");
+            link.text("Remove");
+            link.attr("href", "/removeFromBuyList/" + user.getUserName() + "/" + commodity.getId());
+        }
+
+        // add purchasedList
+        Element table2 = doc.select("table").get(1);
+        for (Commodity commodity : user.getPurchasedList()) {
+            Element newRow = table2.appendElement("tr");
+            newRow.appendElement("td").text(String.valueOf(commodity.getId()));
+            newRow.appendElement("td").text(commodity.getName());
+            newRow.appendElement("td").text(String.valueOf(commodity.getProviderId()));
+            newRow.appendElement("td").text(String.valueOf(commodity.getPrice()));
+            newRow.appendElement("td").text(commodity.getCategories().toString());
+            newRow.appendElement("td").text(String.valueOf(commodity.getRating()));
+            newRow.appendElement("td").text(String.valueOf(commodity.getInStock()));
+            // link
+            Element link = newRow.appendElement("td").appendElement("a");
+            link.text("Link");
+            link.attr("href", "/commodities/" + commodity.getId());
+        }
+
+        File output = new File(baseSiteAddress + "user_"+user.getUserName()+".html");
+        FileWriter writer = new FileWriter(output);
+        doc.outputSettings().prettyPrint(true);
+        writer.write(doc.outerHtml());
+        writer.close();
+    }
+
 
     public static void main(String[] args) throws Exception{
        /* ArrayList<String> cats = new ArrayList<String>(Arrays.asList("tech", "mobile"));

@@ -29,15 +29,23 @@ public class HttpServer {
     }
 
     private void addHandlers() {
+        app.error(403, ctx -> {
+            ctx.html(getFileContent("src/pages/template/403.html"));
+        });
+        app.error(404, ctx -> {
+            ctx.html(getFileContent("src/pages/template/404.html"));
+        });
+
         app.get("/commodities", ctx -> {
            ctx.html(getFileContent(baseSiteAddress + "commodities.html"));
         });
+
         app.get("/commodities/{id}", ctx -> {
             String path = baseSiteAddress + "commodity_"+ctx.pathParam("id")+".html";
             if (doesFileExists(path))
                 ctx.html(getFileContent(path));
             else
-                ctx.html(getFileContent("src/pages/template/404.html"));
+                ctx.status(404);
         });
 
         app.get("/providers/{id}", ctx -> {
@@ -45,7 +53,15 @@ public class HttpServer {
             if (doesFileExists(path))
                 ctx.html(getFileContent(path));
             else
-                ctx.html(getFileContent("src/pages/template/404.html"));
+                ctx.status(404);
+        });
+
+        app.get("/user/{username}", ctx -> {
+            String path = baseSiteAddress + "user_"+ctx.pathParam("username")+".html";
+            if (doesFileExists(path))
+                ctx.html(getFileContent(path));
+            else
+                ctx.status(404);
         });
     }
 

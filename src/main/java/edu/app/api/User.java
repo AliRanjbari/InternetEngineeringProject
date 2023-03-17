@@ -12,7 +12,8 @@ public class User {
     private LocalDate birthDay;
     private String address;
     private List<Commodity> buyList = new ArrayList<Commodity>();
-    private long Credit;
+    private List<Commodity> purchasedList = new ArrayList<Commodity>();
+    private long credit;
 
     public User(String userName, String password, String email, LocalDate birthDay, String address, long credit) {
         this.userName = userName;
@@ -20,7 +21,7 @@ public class User {
         this.email = email;
         this.birthDay = birthDay;
         this.address = address;
-        this.Credit = credit;
+        this.credit = credit;
     }
 
     void update(String password, String email, LocalDate birthDay, String address, long credit) {
@@ -28,7 +29,7 @@ public class User {
         this.email = email;
         this.birthDay = birthDay;
         this.address = address;
-        this.Credit = credit;
+        this.credit = credit;
     }
 
     public void addItemToList (Commodity commodity) {
@@ -48,6 +49,21 @@ public class User {
             if (this.buyList.get(i).getId() == commodityId)
                 return i;
         return -1;
+    }
+
+    void purchaseBuyList() {
+        long totalCost = 0;
+        for (Commodity c : this.buyList)
+            totalCost += c.getPrice();
+
+        if (totalCost <= this.credit) {
+            this.credit = this.credit - totalCost;
+            for (Commodity c : this.buyList)
+                this.purchasedList.add(c);
+            this.buyList.clear();
+        }
+        else
+            throw new RuntimeException("Not Enough credit");
     }
 
     public static boolean isValidUsername(String username) {
@@ -82,7 +98,11 @@ public class User {
         return buyList;
     }
 
+    public List<Commodity> getPurchasedList() {
+        return purchasedList;
+    }
+
     public long getCredit() {
-        return Credit;
+        return credit;
     }
 }
