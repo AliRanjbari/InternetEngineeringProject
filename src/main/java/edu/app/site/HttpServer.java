@@ -30,6 +30,9 @@ public class HttpServer {
 
     private void addHandlers() {
         String status200Path = "src/pages/template/200.html";
+        app.before("*", ctx -> {            // update pages before every request
+            PageBuilder.createPages(this.database);
+        });
         app.error(403, ctx -> {
             ctx.html(getFileContent("src/pages/template/403.html"));
         });
@@ -69,6 +72,16 @@ public class HttpServer {
             try {
                 this.database.addCredit(ctx.pathParam("username"),
                         Long.parseLong(ctx.pathParam("credit")));
+                ctx.html(getFileContent(status200Path));
+            } catch (Exception e) {
+                ctx.status(403);
+            }
+        });
+
+        app.get("/addToBuyList/{username}/{commodityId}", ctx -> {
+            try {
+                this.database.addToBuyList(ctx.pathParam("username"),
+                        Long.parseLong(ctx.pathParam("commodityId")));
                 ctx.html(getFileContent(status200Path));
             } catch (Exception e) {
                 ctx.status(403);

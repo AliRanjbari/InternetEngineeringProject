@@ -123,7 +123,7 @@ public class DB {
         user.addCredit(credit);
     }
 
-    void rateCommodity(String username, long commodityId, double score) {
+    public void rateCommodity(String username, long commodityId, double score) {
         if(findUser(username) == null)
             throw new RuntimeException("User not found");
         if(findCommodity(commodityId) == null)
@@ -133,7 +133,7 @@ public class DB {
         commodity.rate(username, score);
     }
 
-    void addToBuyList(String username, long commodityId) {
+    public void addToBuyList(String username, long commodityId) {
         if (findUser(username) == null)
             throw new RuntimeException("User not found");
         if (findCommodity(commodityId) == null)
@@ -142,9 +142,10 @@ public class DB {
         User user = findUser(username);
         Commodity commodity = findCommodity(commodityId);
         user.addItemToList(commodity);
+        System.out.println(user.getBuyList());
     }
 
-    void removeFromBuyList(String username, long commodityId) {
+    public void removeFromBuyList(String username, long commodityId) {
         if (findUser(username) == null)
             throw new RuntimeException("User not found");
         if (findCommodity(commodityId) == null)
@@ -154,7 +155,7 @@ public class DB {
         user.removeCommodity(commodityId);
     }
 
-    List<Commodity> getCommoditiesByCategory(String categoryName) {
+    public List<Commodity> getCommoditiesByCategory(String categoryName) {
         List<Commodity> listCommodityByCategory = new ArrayList<Commodity>();
         for (Commodity commodity : this.commodities)
             if (commodity.doesCategoryExists(categoryName))
@@ -165,7 +166,7 @@ public class DB {
 
 
 
-    List<Commodity> getBuyList(String username) {
+    public List<Commodity> getBuyList(String username) {
         if (findUser(username) == null)
             throw new RuntimeException("User not found");
 
