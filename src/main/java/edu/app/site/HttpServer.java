@@ -97,6 +97,17 @@ public class HttpServer {
                 ctx.status(403);
             }
         });
+
+        app.get("/rateCommodity/{username}/{commodityId}/{rate}", ctx -> {
+            try {
+                this.database.rateCommodity(ctx.pathParam("username"),
+                        Long.parseLong(ctx.pathParam("commodityId")),
+                        Double.parseDouble(ctx.pathParam("rate")));
+                ctx.html(getFileContent(status200Path));
+            } catch (Exception e) {
+                ctx.status(403);
+            }
+        });
     }
 
     private static String getFileContent(String fileName) {
