@@ -99,6 +99,7 @@ public class PageBuilder {
         ul.getElementById("id").text("Id: " + provider.getId());
         ul.getElementById("name").text("Name: " + provider.getName());
         ul.getElementById("registryDate").text("Registry Date: " + provider.getRegistryDate().toString());
+        ul.getElementById("averageRate").text("Commodities Average Rate: " + provider.getAverageRate());
 
         // add commodities
         Element table = doc.select("table").first();
@@ -133,6 +134,7 @@ public class PageBuilder {
         ul.getElementById("birthDate").text("Birth Date: " + user.getBirthDay().toString());
         ul.getElementById("address").text(user.getAddress());
         ul.getElementById("credit").text("Credit: " + user.getCredit());
+        ul.getElementById("payment_button").select("form").attr("action", "/payAll/" + user.getUserName());
 
         // add buyList
         Element table = doc.select("table").first();
@@ -149,7 +151,7 @@ public class PageBuilder {
             Element link = newRow.appendElement("td").appendElement("a");
             link.text("Link");
             link.attr("href", "/commodities/" + commodity.getId());
-            // button
+            // remove link
             Element removeLink = newRow.appendElement("td").appendElement("a");
             link.text("Remove");
             link.attr("href", "/removeFromBuyList/" + user.getUserName() + "/" + commodity.getId());

@@ -21,6 +21,15 @@ public class Provider {
         this.registryDate = registryDate;
     }
 
+    public double getAverageRate() {
+        if (this.commodities.size() == 0)
+            return 0D;
+        double totalRate = 0;
+        for (Commodity commodity : this.commodities)
+            totalRate += commodity.getRating();
+        return totalRate / (this.commodities.size());
+    }
+
     public void addCommodity(Commodity commodity) {
         this.commodities.add(commodity);
     }

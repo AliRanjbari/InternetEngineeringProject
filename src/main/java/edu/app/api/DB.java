@@ -141,7 +141,6 @@ public class DB {
         User user = findUser(username);
         Commodity commodity = findCommodity(commodityId);
         user.addItemToList(commodity);
-        System.out.println(user.getBuyList());
     }
 
     public void removeFromBuyList(String username, long commodityId) {
@@ -172,6 +171,12 @@ public class DB {
         this.comments.get(commentId).rate(username, vote);
     }
 
+    public void purchaseBuyList(String username){
+        if (findUser(username) == null)
+            throw new RuntimeException("User not found");
+        User user = findUser(username);
+        user.purchaseBuyList();
+    }
 
     public List<Commodity> getBuyList(String username) {
         if (findUser(username) == null)

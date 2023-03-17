@@ -140,6 +140,15 @@ public class HttpServer {
                 ctx.status(403);
             }
         });
+
+        app.get("/payAll/{username}", ctx -> {
+            try {
+                this.database.purchaseBuyList(ctx.pathParam("username"));
+                ctx.html(getFileContent(status200Path));
+            } catch (Exception e) {
+                ctx.status(403);
+            }
+        });
     }
 
     private static String getFileContent(String fileName) {
