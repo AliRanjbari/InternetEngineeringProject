@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class HttpServer {
     Javalin app;
@@ -115,6 +116,17 @@ public class HttpServer {
                         Integer.parseInt(ctx.pathParam("commentId")),
                         Long.parseLong(ctx.pathParam("vote")));
                 ctx.html(getFileContent(status200Path));
+            } catch (Exception e) {
+                ctx.status(403);
+            }
+        });
+
+        app.get("/commodities/search/{start_price}/{end_price}", ctx -> {
+            try {
+                List<Commodity> commodities = this.database.findCommodityByPrice(
+                        Long.parseLong(ctx.pathParam("start_price")),
+                        Long.parseLong(ctx.pathParam("end_price")));
+                ctx.html(PageBuilder.createSearchCommodityPage(commodities));
             } catch (Exception e) {
                 ctx.status(403);
             }

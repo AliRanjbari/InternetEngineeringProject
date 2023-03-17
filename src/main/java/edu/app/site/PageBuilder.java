@@ -180,6 +180,29 @@ public class PageBuilder {
     }
 
 
+    public static String createSearchCommodityPage(List<Commodity> commodities) throws Exception{             //returns html
+        File input = new File(baseTemplateAddress + "Commodities.html");
+        Document doc = Jsoup.parse(input, "UTF-8");
+
+        Element table = doc.select("table").first();
+        for (Commodity commodity : commodities) {
+            Element newRow = table.appendElement("tr");
+            newRow.appendElement("td").text(String.valueOf(commodity.getId()));
+            newRow.appendElement("td").text(commodity.getName());
+            newRow.appendElement("td").text(String.valueOf(commodity.getProviderId()));
+            newRow.appendElement("td").text(String.valueOf(commodity.getPrice()));
+            newRow.appendElement("td").text(commodity.getCategories().toString());
+            newRow.appendElement("td").text(String.valueOf(commodity.getRating()));
+            newRow.appendElement("td").text(String.valueOf(commodity.getInStock()));
+            Element link = newRow.appendElement("td").appendElement("a");
+            link.text("Link");
+            link.attr("href", "/commodities/" + commodity.getId());
+            createCommodityPage(commodity);
+        }
+        doc.outputSettings().prettyPrint(true);
+        return doc.outerHtml();
+    }
+
     public static void main(String[] args) throws Exception{
        /* ArrayList<String> cats = new ArrayList<String>(Arrays.asList("tech", "mobile"));
         Commodity commodity = new Commodity(10, "phone", 20, 30000, cats, 3.2, 1000);
