@@ -131,6 +131,15 @@ public class HttpServer {
                 ctx.status(403);
             }
         });
+
+        app.get("/commodities/search/{category}", ctx -> {
+            try {
+                List<Commodity> commodities = this.database.getCommoditiesByCategory(ctx.pathParam("category"));
+                ctx.html(PageBuilder.createSearchCommodityPage(commodities));
+            } catch (Exception e) {
+                ctx.status(403);
+            }
+        });
     }
 
     private static String getFileContent(String fileName) {
