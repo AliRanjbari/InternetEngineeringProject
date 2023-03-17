@@ -87,6 +87,16 @@ public class HttpServer {
                 ctx.status(403);
             }
         });
+
+        app.get("/removeFromBuyList/{username}/{commodityId}", ctx -> {
+            try {
+                this.database.removeFromBuyList(ctx.pathParam("username"),
+                        Long.parseLong(ctx.pathParam("commodityId")));
+                ctx.html(getFileContent(status200Path));
+            } catch (Exception e) {
+                ctx.status(403);
+            }
+        });
     }
 
     private static String getFileContent(String fileName) {
