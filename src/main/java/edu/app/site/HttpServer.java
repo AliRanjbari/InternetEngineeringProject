@@ -108,6 +108,17 @@ public class HttpServer {
                 ctx.status(403);
             }
         });
+
+        app.get("/voteComment/{username}/{commentId}/{vote}", ctx -> {
+            try {
+                this.database.voteComment(ctx.pathParam("username"),
+                        Integer.parseInt(ctx.pathParam("commentId")),
+                        Long.parseLong(ctx.pathParam("vote")));
+                ctx.html(getFileContent(status200Path));
+            } catch (Exception e) {
+                ctx.status(403);
+            }
+        });
     }
 
     private static String getFileContent(String fileName) {

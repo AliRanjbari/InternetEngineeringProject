@@ -5,15 +5,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Comment {
-    private String email ;
+    long id;
 
+    private String email ;
     private String text;
     private long rate;
     private LocalDate commentDate;
 
     private Map<String, Long> userRates = new HashMap<String, Long>();
 
-    public Comment(String email, String text, LocalDate commentDate) {
+    public Comment(long id, String email, String text, LocalDate commentDate) {
+        this.id = id;
         this.email = email;
         this.text = text;
         this.rate =  0;

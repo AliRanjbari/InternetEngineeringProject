@@ -87,13 +87,12 @@ public class DB {
 
 
 
-        Comment comment = new Comment(email, text, commentDate);
+        Comment comment = new Comment(this.comments.size(), email, text, commentDate);
 
         Commodity commodity = findCommodity(commodityId);
 
         this.comments.add(comment);
         commodity.addComment(comment);
-
 
     }
 
@@ -164,6 +163,14 @@ public class DB {
         return listCommodityByCategory;
     }
 
+    public void voteComment(String username, int commentId, long vote) {
+        if (findUser(username) == null)
+            throw new RuntimeException("User not found");
+        if (this.comments.size() <= commentId)                  // id of comment is the position in the comment list
+            throw new RuntimeException("Comment not found");
+
+        this.comments.get(commentId).rate(username, vote);
+    }
 
 
     public List<Commodity> getBuyList(String username) {
