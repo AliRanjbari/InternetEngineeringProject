@@ -33,7 +33,7 @@ public class Tests {
         commodity1 = new Commodity(1, "shoes", 1, 300,
                 new ArrayList<>(Arrays.asList("clothes", "feet")), 0, 10);
 
-        commodity2 = new Commodity(2, "hats", 2, 300,
+        commodity2 = new Commodity(2, "hats", 2, 100,
                 new ArrayList<>(Arrays.asList("clothes", "head")), 0, 10);
 
         provider1 = new Provider(1,"Provider1", LocalDate.of(2023,10,10));
@@ -131,6 +131,21 @@ public class Tests {
         commodity1.rate("matin" , 5);
         assertThrows( RuntimeException.class, () ->commodity1.rate("ali" , -1));
     }
+
+    @Test
+    public void testPriceRangeSearch() throws ParseException{
+        List<Commodity> commodityToTest = new ArrayList<Commodity>();
+        commodityToTest.add(commodity1);
+        assertEquals(commodityToTest.get(0).getId(),dataBase.findCommodityByPrice(200 , 400).get(0).getId());
+    }
+    @Test
+    public void testPriceRangeSearch2() throws ParseException{
+        List<Commodity> commodityToTest = new ArrayList<Commodity>();
+        commodityToTest.add(commodity1);
+        commodityToTest.add(commodity2);
+        Arrays.deepEquals(commodityToTest.toArray(),dataBase.findCommodityByPrice(50 , 400).toArray());
+    }
 }
+
 
 

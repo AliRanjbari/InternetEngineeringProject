@@ -190,6 +190,14 @@ public class DB {
         return null;
     }
 
+    public List<Commodity> findCommodityByPrice(long startPrice , long endPrice){
+        List<Commodity> commoditiesInRange = new ArrayList<Commodity>();
+        for (Commodity commodity : this.commodities) {
+            if (commodity.getPrice() >= startPrice && commodity.getPrice() <= endPrice)
+                commoditiesInRange.add(commodity);
+        }
+        return commoditiesInRange;
+    }
     public List<User> getUsers() {
         return users;
     }
