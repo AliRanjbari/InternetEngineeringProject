@@ -72,7 +72,7 @@ public class Tests {
     @Test
     public void testGetCommodityById() throws ParseException {
         String jsonString = "{\"id\" : 2}";
-        assertEquals("{\"provider\":\"Provider2\",\"price\":300," +
+        assertEquals("{\"provider\":\"Provider2\",\"price\":100," +
                                 "\"name\":\"hats\",\"rating\":0.0,\"inStock\":10," +
                                 "\"id\":2,\"categories\":[\"clothes\",\"head\"]}" ,
                                     JsonHandler.getCommodityById(jsonString , dataBase));
@@ -93,7 +93,7 @@ public class Tests {
         assertEquals("{\"commoditiesListByCategory\":[{\"providerId\":1," +
                                 "\"price\":300,\"name\":\"shoes\",\"rating\":0.0," +
                                 "\"inStock\":10,\"id\":1,\"categories\":[\"clothes\"," +
-                                "\"feet\"]},{\"providerId\":2,\"price\":300,\"name\":\"hats\"," +
+                                "\"feet\"]},{\"providerId\":2,\"price\":100,\"name\":\"hats\"," +
                                 "\"rating\":0.0,\"inStock\":10,\"id\":2," +
                                 "\"categories\":[\"clothes\",\"head\"]}]}" ,
                                 JsonHandler.getCommoditiesByCategory(jsonString , dataBase));
@@ -136,7 +136,8 @@ public class Tests {
     public void testPriceRangeSearch() throws ParseException{
         List<Commodity> commodityToTest = new ArrayList<Commodity>();
         commodityToTest.add(commodity1);
-        assertEquals(commodityToTest.get(0).getId(),dataBase.findCommodityByPrice(200 , 400).get(0).getId());
+        Arrays.deepEquals(commodityToTest.toArray(),dataBase.findCommodityByPrice(200 , 400).toArray());
+        //only commodity1 should be in because it's price is 300
     }
     @Test
     public void testPriceRangeSearch2() throws ParseException{
@@ -144,6 +145,13 @@ public class Tests {
         commodityToTest.add(commodity1);
         commodityToTest.add(commodity2);
         Arrays.deepEquals(commodityToTest.toArray(),dataBase.findCommodityByPrice(50 , 400).toArray());
+        //commodity 1 and 2 should be founded because their price are 100 and 300
+    }
+    @Test
+    public void testPriceRangeSearch3() throws ParseException{
+        List<Commodity> commodityToTest = new ArrayList<Commodity>();
+        Arrays.deepEquals(commodityToTest.toArray(),dataBase.findCommodityByPrice(400 , 900).toArray());
+        //none of the commodities should be found because their price are not in range of search
     }
 }
 
