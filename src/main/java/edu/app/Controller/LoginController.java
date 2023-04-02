@@ -21,19 +21,14 @@ public class LoginController extends HttpServlet{
 
         String username = request.getParameter("username");
         String password = request.getParameter("Password");
-        Baloot baloot = null;
         try {
-            baloot = Baloot.getInstance();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
+            Baloot baloot = Baloot.getInstance();
             baloot.login(username, password);
             response.sendRedirect("/Baloot/");
         } catch (Exception e) {
-            response.sendRedirect("/Baloot/login");
+            System.out.println("error............: " + e.getMessage());
+            request.setAttribute("error_message", e.getMessage());
+            request.getRequestDispatcher("/JSP/error.jsp").forward(request, response);
         }
-
     }
 }
