@@ -237,5 +237,9 @@ public class DB {
     public List<Comment> getComments(){
         return this.comments;
     }
- }
+
+    public List<Discount> getDiscounts() {
+        return discounts;
+    }
+}
 
