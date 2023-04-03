@@ -4,6 +4,7 @@ import com.sun.source.tree.LiteralTree;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DB {
@@ -167,6 +168,22 @@ public class DB {
                 listCommodityByCategory.add(commodity);
 
         return listCommodityByCategory;
+    }
+
+    public List<Commodity> getCommoditiesByName(String name) {
+        List<Commodity> listCommodityByName = new ArrayList<Commodity>();
+        for (Commodity commodity : this.commodities)
+            if (commodity.getName().toLowerCase().contains(name.toLowerCase()))
+                listCommodityByName.add(commodity);
+
+        return listCommodityByName;
+    }
+
+    public List<Commodity> getCommoditiesSortByPrice() {
+        List<Commodity> commoditiesSortedByPrice = new ArrayList<>(this.commodities);
+        commoditiesSortedByPrice.sort((c1, c2) -> Long.compare(c1.getPrice(), c2.getPrice()));
+        Collections.reverse(commoditiesSortedByPrice);
+        return commoditiesSortedByPrice;
     }
 
     public void voteComment(String username, int commentId, long vote) {

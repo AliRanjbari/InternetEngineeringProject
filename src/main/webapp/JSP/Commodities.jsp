@@ -2,11 +2,14 @@
 <%@ page import="edu.app.api.User" %>
 <%@ page import="edu.app.api.Commodity" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.text.NumberFormat" %>
+
 
 <%
     Baloot baloot = Baloot.getInstance();
     User user = baloot.getLoggedUser();
     List<Commodity> commodities = (List)request.getAttribute("commodities");
+    NumberFormat nf = NumberFormat.getInstance();
 %>
 
 <!DOCTYPE html>
@@ -22,7 +25,7 @@
     </style>
 </head>
 <body>
-    <a href="/">Home</a>
+    <a href="/Baloot">Home</a>
     <p id="username">username: <%=user.getUserName()%></p>
     <br><br>
     <form action="" method="POST">
@@ -53,12 +56,12 @@
         <tr>
             <td><%=commodity.getId()%></td>
             <td><%=commodity.getName()%></td>
-            <td>Phone Provider</td>
-            <td><%=commodity.getPrice()%></td>
+            <td><%=baloot.getProviderNameById(commodity.getProviderId())%></td>
+            <td><%=nf.format(commodity.getPrice())%></td>
             <td><%=commodity.getCategories()%></td>
             <td><%=commodity.getRating()%></td>
             <td><%=commodity.getInStock()%></td>
-            <td><a href="/commodities/<%=commodity.getId()%>">Link</a></td>
+            <td><a href="/Baloot/commodities/<%=commodity.getId()%>">Link</a></td>
         </tr>
         <% } %>
     </table>

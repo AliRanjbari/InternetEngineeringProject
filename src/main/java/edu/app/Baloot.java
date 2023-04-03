@@ -14,6 +14,9 @@ public class Baloot {
     private Baloot() throws Exception {
         this.database = new DB();
         Initial.initDatabase(this.database);
+
+        // delete
+        this.loggedUser = this.database.findUser("amir");
     }
 
     public static Baloot getInstance() throws Exception{
@@ -45,5 +48,19 @@ public class Baloot {
         return this.database.getCommodities();
     }
 
+    public List<Commodity> getCommoditiesByCategory(String categoryName) {
+        return this.database.getCommoditiesByCategory(categoryName);
+    }
 
+    public List<Commodity> getCommoditiesByName(String name) {
+        return this.database.getCommoditiesByName(name);
+    }
+
+    public List<Commodity> getCommoditiesSortByPrice() {
+        return this.database.getCommoditiesSortByPrice();
+    }
+
+    public String getProviderNameById(long id) {
+        return this.database.findProvider(id).getName();
+    }
 }
