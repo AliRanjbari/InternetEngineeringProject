@@ -3,6 +3,8 @@ package edu.app;
 import edu.app.api.*;
 import edu.app.site.Initial;
 
+import java.util.List;
+
 public class Baloot {
 
     private static Baloot instance;
@@ -38,5 +40,10 @@ public class Baloot {
     public void logout() {
         this.loggedUser = null;
     }
+
+    public List<Commodity> getCommodities() {
+        return this.database.getCommodities();
+    }
+
 
 }

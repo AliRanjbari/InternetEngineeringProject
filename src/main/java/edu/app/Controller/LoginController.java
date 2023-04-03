@@ -26,7 +26,6 @@ public class LoginController extends HttpServlet{
             baloot.login(username, password);
             response.sendRedirect("/Baloot/");
         } catch (Exception e) {
-            System.out.println("error............: " + e.getMessage());
             request.setAttribute("error_message", e.getMessage());
             request.getRequestDispatcher("/JSP/error.jsp").forward(request, response);
         }
