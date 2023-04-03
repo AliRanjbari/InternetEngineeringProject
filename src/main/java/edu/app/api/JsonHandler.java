@@ -23,6 +23,8 @@ public class JsonHandler {
     private static String[] getBuyListJsonVariables = {"username"};
     private static String[] addCommentJsonVariables = {"userEmail", "commodityId", "text", "date"};
 
+    private static String[] addDiscountJsonVariables = {"discountCode" , "discount"};
+
     static public void addUser(String jsonString, DB dataBase) throws Exception {
 
         Object o = new JSONParser().parse(jsonString);
@@ -84,6 +86,18 @@ public class JsonHandler {
         long inStock = (long) j.get(addCommodityJsonVariables[6]);
 
         dataBase.addCommodity(id, name, providerId, price, categories, rating, inStock);
+    }
+
+    static public void addDiscount(String jsonString, DB database) throws Exception {
+        Object o = new JSONParser().parse(jsonString);
+        JSONObject j = (JSONObject) o;
+
+        checkVariables(addDiscountJsonVariables, j);
+        String discountCode = (String) j.get(addDiscountJsonVariables[0]);
+        long discount = (long) j.get(addDiscountJsonVariables[1]);
+
+        database.addDiscount(discountCode , discount);
+
     }
 
 
