@@ -12,12 +12,7 @@ public class HomeController extends HttpServlet{
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-/*
-        if (!request.getRequestURL().equals("http://localhost:8080/Baloot/")) {
-            System.out.println("'" + request.getRequestURL() + "'");
-            response.sendRedirect("/Baloot/404.jsp");
-            return;
-        }*/
+
         try {
             Baloot baloot = Baloot.getInstance();
             if (baloot.getLoggedUser() != null) {

@@ -92,10 +92,11 @@ public class DB {
 
         if(findCommodity(commodityId) == null)
             throw new RuntimeException("Commodity does not exists");
+        if(findUserByEmail(email) == null)
+            throw new RuntimeException("User does not exists");
 
-
-
-        Comment comment = new Comment(this.comments.size(), email, text, commentDate);
+        User user = findUserByEmail(email);
+        Comment comment = new Comment(this.comments.size(), user, text, commentDate);
 
         Commodity commodity = findCommodity(commodityId);
 
@@ -214,6 +215,13 @@ public class DB {
     public User findUser(String userName) {
         for (User user : this.users)
             if (userName.equals(user.getUserName()))
+                return user;
+        return null;
+    }
+
+    public User findUserByEmail(String email) {
+        for (User user : this.users)
+            if (user.getEmail().equals(email))
                 return user;
         return null;
     }

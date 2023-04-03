@@ -63,4 +63,8 @@ public class Baloot {
     public String getProviderNameById(long id) {
         return this.database.findProvider(id).getName();
     }
+
+    public DB getDatabase() {
+        return database;
+    }
 }
