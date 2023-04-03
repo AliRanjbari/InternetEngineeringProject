@@ -11,12 +11,14 @@ public class DB {
     List<Commodity> commodities;
     List<Provider> providers;
     List<Comment> comments;
+    List<Discount> discounts;
 
     public DB() {
         this.users = new ArrayList<User>();
         this.commodities = new ArrayList<Commodity>();
         this.providers = new ArrayList<Provider>();
         this.comments = new ArrayList<Comment>();
+        this.discounts = new ArrayList<Discount>();
     }
 
     public void addUser(String userName, String password, String email, LocalDate birthDay, String address, long credit) {
@@ -77,6 +79,11 @@ public class DB {
             Provider provider = findProvider(providerId);
             provider.addCommodity(newCommodity);
         }
+    }
+
+    public void addDiscount(String discountCode, long discount){
+        Discount newDiscount = new Discount(discountCode , discount);
+        this.discounts.add(newDiscount);
     }
 
 
@@ -230,5 +237,9 @@ public class DB {
     public List<Comment> getComments(){
         return this.comments;
     }
- }
+
+    public List<Discount> getDiscounts() {
+        return discounts;
+    }
+}
 
