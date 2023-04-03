@@ -43,17 +43,17 @@
     <label>Add Your Comment:</label>
     <form action="" method="post">
       <input type="text" name="comment" value="" />
-      <button type="submit">submit</button>
+      <button type="submit" name="action" value="comment">submit</button>
     </form>
     <br>
     <form action="" method="POST">
       <label>Rate(between 1 and 10):</label>
       <input type="number" id="quantity" name="quantity" min="1" max="10">
-      <button type="submit">Rate</button>
+      <button type="submit" name="action" value="rate">Rate</button>
     </form>
     <br>
     <form action="" method="POST">
-      <button type="submit">Add to BuyList</button>
+      <button type="submit" name="action" value="add">Add to BuyList</button>
     </form>
     <br />
     <table>
