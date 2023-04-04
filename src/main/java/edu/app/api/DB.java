@@ -264,5 +264,18 @@ public class DB {
     public List<Discount> getDiscounts() {
         return discounts;
     }
+
+    public Discount findDiscount(String discountCode) {
+        for (Discount discount : this.discounts)
+            if (discount.getDiscountCode().equals(discountCode))
+                return discount;
+        return null;
+    }
+
+    public void useDiscount(User user, String discountCode) {
+        if (findDiscount(discountCode) == null)
+            throw new RuntimeException("Discount not found");
+        user.setDiscount(findDiscount(discountCode));
+    }
 }
 

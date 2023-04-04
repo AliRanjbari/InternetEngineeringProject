@@ -18,6 +18,7 @@ public class Baloot {
         // delete
         this.loggedUser = this.database.findUser("amir");
         this.loggedUser.addItemToList(this.database.findCommodity(1));
+        database.useDiscount(loggedUser, "HAPPY_NOWRUZ");
     }
 
     public static Baloot getInstance() throws Exception{
@@ -68,4 +69,5 @@ public class Baloot {
     public DB getDatabase() {
         return database;
     }
+
 }

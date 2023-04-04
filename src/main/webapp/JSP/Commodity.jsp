@@ -28,6 +28,8 @@
     </style>
   </head>
   <body>
+    <a href="/Baloot">Home</a>
+    <br>
     <span>username: <%=user.getUserName()%></span>
     <br>
     <ul>

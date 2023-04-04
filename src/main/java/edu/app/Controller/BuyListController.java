@@ -45,6 +45,14 @@ public class BuyListController extends HttpServlet {
                     handleDelete(request, baloot);
                     break;
                 }
+                case "discount": {
+                    handleDiscount(request, baloot);
+                    break;
+                }
+                case "delete_discount": {
+                    baloot.getLoggedUser().removeDiscount();
+                    break;
+                }
                 default: {
                     throw new RuntimeException("Action not found!");
                 }
@@ -61,6 +69,13 @@ public class BuyListController extends HttpServlet {
             throw new RuntimeException("commodityId id can't be blank");
         long commodityId = Long.parseLong(request.getParameter("commodityId"));
         baloot.getDatabase().removeFromBuyList(baloot.getLoggedUser().getUserName(), commodityId);
+    }
+
+    private void handleDiscount(HttpServletRequest request, Baloot baloot) throws Exception{
+        if (request.getParameter("code").isBlank())
+            throw new RuntimeException("Discount code can't be blank");
+        String discountCode = request.getParameter("code");
+        baloot.getDatabase().useDiscount(baloot.getLoggedUser(), discountCode);
     }
 
 }

@@ -11,9 +11,11 @@ public class User {
     private String email;
     private LocalDate birthDay;
     private String address;
-    private List<Commodity> buyList = new ArrayList<Commodity>();
-    private List<Commodity> purchasedList = new ArrayList<Commodity>();
+    private final List<Commodity> buyList = new ArrayList<Commodity>();
+    private final List<Commodity> purchasedList = new ArrayList<Commodity>();
     private long credit;
+    private Discount currentDiscount;
+    private final List<Discount> usedDiscount = new ArrayList<Discount>();
 
     public User(String userName, String password, String email, LocalDate birthDay, String address, long credit) {
         this.userName = userName;
@@ -52,14 +54,14 @@ public class User {
     }
 
     void purchaseBuyList() {
-        long totalCost = 0;
-        for (Commodity c : this.buyList)
-            totalCost += c.getPrice();
+        long totalCost = getTotalBuyListPrice();
 
         if (totalCost <= this.credit) {
             this.credit = this.credit - totalCost;
             this.purchasedList.addAll(this.buyList);
             this.buyList.clear();
+            this.usedDiscount.add(this.currentDiscount);
+            this.currentDiscount = null;
         }
         else
             throw new RuntimeException("Not Enough credit");
@@ -101,6 +103,10 @@ public class User {
         long totalPrice = 0;
         for(Commodity commodity : this.buyList)
             totalPrice += commodity.getPrice();
+
+        if (this.currentDiscount != null)
+            return (long)(totalPrice * this.currentDiscount.getRemainingPercentage());
+
         return totalPrice;
     }
 
@@ -114,6 +120,25 @@ public class User {
 
     public void addCredit(long credit) {
         this.credit += credit;
+    }
+
+    public boolean hasDiscount() {
+        return this.currentDiscount != null;
+    }
+
+    public Discount getCurrentDiscount() {
+        return currentDiscount;
+    }
+
+    public void setDiscount(Discount discount) {
+        for (Discount d : this.usedDiscount)
+            if (d.getDiscountCode().equals(discount.getDiscountCode()))
+                throw new RuntimeException("Can not use this Discount again!");
+        this.currentDiscount = discount;
+    }
+
+    public void removeDiscount() {
+        this.currentDiscount = null;
     }
 
 }

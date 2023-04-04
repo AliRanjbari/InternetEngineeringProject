@@ -25,13 +25,19 @@
     </style>
 </head>
 <body>
+    <a href="/Baloot">Home</a>
     <ul>
         <li id="username">Username: <%= user.getUserName() %></li>
         <li id="email">Email: <%= user.getEmail() %></li>
         <li id="birthDate">Birth Date: <%= user.getBirthDay() %></li>
         <li id="address"><%= user.getAddress() %></li>
         <li id="credit">Credit: <%= nf.format(user.getCredit()) %></li>
-        <li>Current Buy List Price: <%= nf.format(user.getTotalBuyListPrice()) %></li>
+        <% if (user.hasDiscount()) {%>
+            <li>Current Buy List Price: <%= nf.format(user.getTotalBuyListPrice()) %>
+            [Discount "<%=user.getCurrentDiscount().getDiscountCode()%>" <%=user.getCurrentDiscount().getDiscount()%>%]</li>
+        <%} else {%>
+            <li>Current Buy List Price: <%= nf.format(user.getTotalBuyListPrice()) %></li>
+        <%}%>
         <li>
             <a href="/Baloot/credit">Add Credit</a>
         </li>
@@ -42,6 +48,15 @@
                 <button type="submit" name="action" value="pay">Payment</button>
             </form>
         </li>
+
+    <li>
+    <form action="" method="POST">
+        <label>Discount</label>
+        <input type="text" name="code" value="Discount code">
+        <button type="submit" name="action" value="discount">Set</button>
+        <button type="submit" name="action" value="delete_discount">Delete Discount</button>
+    </form>
+    </li>
     </ul>
     <table>
         <caption>

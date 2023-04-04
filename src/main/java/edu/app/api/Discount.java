@@ -14,9 +14,12 @@ public class Discount {
         return discountCode;
     }
 
-
     public long getDiscount() {
         return discount;
+    }
+
+    public double getRemainingPercentage() {
+        return (double) (100 - this.discount) / 100;
     }
 
 }
