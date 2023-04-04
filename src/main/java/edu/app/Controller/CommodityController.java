@@ -69,7 +69,7 @@ public class CommodityController extends HttpServlet {
                         break;
                     }
                     case "add": {
-                        System.out.println("add");
+                        handleAddToBuyList(baloot, id);
                         break;
                     }
                     case "comment": {
@@ -125,5 +125,8 @@ public class CommodityController extends HttpServlet {
         baloot.getDatabase().rateCommodity(baloot.getLoggedUser().getUserName(), commodityId, score);
     }
 
+    private void handleAddToBuyList(Baloot baloot, long commodityId) throws Exception {
+        baloot.getDatabase().addToBuyList(baloot.getLoggedUser().getUserName(), commodityId);
+    }
 
 }

@@ -98,6 +98,13 @@ public class User {
         return buyList;
     }
 
+    public long getTotalBuyListPrice() {
+        long totalPrice = 0;
+        for(Commodity commodity : this.buyList)
+            totalPrice += commodity.getPrice();
+        return totalPrice;
+    }
+
     public List<Commodity> getPurchasedList() {
         return purchasedList;
     }
