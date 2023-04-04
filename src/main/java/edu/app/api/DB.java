@@ -3,6 +3,7 @@ package edu.app.api;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class DB {
@@ -178,9 +179,16 @@ public class DB {
         return listCommodityByName;
     }
 
+    public List<Commodity> getMostSimilarCommodities(Commodity commodity) {
+        List<Commodity> mostSimilarCommodities = new ArrayList<>(this.commodities);
+        mostSimilarCommodities.sort(Comparator.comparingDouble(c -> c.getRating() + 11 * commodity.hasSameCategories(c)));
+        Collections.reverse(mostSimilarCommodities);
+        return mostSimilarCommodities;
+    }
+
     public List<Commodity> getCommoditiesSortByPrice() {
         List<Commodity> commoditiesSortedByPrice = new ArrayList<>(this.commodities);
-        commoditiesSortedByPrice.sort((c1, c2) -> Long.compare(c1.getPrice(), c2.getPrice()));
+        commoditiesSortedByPrice.sort(Comparator.comparingLong(Commodity::getPrice));
         Collections.reverse(commoditiesSortedByPrice);
         return commoditiesSortedByPrice;
     }

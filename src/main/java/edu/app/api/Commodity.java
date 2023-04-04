@@ -111,4 +111,13 @@ public class Commodity {
     public List<Comment> getCommentList() {
         return commentList;
     }
+
+    public int hasSameCategories(Commodity commodity) {
+        if (this.categories.size() != commodity.getCategories().size())
+            return 0;
+        for (String category : this.categories)
+            if (!commodity.getCategories().contains(category))
+                return 0;
+        return 1;
+    }
 }

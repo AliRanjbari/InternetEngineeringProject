@@ -5,6 +5,8 @@
 <%@ page import="java.text.NumberFormat" %>
 
 <%
+    final int SUGGESTION_COUNT = 5;          // count of suggested items
+
     Baloot baloot = Baloot.getInstance();
     User user = baloot.getLoggedUser();
     long commodityId = (Long)request.getAttribute("commodityId");
@@ -112,46 +114,26 @@
             <th>In Stock</th>
             <th>Links</th>
         </tr>
-        <tr>
-            <td>2341</td>
-            <td>Galaxy S22</td> 
-            <td>Phone Provider No.1</td>
-            <td>34000000</td>
-            <td>Technology, Phone</td>
-            <td>8.3</td>
-            <td>17</td>
-            <td><a href="/commodities/2341">Link</a></td>
-        </tr>
-        <tr>
-            <td>4231</td>
-            <td>Galaxy S22 Plus</td> 
-            <td>Phone Provider No.1</td>
-            <td>43000000</td>
-            <td>Technology, Phone</td>
-            <td>8.7</td>
-            <td>12</td>
-            <td><a href="/commodities/4231">Link</a></td>
-        </tr>
-        <tr>
-          <td>1234</td>
-          <td>Galaxy S22 Ultra</td> 
-          <td>Phone Provider No.2</td>
-          <td>50000000</td>
-          <td>Technology, Phone</td>
-          <td>8.9</td>
-          <td>5</td>
-          <td><a href="/commodities/1234">Link</a></td>
-      </tr>
-      <tr>
-          <td>4321</td>
-          <td>Galaxy A53</td> 
-          <td>Phone Provider No.2</td>
-          <td>16000000</td>
-          <td>Technology, Phone</td>
-          <td>8.7</td>
-          <td>11</td>
-          <td><a href="/commodities/4321">Link</a></td>
-      </tr>
+        <%
+            int count = 0;
+            for (Commodity c : baloot.getMostSimilarCommodities(commodity)) {
+                if (count == SUGGESTION_COUNT)
+                    break;
+        %>
+            <tr>
+                <td><%=c.getId()%></td>
+                <td><%=c.getName()%></td>
+                <td><%=baloot.getProviderNameById(c.getProviderId())%></td>
+                <td><%=nf.format(c.getPrice())%></td>
+                <td><%=c.getCategories()%></td>
+                <td><%=c.getRating()%></td>
+                <td><%=c.getInStock()%></td>
+                <td><a href="/Baloot/commodities/<%=c.getId()%>">Link</a></td>
+            </tr>
+        <%
+            count++;
+            }
+        %>
     </table>
   </body>
 </html>

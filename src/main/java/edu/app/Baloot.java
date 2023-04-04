@@ -3,6 +3,8 @@ package edu.app;
 import edu.app.api.*;
 import edu.app.site.Initial;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Baloot {
@@ -14,11 +16,6 @@ public class Baloot {
     private Baloot() throws Exception {
         this.database = new DB();
         Initial.initDatabase(this.database);
-
-        // delete
-        this.loggedUser = this.database.findUser("amir");
-        this.loggedUser.addItemToList(this.database.findCommodity(1));
-        database.useDiscount(loggedUser, "HAPPY_NOWRUZ");
     }
 
     public static Baloot getInstance() throws Exception{
@@ -68,6 +65,10 @@ public class Baloot {
 
     public DB getDatabase() {
         return database;
+    }
+
+    public List<Commodity> getMostSimilarCommodities(Commodity commodity) {
+        return database.getMostSimilarCommodities(commodity);
     }
 
 }
