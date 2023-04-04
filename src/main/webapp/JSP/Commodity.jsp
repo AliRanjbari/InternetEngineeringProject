@@ -48,7 +48,7 @@
     <br>
     <form action="" method="POST">
       <label>Rate(between 1 and 10):</label>
-      <input type="number" id="quantity" name="quantity" min="1" max="10">
+      <input type="number" id="quantity" name="quantity" min="1" max="10" value="5.00" step=".01">
       <button type="submit" name="action" value="rate">Rate</button>
     </form>
     <br>

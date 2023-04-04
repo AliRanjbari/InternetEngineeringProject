@@ -77,7 +77,7 @@ public class CommodityController extends HttpServlet {
                         break;
                     }
                     case "rate": {
-                        System.out.println("rate");
+                        handleRate(request, baloot, id);
                         break;
                     }
                     default: {
@@ -89,7 +89,8 @@ public class CommodityController extends HttpServlet {
             } catch (NumberFormatException e) {
                 request.getRequestDispatcher("/JSP/404.jsp").forward(request, response);
             } catch (Exception e) {
-                request.setAttribute("error_message", e.getMessage());
+
+                request.setAttribute("error_message", e.toString());
                 request.getRequestDispatcher("/JSP/error.jsp").forward(request, response);
             }
         }
@@ -115,6 +116,13 @@ public class CommodityController extends HttpServlet {
             throw new RuntimeException("comment can't be blank");
         String comment = request.getParameter("comment");
         baloot.getDatabase().addComment(baloot.getLoggedUser().getEmail(), commodityId, comment, LocalDate.now());
+    }
+
+    private void handleRate(HttpServletRequest request, Baloot baloot, long commodityId) throws Exception {
+        if (request.getParameter("quantity").isBlank())
+            throw new RuntimeException("quantity can't be blank");
+        double score = Double.parseDouble(request.getParameter("quantity"));
+        baloot.getDatabase().rateCommodity(baloot.getLoggedUser().getUserName(), commodityId, score);
     }
 
 

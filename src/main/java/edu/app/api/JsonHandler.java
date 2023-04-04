@@ -12,18 +12,17 @@ import java.util.List;
 
 
 public class JsonHandler {
-    private static String[] addUserJsonVariables = {"username", "password", "email", "address", "birthDate", "credit"};
-    private static String[] addProviderJsonVariables = {"id", "name", "registryDate"};
-    private static String[] addCommodityJsonVariables = {"id", "name", "providerId", "price", "categories", "rating", "inStock"};
-    private static String[] rateCommodityJsonVariables = {"username", "commodityId", "score"};
-    private static String[] addToBuyListJsonVariable = {"username", "commodityId"};
-    private static String[] removeFromBuyListJsonVariable = {"username", "commodityId"};
-    private static String[] getCommodityByIdJsonVariables = {"id"};
-    private static String[] getCommoditiesByCategoryJsonVariables = {"category"};
-    private static String[] getBuyListJsonVariables = {"username"};
-    private static String[] addCommentJsonVariables = {"userEmail", "commodityId", "text", "date"};
-
-    private static String[] addDiscountJsonVariables = {"discountCode" , "discount"};
+    final private static String[] addUserJsonVariables = {"username", "password", "email", "address", "birthDate", "credit"};
+    final private static String[] addProviderJsonVariables = {"id", "name", "registryDate"};
+    final private static String[] addCommodityJsonVariables = {"id", "name", "providerId", "price", "categories", "rating", "inStock"};
+    final private static String[] rateCommodityJsonVariables = {"username", "commodityId", "score"};
+    final private static String[] addToBuyListJsonVariable = {"username", "commodityId"};
+    final private static String[] removeFromBuyListJsonVariable = {"username", "commodityId"};
+    final private static String[] getCommodityByIdJsonVariables = {"id"};
+    final private static String[] getCommoditiesByCategoryJsonVariables = {"category"};
+    final private static String[] getBuyListJsonVariables = {"username"};
+    final private static String[] addCommentJsonVariables = {"userEmail", "commodityId", "text", "date"};
+    final private static String[] addDiscountJsonVariables = {"discountCode" , "discount"};
 
     static public void addUser(String jsonString, DB dataBase) throws Exception {
 
