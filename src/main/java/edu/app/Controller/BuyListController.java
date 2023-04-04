@@ -1,5 +1,6 @@
 package edu.app.Controller;
 
+import edu.app.Baloot;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,7 +15,52 @@ public class BuyListController extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/JSP/BuyList.jsp");
-        requestDispatcher.forward(request, response);
+        try {
+            Baloot baloot = Baloot.getInstance();
+            if (baloot.getLoggedUser() == null)
+                throw new RuntimeException("Your not logged in");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/JSP/BuyList.jsp");
+            requestDispatcher.forward(request, response);
+        } catch (Exception e) {
+            request.setAttribute("error_message", e.getMessage());
+            request.getRequestDispatcher("/JSP/error.jsp").forward(request, response);
+        }
+
     }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        try {
+            Baloot baloot = Baloot.getInstance();
+            if (baloot.getLoggedUser() == null)
+                throw new RuntimeException("Your not logged in");
+            String actionType = request.getParameter("action");
+            switch (actionType) {
+                case "pay": {
+                    baloot.getDatabase().purchaseBuyList(baloot.getLoggedUser().getUserName());
+                    break;
+                }
+                case "delete": {
+                    handleDelete(request, baloot);
+                    break;
+                }
+                default: {
+                    throw new RuntimeException("Action not found!");
+                }
+            }
+            request.getRequestDispatcher("/JSP/BuyList.jsp").forward(request, response);
+        } catch (Exception e) {
+            request.setAttribute("error_message", e.getMessage());
+            request.getRequestDispatcher("/JSP/error.jsp").forward(request, response);
+        }
+    }
+
+    private void handleDelete(HttpServletRequest request, Baloot baloot) throws Exception{
+        if (request.getParameter("commodityId").isBlank())
+            throw new RuntimeException("commodityId id can't be blank");
+        long commodityId = Long.parseLong(request.getParameter("commodityId"));
+        baloot.getDatabase().removeFromBuyList(baloot.getLoggedUser().getUserName(), commodityId);
+    }
+
 }

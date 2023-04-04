@@ -58,8 +58,7 @@ public class User {
 
         if (totalCost <= this.credit) {
             this.credit = this.credit - totalCost;
-            for (Commodity c : this.buyList)
-                this.purchasedList.add(c);
+            this.purchasedList.addAll(this.buyList);
             this.buyList.clear();
         }
         else

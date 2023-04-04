@@ -90,7 +90,7 @@ public class CommodityController extends HttpServlet {
                 request.getRequestDispatcher("/JSP/404.jsp").forward(request, response);
             } catch (Exception e) {
 
-                request.setAttribute("error_message", e.toString());
+                request.setAttribute("error_message", e.getMessage());
                 request.getRequestDispatcher("/JSP/error.jsp").forward(request, response);
             }
         }

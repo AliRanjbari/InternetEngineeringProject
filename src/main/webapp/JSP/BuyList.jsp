@@ -33,13 +33,13 @@
         <li id="credit">Credit: <%= nf.format(user.getCredit()) %></li>
         <li>Current Buy List Price: <%= nf.format(user.getTotalBuyListPrice()) %></li>
         <li>
-            <a href="/credit">Add Credit</a>
+            <a href="/Baloot/credit">Add Credit</a>
         </li>
         <li>
             <form action="" method="POST">
                 <label>Submit & Pay</label>
                 <input id="form_payment" type="hidden" name="userId" value="Farhad">
-                <button type="submit">Payment</button>
+                <button type="submit" name="action" value="pay">Payment</button>
             </form>
         </li>
     </ul>
@@ -58,37 +58,23 @@
             <th></th>
             <th></th>
         </tr>
+        <% for (Commodity commodity : user.getBuyList()) { %>
         <tr>
-            <td>4231</td>
-            <td>Galaxy S22 Plus</td> 
-            <td>Phone Provider No.1</td>
-            <td>43000000</td>
-            <td>Technology, Phone</td>
-            <td>8.7</td>
-            <td>12</td>
-            <td><a href="/commodities/4231">Link</a></td>
+            <td><%=commodity.getId()%></td>
+            <td><%=commodity.getName()%></td>
+            <td><%=baloot.getProviderNameById(commodity.getProviderId())%></td>
+            <td><%=nf.format(commodity.getPrice())%></td>
+            <td><%=commodity.getCategories()%></td>
+            <td><%=commodity.getRating()%></td>
+            <td><%=commodity.getInStock()%></td>
+            <td><a href="/Baloot/commodities/<%=commodity.getId()%>">Link</a></td>
             <td>        
                 <form action="" method="POST">
-                    <input id="form_commodity_id" type="hidden" name="commodityId" value="4231">
-                    <button type="submit">Remove</button>
+                    <input id="form_commodity_id" type="hidden" name="commodityId" value="<%=commodity.getId()%>">
+                    <button type="submit" name="action" value="delete">Remove</button>
                 </form>
             </td>
         </tr>
-        <tr>
-            <th>2341</th> 
-            <th>Galaxy S21</th>
-            <th>Phone Provider No.2</th> 
-            <th>21000000</th> 
-            <th>Technology, Phone</th> 
-            <th>8.3</th> 
-            <th>17</th> 
-            <td><a href="/commodities/2341">Link</a></td>
-            <td>        
-                <form action="" method="POST">
-                    <input id="form_commodity_id" type="hidden" name="commodityId" value="2341">
-                    <button type="submit">Remove</button>
-                </form>
-            </td>
-        </tr>
+        <% } %>
     </tbody></table>
 </body></html>
