@@ -38,7 +38,7 @@
     <br><br>
     <form action="" method="POST">
         <label>Sort By:</label>
-        <button type="submit" name="action" value="sort_by_rate">Rate</button>
+        <button type="submit" name="action" value="sort_by_price">price</button>
     </form>
     <br><br>
     <table>

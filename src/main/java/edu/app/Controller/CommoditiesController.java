@@ -49,7 +49,7 @@ public class CommoditiesController extends HttpServlet {
                 case "clear":
                     commodities = baloot.getCommodities();
                     break;
-                case "sort_by_rate":
+                case "sort_by_price":
                     commodities = baloot.getCommoditiesSortByPrice();
                     break;
             }
