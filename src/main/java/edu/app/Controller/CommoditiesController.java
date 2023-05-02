@@ -7,25 +7,39 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
-@WebServlet("/commodities")
+@RestController
+@RequestMapping("/commodities")
 public class CommoditiesController extends HttpServlet {
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+
+    @GetMapping("/")
+    public List<Commodity> doGet(final HttpServletResponse response)
             throws ServletException, IOException {
         try {
+
             BalootService baloot = BalootService.getInstance();
-            if(baloot.getLoggedUser() == null)
+            List<Commodity> commodities = BalootService.getInstance().getCommodities();
+            return commodities;
+
+
+/*            if(baloot.getLoggedUser() == null)
                 throw new RuntimeException("Your not logged in");
             request.setAttribute("commodities", baloot.getCommodities());
-            request.getRequestDispatcher("/JSP/Commodities.jsp").forward(request, response);
+            request.getRequestDispatcher("/JSP/Commodities.jsp").forward(request, response);*/
 
         } catch (Exception e) {
-            request.setAttribute("error_message", e.getMessage());
-            request.getRequestDispatcher("/JSP/error.jsp").forward(request, response);
+            System.out.println(e.getMessage());
+            response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+            return null;
         }
     }
 

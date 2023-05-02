@@ -21,9 +21,9 @@ import java.util.concurrent.TimeUnit;
 public class Baloot {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
-        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+/*        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
         try {
             BalootService.getInstance().importDataFromWeb();
@@ -33,9 +33,10 @@ public class Baloot {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
-        System.out.println("run mere");
+        /*System.out.println("run mere");*/
+        BalootService.getInstance();
         SpringApplication.run(Baloot.class, args);
     }
     @GetMapping("/hello")

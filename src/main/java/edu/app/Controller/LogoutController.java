@@ -7,8 +7,11 @@ import edu.app.service.BalootService;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@WebServlet("/logout")
+@RestController
+@RequestMapping("/logout")
 public class LogoutController extends HttpServlet{
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
