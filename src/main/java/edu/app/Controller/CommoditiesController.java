@@ -1,6 +1,6 @@
 package edu.app.Controller;
 
-import edu.app.Baloot;
+import edu.app.service.BalootService;
 import edu.app.api.Commodity;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,7 +17,7 @@ public class CommoditiesController extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            Baloot baloot = Baloot.getInstance();
+            BalootService baloot = BalootService.getInstance();
             if(baloot.getLoggedUser() == null)
                 throw new RuntimeException("Your not logged in");
             request.setAttribute("commodities", baloot.getCommodities());
@@ -35,7 +35,7 @@ public class CommoditiesController extends HttpServlet {
         String actionType = request.getParameter("action");
         String searchField = request.getParameter("search");
         try {
-            Baloot baloot = Baloot.getInstance();
+            BalootService baloot = BalootService.getInstance();
             List<Commodity> commodities = null;
             if(baloot.getLoggedUser() == null)
                 throw new RuntimeException("Your not logged in");

@@ -2,7 +2,7 @@ package edu.app.Controller;
 
 import java.io.*;
 
-import edu.app.Baloot;
+import edu.app.service.BalootService;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -14,7 +14,7 @@ public class HomeController extends HttpServlet{
             throws ServletException, IOException {
 
         try {
-            Baloot baloot = Baloot.getInstance();
+            BalootService baloot = BalootService.getInstance();
             if (baloot.getLoggedUser() != null) {
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("/JSP/Home.jsp");
                 requestDispatcher.forward(request, response);

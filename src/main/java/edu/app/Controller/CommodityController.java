@@ -1,6 +1,6 @@
 package edu.app.Controller;
 
-import edu.app.Baloot;
+import edu.app.service.BalootService;
 import java.time.LocalDate;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,10 +24,10 @@ public class CommodityController extends HttpServlet {
         } else {
             try {
                 long id = Long.parseLong(urlParameters[1]);
-                Baloot baloot = Baloot.getInstance();
+                BalootService baloot = BalootService.getInstance();
                 if (baloot.getLoggedUser() == null)
                     throw new RuntimeException("Your not logged in");
-                if(baloot.getDatabase().findCommodity(id) == null)
+                if (baloot.getDatabase().findCommodity(id) == null)
                     throw new RuntimeException("Commodity with id " + id + " not found");
                 request.setAttribute("commodityId", id);
                 request.getRequestDispatcher("/JSP/Commodity.jsp").forward(request, response);
@@ -52,7 +52,7 @@ public class CommodityController extends HttpServlet {
         } else {
             try {
                 long id = Long.parseLong(urlParameters[1]);
-                Baloot baloot = Baloot.getInstance();
+                BalootService baloot = BalootService.getInstance();
                 if (baloot.getLoggedUser() == null)
                     throw new RuntimeException("Your not logged in");
                 if(baloot.getDatabase().findCommodity(id) == null)
@@ -97,35 +97,35 @@ public class CommodityController extends HttpServlet {
     }
 
 
-    private void handleLike(HttpServletRequest request, Baloot baloot) throws Exception{
+    private void handleLike(HttpServletRequest request, BalootService baloot) throws Exception{
         if (request.getParameter("comment_id").isBlank())
             throw new RuntimeException("comment id can't be blank");
         int commentId = Integer.parseInt(request.getParameter("comment_id"));
         baloot.getDatabase().voteComment(baloot.getLoggedUser().getUserName(), commentId, 1);
     }
 
-    private void handleDislike(HttpServletRequest request, Baloot baloot) throws Exception{
+    private void handleDislike(HttpServletRequest request, BalootService baloot) throws Exception{
         if (request.getParameter("comment_id").isBlank())
             throw new RuntimeException("comment id can't be blank");
         int commentId = Integer.parseInt(request.getParameter("comment_id"));
         baloot.getDatabase().voteComment(baloot.getLoggedUser().getUserName(), commentId, -1);
     }
 
-    private void handleComment(HttpServletRequest request, Baloot baloot, long commodityId) throws Exception {
+    private void handleComment(HttpServletRequest request, BalootService baloot, long commodityId) throws Exception {
         if (request.getParameter("comment").isBlank())
             throw new RuntimeException("comment can't be blank");
         String comment = request.getParameter("comment");
         baloot.getDatabase().addComment(baloot.getLoggedUser().getEmail(), commodityId, comment, LocalDate.now());
     }
 
-    private void handleRate(HttpServletRequest request, Baloot baloot, long commodityId) throws Exception {
+    private void handleRate(HttpServletRequest request, BalootService baloot, long commodityId) throws Exception {
         if (request.getParameter("quantity").isBlank())
             throw new RuntimeException("quantity can't be blank");
         double score = Double.parseDouble(request.getParameter("quantity"));
         baloot.getDatabase().rateCommodity(baloot.getLoggedUser().getUserName(), commodityId, score);
     }
 
-    private void handleAddToBuyList(Baloot baloot, long commodityId) throws Exception {
+    private void handleAddToBuyList(BalootService baloot, long commodityId) throws Exception {
         baloot.getDatabase().addToBuyList(baloot.getLoggedUser().getUserName(), commodityId);
     }
 

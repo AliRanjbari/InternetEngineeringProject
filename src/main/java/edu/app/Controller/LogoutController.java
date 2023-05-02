@@ -3,7 +3,7 @@ package edu.app.Controller;
 import java.io.*;
 
 
-import edu.app.Baloot;
+import edu.app.service.BalootService;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -13,9 +13,9 @@ public class LogoutController extends HttpServlet{
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
-        Baloot baloot = null;
+        BalootService baloot = null;
         try {
-            baloot = Baloot.getInstance();
+            baloot = BalootService.getInstance();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

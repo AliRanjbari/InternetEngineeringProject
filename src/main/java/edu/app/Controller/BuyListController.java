@@ -1,6 +1,6 @@
 package edu.app.Controller;
 
-import edu.app.Baloot;
+import edu.app.service.BalootService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,7 +16,7 @@ public class BuyListController extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            Baloot baloot = Baloot.getInstance();
+            BalootService baloot = BalootService.getInstance();
             if (baloot.getLoggedUser() == null)
                 throw new RuntimeException("Your not logged in");
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/JSP/BuyList.jsp");
@@ -32,7 +32,7 @@ public class BuyListController extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            Baloot baloot = Baloot.getInstance();
+            BalootService baloot = BalootService.getInstance();
             if (baloot.getLoggedUser() == null)
                 throw new RuntimeException("Your not logged in");
             String actionType = request.getParameter("action");
@@ -64,14 +64,14 @@ public class BuyListController extends HttpServlet {
         }
     }
 
-    private void handleDelete(HttpServletRequest request, Baloot baloot) throws Exception{
+    private void handleDelete(HttpServletRequest request, BalootService baloot) throws Exception{
         if (request.getParameter("commodityId").isBlank())
             throw new RuntimeException("commodityId id can't be blank");
         long commodityId = Long.parseLong(request.getParameter("commodityId"));
         baloot.getDatabase().removeFromBuyList(baloot.getLoggedUser().getUserName(), commodityId);
     }
 
-    private void handleDiscount(HttpServletRequest request, Baloot baloot) throws Exception{
+    private void handleDiscount(HttpServletRequest request, BalootService baloot) throws Exception{
         if (request.getParameter("code").isBlank())
             throw new RuntimeException("Discount code can't be blank");
         String discountCode = request.getParameter("code");

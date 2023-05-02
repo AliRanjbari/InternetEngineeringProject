@@ -1,74 +1,47 @@
 package edu.app;
 
+import edu.app.service.BalootService;
 import edu.app.api.*;
 import edu.app.site.Initial;
-
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
+
+@SpringBootApplication
+@RestController
 public class Baloot {
 
-    private static Baloot instance;
-    User loggedUser;
-    DB database;
 
-    private Baloot() throws Exception {
-        this.database = new DB();
-        Initial.initDatabase(this.database);
-    }
+    public static void main(String[] args) {
 
-    public static Baloot getInstance() throws Exception{
-        if (instance == null) {
-            instance = new Baloot();
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+
+        try {
+            BalootService.getInstance().importDataFromWeb();
+            // Start scheduler for wait list
+            new MinJob().run();
+            scheduler.scheduleAtFixedRate(new MinJob(), 0, 1, TimeUnit.MINUTES);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return instance;
+
+        System.out.println("run mere");
+        SpringApplication.run(Baloot.class, args);
+    }
+    @GetMapping("/hello")
+    public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
+        return String.format("Hello %s!", name);
     }
 
-    public User getLoggedUser() {
-        return this.loggedUser;
-    }
-
-    public void login(String username, String password) {
-        User user = this.database.findUser(username);
-        if (user == null)
-            throw new RuntimeException("Wrong username");
-        if (!user.getPassword().equals(password))
-            throw new RuntimeException("Wrong password");
-
-        this.loggedUser = user;
-    }
-
-    public void logout() {
-        this.loggedUser = null;
-    }
-
-    public List<Commodity> getCommodities() {
-        return this.database.getCommodities();
-    }
-
-    public List<Commodity> getCommoditiesByCategory(String categoryName) {
-        return this.database.getCommoditiesByCategory(categoryName);
-    }
-
-    public List<Commodity> getCommoditiesByName(String name) {
-        return this.database.getCommoditiesByName(name);
-    }
-
-    public List<Commodity> getCommoditiesSortByPrice() {
-        return this.database.getCommoditiesSortByPrice();
-    }
-
-    public String getProviderNameById(long id) {
-        return this.database.findProvider(id).getName();
-    }
-
-    public DB getDatabase() {
-        return database;
-    }
-
-    public List<Commodity> getMostSimilarCommodities(Commodity commodity) {
-        return database.getMostSimilarCommodities(commodity);
-    }
 
 }

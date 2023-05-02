@@ -2,7 +2,7 @@ package edu.app.Controller;
 
 import java.io.*;
 
-import edu.app.Baloot;
+import edu.app.service.BalootService;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -22,7 +22,7 @@ public class LoginController extends HttpServlet{
         String username = request.getParameter("username");
         String password = request.getParameter("Password");
         try {
-            Baloot baloot = Baloot.getInstance();
+            BalootService baloot = BalootService.getInstance();
             baloot.login(username, password);
             response.sendRedirect("/Baloot/");
         } catch (Exception e) {

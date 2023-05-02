@@ -1,6 +1,6 @@
 package edu.app.Controller;
 
-import edu.app.Baloot;
+import edu.app.service.BalootService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,7 +16,7 @@ public class CreditController extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            Baloot baloot = Baloot.getInstance();
+            BalootService baloot = BalootService.getInstance();
             if(baloot.getLoggedUser() == null)
                 throw new RuntimeException("Your not logged in");
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/JSP/Credit.jsp");
@@ -45,7 +45,7 @@ public class CreditController extends HttpServlet {
             if (credit < 0)
                 throw new RuntimeException("Credit can't be negative number!");
 
-            Baloot baloot = Baloot.getInstance();
+            BalootService baloot = BalootService.getInstance();
             if(baloot.getLoggedUser() == null)
                 throw new RuntimeException("Your not logged in");
             baloot.getLoggedUser().addCredit(credit);
