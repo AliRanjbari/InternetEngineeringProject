@@ -66,15 +66,16 @@ public class DB {
         }
     }
 
-    public void addCommodity(long id, String name, long providerId, long price, ArrayList<String> categories, double rating, long inStock) {
+    public void addCommodity(long id, String name, long providerId,
+                             long price, ArrayList<String> categories, double rating, long inStock, String imgURL) {
         if(findProvider(providerId) == null)
             throw new RuntimeException("Provider does not exists");
 
         if(findCommodity(id) != null) {
             Commodity commodity = findCommodity(id);
-            commodity.update(name, providerId, price, categories, rating, inStock);
+            commodity.update(name, providerId, price, categories, rating, inStock, imgURL);
         } else {
-            Commodity newCommodity = new Commodity(id, name, providerId, price, categories, rating, inStock);
+            Commodity newCommodity = new Commodity(id, name, providerId, price, categories, rating, inStock, imgURL);
             this.commodities.add(newCommodity);
             Provider provider = findProvider(providerId);
             provider.addCommodity(newCommodity);
@@ -112,12 +113,12 @@ public class DB {
             Commodity newCommodity = findCommodity(inputCommodity.getId());
             newCommodity.update(inputCommodity.getName(), inputCommodity.getProviderId(),
                                 inputCommodity.getPrice(), inputCommodity.getCategories(),
-                                inputCommodity.getRating(), inputCommodity.getInStock());
+                                inputCommodity.getRating(), inputCommodity.getInStock(), inputCommodity.getImgURL());
         } else {
             Commodity newCommodity = new Commodity(inputCommodity.getId(), inputCommodity.getName(),
                                                     inputCommodity.getProviderId(), inputCommodity.getPrice(),
                                                     inputCommodity.getCategories(), inputCommodity.getRating(),
-                                                    inputCommodity.getInStock());
+                                                    inputCommodity.getInStock(), inputCommodity.getImgURL());
             this.commodities.add(newCommodity);
         }
     }

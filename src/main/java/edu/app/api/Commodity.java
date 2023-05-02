@@ -13,12 +13,14 @@ public class Commodity {
     private ArrayList<String> categories;
     private double rating;
     private long inStock;
+    private String imgURL;
     private Map<String, Double> userRates = new HashMap<String, Double>();
 
     private List<Comment> commentList = new ArrayList<Comment>();
 
 
-    public Commodity(long id, String name, long providerId, long price, ArrayList<String> categories, double rating, long inStock) {
+    public Commodity(long id, String name, long providerId, long price,
+                     ArrayList<String> categories, double rating, long inStock, String imgURL) {
         this.id = id;
         this.name = name;
         this.providerId = providerId;
@@ -26,16 +28,19 @@ public class Commodity {
         this.categories = categories;
         this.rating = rating;
         this.inStock = inStock;
+        this.imgURL = imgURL;
 
     }
 
-    public void update (String name, long providerId, long price, ArrayList<String> categories, double rating, long inStock) {
+    public void update(String name, long providerId, long price,
+                       ArrayList<String> categories, double rating, long inStock, String imgURL) {
         this.name = name;
         this.providerId = providerId;
         this.price = price;
         this.categories = categories;
         this.rating = rating;
         this.inStock = inStock;
+        this.imgURL = imgURL;
     }
 
 
@@ -44,10 +49,10 @@ public class Commodity {
     }
 
 
-    public void rate(String userName , double score){
-        if(score > 10)
+    public void rate(String userName, double score) {
+        if (score > 10)
             throw new RuntimeException("Score is more than 10");
-        else if(score < 1)
+        else if (score < 1)
             throw new RuntimeException("Score os lower than 1");
 
 
@@ -67,7 +72,7 @@ public class Commodity {
 
     public boolean doesCategoryExists(String searchCategory) {
         for (String category : this.categories)
-            if(searchCategory.equals(category))
+            if (searchCategory.equals(category))
                 return true;
         return false;
     }
@@ -104,12 +109,16 @@ public class Commodity {
         return userRates;
     }
 
-    public String toString () {
+    public String toString() {
         return this.name + " -> " + this.id;
     }
 
     public List<Comment> getCommentList() {
         return commentList;
+    }
+
+    public String getImgURL() {
+        return this.imgURL;
     }
 
     public int hasSameCategories(Commodity commodity) {

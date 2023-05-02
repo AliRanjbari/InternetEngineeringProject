@@ -13,8 +13,8 @@ import java.util.List;
 
 public class JsonHandler {
     final private static String[] addUserJsonVariables = {"username", "password", "email", "address", "birthDate", "credit"};
-    final private static String[] addProviderJsonVariables = {"id", "name", "registryDate"};
-    final private static String[] addCommodityJsonVariables = {"id", "name", "providerId", "price", "categories", "rating", "inStock"};
+    final private static String[] addProviderJsonVariables = {"id", "name", "registryDate", "image"};
+    final private static String[] addCommodityJsonVariables = {"id", "name", "providerId", "price", "categories", "rating", "inStock", "image"};
     final private static String[] rateCommodityJsonVariables = {"username", "commodityId", "score"};
     final private static String[] addToBuyListJsonVariable = {"username", "commodityId"};
     final private static String[] removeFromBuyListJsonVariable = {"username", "commodityId"};
@@ -67,7 +67,6 @@ public class JsonHandler {
         LocalDate commentDate = LocalDate.parse((String) j.get(addCommentJsonVariables[3]));
 
         dataBase.addComment(email , commodityId , text , commentDate);
-
     }
 
 
@@ -83,8 +82,9 @@ public class JsonHandler {
         ArrayList<String> categories = (ArrayList<String>) j.get(addCommodityJsonVariables[4]);
         double rating = (double) j.get(addCommodityJsonVariables[5]);
         long inStock = (long) j.get(addCommodityJsonVariables[6]);
+        String imgURL = (String) j.get(addCommodityJsonVariables[7]);
 
-        dataBase.addCommodity(id, name, providerId, price, categories, rating, inStock);
+        dataBase.addCommodity(id, name, providerId, price, categories, rating, inStock, imgURL);
     }
 
     static public void addDiscount(String jsonString, DB database) throws Exception {

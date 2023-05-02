@@ -31,10 +31,10 @@ public class Tests {
         dataBase = new DB();
 
         commodity1 = new Commodity(1, "shoes", 1, 300,
-                new ArrayList<>(Arrays.asList("clothes", "feet")), 0, 10);
+                new ArrayList<>(Arrays.asList("clothes", "feet")), 0, 10, "google.com");
 
         commodity2 = new Commodity(2, "hats", 2, 100,
-                new ArrayList<>(Arrays.asList("clothes", "head")), 0, 10);
+                new ArrayList<>(Arrays.asList("clothes", "head")), 0, 10, "google.com");
 
         provider1 = new Provider(1,"Provider1", LocalDate.of(2023,10,10));
         provider2 = new Provider(2,"Provider2", LocalDate.of(2023,10,10));

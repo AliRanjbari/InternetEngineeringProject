@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/commodities")
 public class CommoditiesController extends HttpServlet {
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<Commodity> doGet(final HttpServletResponse response)
             throws ServletException, IOException {
         try {

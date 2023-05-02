@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>User</title>
+  <style>
+        li {
+        	padding: 5px
+        }
+        table{
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+ </head>
+ <body>
+  <ul>
+   <li id="username">Username: ali</li>
+   <li id="email">Email: ali@gmail.com</li>
+   <li id="birthDate">Birth Date: 1942-10-11</li>
+   <li id="address">ali-home</li>
+   <li id="credit">Credit: 30800000</li>
+   <li id="payment_button">
+    <form action="/payAll/ali" method="GET"><label>Buy List Payment</label> <button type="submit">Payment</button>
+    </form></li>
+  </ul>
+  <form action="/addCredit/ali" method="POST"><label>Credit :</label> <input type="number" id="amount" name="amount" min="0"> <button type="submit">Add</button>
+  </form>
+  <table>
+   <caption>
+    <h2>Buy List</h2>
+   </caption>
+   <tbody>
+    <tr>
+     <th>Id</th>
+     <th>Name</th>
+     <th>Provider Id</th>
+     <th>Price</th>
+     <th>Categories</th>
+     <th>Rating</th>
+     <th>In Stock</th>
+     <th></th>
+     <th></th>
+    </tr>
+   </tbody>
+  </table><br>
+  <table>
+   <caption>
+    <h2>Purchased List</h2>
+   </caption>
+   <tbody>
+    <tr>
+     <th>Id</th>
+     <th>Name</th>
+     <th>Provider Id</th>
+     <th>Price</th>
+     <th>Categories</th>
+     <th>Rating</th>
+     <th>In Stock</th>
+     <th></th>
+    </tr>
+   </tbody>
+   <tr>
+    <td>15</td>
+    <td>Iphone 14 Pro Max</td>
+    <td>2</td>
+    <td>73500000</td>
+    <td>["Phone","Technology"]</td>
+    <td>9.2</td>
+    <td>20</td>
+    <td><a href="/commodities/15">Link</a></td>
+   </tr>
+  </table>
+ </body>
+</html>

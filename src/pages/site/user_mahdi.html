@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>User</title>
+  <style>
+        li {
+        	padding: 5px
+        }
+        table{
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+ </head>
+ <body>
+  <ul>
+   <li id="username">Username: mahdi</li>
+   <li id="email">Email: mahdi@gmail.com</li>
+   <li id="birthDate">Birth Date: 1999-04-27</li>
+   <li id="address">mahdi-home</li>
+   <li id="credit">Credit: 20000000</li>
+   <li id="payment_button">
+    <form action="/payAll/mahdi" method="GET"><label>Buy List Payment</label> <button type="submit">Payment</button>
+    </form></li>
+  </ul>
+  <form action="/addCredit/mahdi" method="POST"><label>Credit :</label> <input type="number" id="amount" name="amount" min="0"> <button type="submit">Add</button>
+  </form>
+  <table>
+   <caption>
+    <h2>Buy List</h2>
+   </caption>
+   <tbody>
+    <tr>
+     <th>Id</th>
+     <th>Name</th>
+     <th>Provider Id</th>
+     <th>Price</th>
+     <th>Categories</th>
+     <th>Rating</th>
+     <th>In Stock</th>
+     <th></th>
+     <th></th>
+    </tr>
+   </tbody>
+  </table><br>
+  <table>
+   <caption>
+    <h2>Purchased List</h2>
+   </caption>
+   <tbody>
+    <tr>
+     <th>Id</th>
+     <th>Name</th>
+     <th>Provider Id</th>
+     <th>Price</th>
+     <th>Categories</th>
+     <th>Rating</th>
+     <th>In Stock</th>
+     <th></th>
+    </tr>
+   </tbody>
+  </table>
+ </body>
+</html>

@@ -12,14 +12,14 @@ import java.io.IOException;
 import static edu.app.api.JsonHandler.*;
 
 public class Initial {
-     static String baseUrl = "http://5.253.25.110:5000/api";
+     static String baseUrl = "http://5.253.25.110:5000/api/v2";
 
     public static  void initDatabase(DB database) throws Exception {
-        getUsers(database);
+        //getUsers(database);
         getProviders(database);
         getCommodities(database);
-        getComments(database);
-        getDiscounts(database);
+        // getComments(database);
+        //getDiscounts(database);
     }
     private static void getUsers(DB database) throws Exception {
         String stringInput = Jsoup.connect(baseUrl + "/users").ignoreContentType(true).execute().body();

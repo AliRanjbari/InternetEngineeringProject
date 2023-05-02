@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Commodity</title>
+  <style>
+      li {
+        padding: 5px;
+      }
+      table {
+        width: 50%;
+        text-align: center;
+      }
+    </style>
+ </head>
+ <body>
+  <ul>
+   <li id="id">Id: 4</li>
+   <li id="name">Name: Celery</li>
+   <li id="providerId">Provider Id: 1</li>
+   <li id="price">Price: 15000</li>
+   <li id="categories">Categories :["Vegetables"]</li>
+   <li id="rating">Rating :6.5</li>
+   <li id="inStock">In Stock :20</li>
+  </ul>
+  <form action="/rateCommodity/4" method="POST"><label>Your ID:</label> <input type="text" name="username" value=""> <label>Rate(between 1 and 10):</label> <input type="number" id="quantity" name="quantity" min="1" max="10"> <button type="submit">Rate</button>
+  </form><br>
+  <form action="/addToBuyList/4" method="POST"><label>Your ID:</label> <input type="text" name="username" value=""> <button type="submit">Add to BuyList</button>
+  </form><br><br><br>
+  <table>
+   <tbody>
+    <tr>
+     <th>Id</th>
+     <th>username</th>
+     <th>comment</th>
+     <th>date</th>
+     <th>likes</th>
+     <th>dislikes</th>
+    </tr><!--<tr>
+        <td>user1</td>
+        <td>Good</td>
+        <td>2022-07-25</td>
+        <td>
+          <form action="" method="POST">
+            <label for="">2</label>
+            <input
+              id="form_comment_id"
+              type="hidden"
+              name="comment_id"
+              value="01"
+            />
+            <button type="submit">like</button>
+          </form>
+        </td>
+        <td>
+          <form action="" method="POST">
+            <label for="">1</label>
+            <input
+              id="form_comment_id"
+              type="hidden"
+              name="comment_id"
+              value="01"
+            />
+            <button type="submit">dislike</button>
+          </form>
+        </td>
+      </tr>-->
+   </tbody>
+  </table><br><br><br>
+  <h3>Like or Dislike Above Comments:</h3>
+  <form action="/likeComment/4" method="POST"><label>Your Name:</label> <input type="text" name="username" value=""> <label>Comment Id:</label> <input type="number" name="commentId" value=""> <button type="submit">Like</button>
+  </form><br>
+  <form action="/dislikeComment/4" method="POST"><label>Your Name:</label> <input type="text" name="username" value=""> <label>Comment Id:</label> <input type="number" name="commentId" value=""> <button type="submit">DisLike</button>
+  </form>
+ </body>
+</html>
