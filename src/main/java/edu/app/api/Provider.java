@@ -10,15 +10,19 @@ public class Provider {
     private LocalDate registryDate;
     private List<Commodity> commodities = new ArrayList<Commodity>();
 
-    public Provider(long id, String name, LocalDate registryDate){
+    private String ImgUrl ;
+
+    public Provider(long id, String name, LocalDate registryDate, String ImgUrl){
         this.id = id;
         this.name = name;
         this.registryDate = registryDate;
+        this.ImgUrl = ImgUrl;
     }
 
-    public void update(String name, LocalDate registryDate) {
+    public void update(String name, LocalDate registryDate , String imgUrl) {
         this.name = name;
         this.registryDate = registryDate;
+        this.ImgUrl = ImgUrl;
     }
 
     public double getAverageRate() {
@@ -41,6 +45,8 @@ public class Provider {
     public String getName() {
         return name;
     }
+
+    public String getImgUrl() {return ImgUrl; }
 
     public long getId() {
         return id;

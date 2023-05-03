@@ -50,8 +50,9 @@ public class JsonHandler {
         long id = (long) j.get(addProviderJsonVariables[0]);
         String name = (String) j.get(addProviderJsonVariables[1]);
         LocalDate registryDate = LocalDate.parse((String) j.get(addProviderJsonVariables[2]));
+        String ImgUrl = (String) j.get(addProviderJsonVariables[3]);
 
-        dataBase.addProvider(id, name, registryDate);
+        dataBase.addProvider(id, name, registryDate, ImgUrl);
     }
 
 

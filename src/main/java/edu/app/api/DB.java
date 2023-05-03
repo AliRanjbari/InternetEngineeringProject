@@ -50,18 +50,18 @@ public class DB {
     public void addProvider(Provider provider){
         if(findProvider(provider.getId()) != null) {
             Provider newProvider = findProvider(provider.getId());
-            newProvider.update(provider.getName(), provider.getRegistryDate());
+            newProvider.update(provider.getName(), provider.getRegistryDate(), provider.getImgUrl());
         } else {
-            Provider newProvider = new Provider(provider.getId(), provider.getName(), provider.getRegistryDate());
+            Provider newProvider = new Provider(provider.getId(), provider.getName(), provider.getRegistryDate(), provider.getImgUrl());
             this.providers.add(newProvider);
         }
     }
-    public void addProvider(long id, String name, LocalDate registryDate) {
+    public void addProvider(long id, String name, LocalDate registryDate, String ImgUrl) {
         if(findProvider(id) != null) {
             Provider provider = findProvider(id);
-            provider.update(name, registryDate);
+            provider.update(name, registryDate, ImgUrl);
         } else {
-            Provider newProvider = new Provider(id, name, registryDate);
+            Provider newProvider = new Provider(id, name, registryDate, ImgUrl);
             this.providers.add(newProvider);
         }
     }

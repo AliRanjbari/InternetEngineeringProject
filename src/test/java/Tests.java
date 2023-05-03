@@ -36,8 +36,8 @@ public class Tests {
         commodity2 = new Commodity(2, "hats", 2, 100,
                 new ArrayList<>(Arrays.asList("clothes", "head")), 0, 10, "google.com");
 
-        provider1 = new Provider(1,"Provider1", LocalDate.of(2023,10,10));
-        provider2 = new Provider(2,"Provider2", LocalDate.of(2023,10,10));
+        provider1 = new Provider(1,"Provider1", LocalDate.of(2023,10,10) , "google.com");
+        provider2 = new Provider(2,"Provider2", LocalDate.of(2023,10,10), "google.com");
 
         user1 = new User("user1","1234","email1.com",
                         LocalDate.of(1999,1,1),"sohanak",10000);
