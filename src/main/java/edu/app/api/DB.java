@@ -181,6 +181,14 @@ public class DB {
 
         return listCommodityByName;
     }
+    public List<Commodity> getCommoditiesByNameAndList(String name , List<Commodity> commodities) {
+        List<Commodity> listCommodityByName = new ArrayList<Commodity>();
+        for (Commodity commodity : commodities)
+            if (commodity.getName().toLowerCase().contains(name.toLowerCase()))
+                listCommodityByName.add(commodity);
+
+        return listCommodityByName;
+    }
 
     public List<Commodity> getMostSimilarCommodities(Commodity commodity) {
         List<Commodity> mostSimilarCommodities = new ArrayList<>(this.commodities);
