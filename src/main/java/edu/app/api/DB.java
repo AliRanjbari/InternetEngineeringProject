@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import static java.lang.Math.min;
+
 public class DB {
     List<User> users;
     List<Commodity> commodities;
@@ -203,6 +205,14 @@ public class DB {
         this.comments.get(commentId).rate(username, vote);
     }
 
+    public List<Commodity> getAvailableCommodities(){
+        List<Commodity> availableCommodities= new ArrayList<Commodity>();
+        for (int i = 0; i <this.commodities.size() ; i++){
+            if (this.commodities.get(i).getInStock() > 0)
+                availableCommodities.add(this.commodities.get(i));
+        }
+        return availableCommodities;
+    }
     public void purchaseBuyList(String username){
         if (findUser(username) == null)
             throw new RuntimeException("User not found");
@@ -285,6 +295,11 @@ public class DB {
         if (findDiscount(discountCode) == null)
             throw new RuntimeException("Discount not found");
         user.setDiscount(findDiscount(discountCode));
+    }
+
+    public List<Commodity> getPage (int PageNum , List<Commodity> commodities){
+        List<Commodity> AvailableCommoditiesPage = commodities.subList((PageNum - 1) * 12 ,  min(((PageNum)* 12 ) , commodities.size()));
+        return AvailableCommoditiesPage;
     }
 }
 

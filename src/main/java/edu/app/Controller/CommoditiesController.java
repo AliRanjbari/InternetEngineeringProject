@@ -3,18 +3,15 @@ package edu.app.Controller;
 import edu.app.service.BalootService;
 import edu.app.api.Commodity;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.Math.ceil;
 import static java.lang.Math.min;
 
 
@@ -23,15 +20,23 @@ import static java.lang.Math.min;
 public class CommoditiesController extends HttpServlet {
 
     @GetMapping("")
-    public List<Commodity> getcommodities (@RequestParam(value = "PageNum" , defaultValue = "1" , required = false) int PageNum ,
-                                           final HttpServletResponse response)
-            throws ServletException, IOException {
+    public ResponseEntity getcommodities (@RequestParam(value = "PageNum" , defaultValue = "1" , required = false)
+                                              int PageNum , @RequestParam(value = "Available" , defaultValue = "false" ,
+                                                required = false) boolean Available ,final HttpServletResponse response)
+            throws  IOException {
 
         try {
+            if(Available) {
+                List<Commodity> AvailableCommodities = BalootService.getInstance().getDatabase().getAvailableCommodities();
+                List<Commodity> AvailableCommoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , AvailableCommodities);
+                return ResponseEntity.status(HttpStatus.OK).body(AvailableCommoditiesPage);
+            }
+            else {
 
-            List<Commodity> commodities = BalootService.getInstance().getCommodities();
-            List<Commodity> temp = commodities.subList((PageNum - 1) * 12 ,  min(((PageNum)* 12 ) , commodities.size()));
-            return temp;
+                List<Commodity> commodities = BalootService.getInstance().getCommodities();
+                List<Commodity> commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , commodities);
+                return ResponseEntity.status(HttpStatus.OK).body(commoditiesPage);
+            }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -40,14 +45,25 @@ public class CommoditiesController extends HttpServlet {
         }
     }
 
+    @GetMapping("/{id}")
+    public  ResponseEntity getCommodityById(@PathVariable long id){
+
+        try {
+            Commodity commodity = BalootService.getInstance().getDatabase().findCommodity(id);
+            return ResponseEntity.status(HttpStatus.OK).body(commodity);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
+    }
+
     @PostMapping("")
     public Object addCommodity (@RequestBody Commodity commodity, final HttpServletResponse response) throws Exception {
-        if (BalootService.getInstance().getCommoditiesByName(commodity.getName()) != null) {
-            Exception e = null;
-            System.out.println(e.getMessage());
-            response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        if (BalootService.getInstance().getDatabase().findCommodity(commodity.getId()) != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Commodity already existed");
         }
-        return null;
+        else
+        BalootService.getInstance().getDatabase().addCommodity(commodity);
+        return commodity;
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
