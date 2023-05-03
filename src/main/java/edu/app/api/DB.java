@@ -172,7 +172,6 @@ public class DB {
 
         return listCommodityByCategory;
     }
-
     public List<Commodity> getCommoditiesByName(String name) {
         List<Commodity> listCommodityByName = new ArrayList<Commodity>();
         for (Commodity commodity : this.commodities)
@@ -181,6 +180,14 @@ public class DB {
 
         return listCommodityByName;
     }
+    public List<Commodity> getCommoditiesByCategoryAndList(String categoryName , List<Commodity> commodities) {
+        List<Commodity> listCommodityByCategory = new ArrayList<Commodity>();
+        for (Commodity commodity : commodities)
+            if (commodity.doesCategoryExists(categoryName))
+                listCommodityByCategory.add(commodity);
+
+        return listCommodityByCategory;
+    }
     public List<Commodity> getCommoditiesByNameAndList(String name , List<Commodity> commodities) {
         List<Commodity> listCommodityByName = new ArrayList<Commodity>();
         for (Commodity commodity : commodities)
@@ -188,6 +195,14 @@ public class DB {
                 listCommodityByName.add(commodity);
 
         return listCommodityByName;
+    }
+    public List<Commodity> getCommoditiesByProviderAndList(String ProviderName , List<Commodity> commodities) {
+        List<Commodity> listCommodityByProvider = new ArrayList<Commodity>();
+        for (Commodity commodity : commodities)
+            if (findProvider(commodity.getProviderId()).getName().toLowerCase().contains(ProviderName.toLowerCase()))
+                listCommodityByProvider.add(commodity);
+
+        return listCommodityByProvider;
     }
 
     public List<Commodity> getMostSimilarCommodities(Commodity commodity) {
@@ -309,5 +324,6 @@ public class DB {
         List<Commodity> AvailableCommoditiesPage = commodities.subList((PageNum - 1) * 12 ,  min(((PageNum)* 12 ) , commodities.size()));
         return AvailableCommoditiesPage;
     }
+
 }
 

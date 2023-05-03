@@ -57,10 +57,10 @@ public class CommoditiesController extends HttpServlet {
 
     @GetMapping("/name/{name}")
     public ResponseEntity getCommoditiesByName(@RequestParam(value = "PageNum" , defaultValue = "1" , required = false)
-                                                   int PageNum , @RequestParam(value = "Available" , defaultValue = "false" ,
-                                                    required = false) boolean Available ,final HttpServletResponse response,
+                                               int PageNum , @RequestParam(value = "Available" , defaultValue = "false" ,
+            required = false) boolean Available ,final HttpServletResponse response,
                                                @PathVariable String name)
-        throws IOException {
+            throws IOException {
         try {
             if(Available) {
                 List<Commodity> AvailableCommodities = BalootService.getInstance().getDatabase().getAvailableCommodities();
@@ -72,6 +72,58 @@ public class CommoditiesController extends HttpServlet {
                 List<Commodity> commodities = BalootService.getInstance().getCommodities();
                 List<Commodity> CommoditiesByName = BalootService.getInstance().getCommoditiesByNameAndList(name , commodities);
                 List<Commodity> commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , CommoditiesByName);
+                return ResponseEntity.status(HttpStatus.OK).body(commoditiesPage);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+            return null;
+        }
+    }
+    @GetMapping("/category/{cat}")
+    public ResponseEntity getCommoditiesByCategory(@RequestParam(value = "PageNum" , defaultValue = "1" , required = false)
+                                               int PageNum , @RequestParam(value = "Available" , defaultValue = "false" ,
+            required = false) boolean Available ,final HttpServletResponse response,
+                                               @PathVariable String cat)
+            throws IOException {
+        try {
+            if(Available) {
+                List<Commodity> AvailableCommodities = BalootService.getInstance().getDatabase().getAvailableCommodities();
+                List<Commodity> CommoditiesByCategory = BalootService.getInstance().getCommoditiesByCategoryAndList(cat , AvailableCommodities);
+                List<Commodity> AvailableCommoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , CommoditiesByCategory);
+                return ResponseEntity.status(HttpStatus.OK).body(AvailableCommoditiesPage);
+            }
+            else {
+                List<Commodity> commodities = BalootService.getInstance().getCommodities();
+                List<Commodity> CommoditiesByCategory = BalootService.getInstance().getCommoditiesByCategoryAndList(cat , commodities);
+                List<Commodity> commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , CommoditiesByCategory);
+                return ResponseEntity.status(HttpStatus.OK).body(commoditiesPage);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+            return null;
+        }
+    }
+    @GetMapping("/provider/{providerName}")
+    public ResponseEntity getCommoditiesByProvider(@RequestParam(value = "PageNum" , defaultValue = "1" , required = false)
+                                                   int PageNum , @RequestParam(value = "Available" , defaultValue = "false" ,
+            required = false) boolean Available ,final HttpServletResponse response,
+                                                   @PathVariable String providerName)
+            throws IOException {
+        try {
+            if(Available) {
+                List<Commodity> AvailableCommodities = BalootService.getInstance().getDatabase().getAvailableCommodities();
+                List<Commodity> CommoditiesByProvider = BalootService.getInstance().getCommoditiesByProviderAndList(providerName , AvailableCommodities);
+                List<Commodity> AvailableCommoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , CommoditiesByProvider);
+                return ResponseEntity.status(HttpStatus.OK).body(AvailableCommoditiesPage);
+            }
+            else {
+                List<Commodity> commodities = BalootService.getInstance().getCommodities();
+                List<Commodity> CommoditiesByProvider = BalootService.getInstance().getCommoditiesByProviderAndList(providerName , commodities);
+                List<Commodity> commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , CommoditiesByProvider);
                 return ResponseEntity.status(HttpStatus.OK).body(commoditiesPage);
             }
 

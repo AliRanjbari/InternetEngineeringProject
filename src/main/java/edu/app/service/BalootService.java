@@ -50,12 +50,20 @@ public class BalootService {
         return this.database.getCommoditiesByCategory(categoryName);
     }
 
+    public List<Commodity> getCommoditiesByCategoryAndList(String categoryName , List<Commodity> commodities) {
+        return this.database.getCommoditiesByCategoryAndList(categoryName, commodities);
+    }
+
     public List<Commodity> getCommoditiesByName(String name) {
         return this.database.getCommoditiesByName(name);
     }
 
     public List<Commodity> getCommoditiesByNameAndList(String name , List<Commodity> commodities) {
         return this.database.getCommoditiesByNameAndList(name , commodities);
+    }
+
+    public List<Commodity> getCommoditiesByProviderAndList(String name , List<Commodity> commodities) {
+        return this.database.getCommoditiesByProviderAndList(name , commodities);
     }
 
     public List<Commodity> getCommoditiesSortByPrice() {
