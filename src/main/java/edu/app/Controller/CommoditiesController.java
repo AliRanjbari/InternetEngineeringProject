@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Math.ceil;
 import static java.lang.Math.min;
 
 
@@ -30,14 +31,23 @@ public class CommoditiesController extends HttpServlet {
             throws  IOException {
 
         try {
+            Map<String , Object> body = new HashMap<String, Object>();
             if(Available) {
                 List<Commodity> AvailableCommodities = BalootService.getInstance().getDatabase().getAvailableCommodities();
                 List<Commodity> AvailableCommoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , AvailableCommodities);
-                return ResponseEntity.status(HttpStatus.OK).body(AvailableCommoditiesPage);
+                double numberOfPages = ceil(AvailableCommodities.size()/12);
+                body.put("commodities" ,AvailableCommoditiesPage);
+                body.put("total_page", numberOfPages);
+                body.put("page_number" , PageNum);
+                return ResponseEntity.status(HttpStatus.OK).body(body);
             }
             else {
                 List<Commodity> commodities = BalootService.getInstance().getCommodities();
                 List<Commodity> commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , commodities);
+                double numberOfPages = ceil(commodities.size()/12);
+                body.put("commodities" ,commoditiesPage);
+                body.put("total_page", numberOfPages);
+                body.put("page_number" , PageNum);
                 return ResponseEntity.status(HttpStatus.OK).body(commoditiesPage);
             }
 
