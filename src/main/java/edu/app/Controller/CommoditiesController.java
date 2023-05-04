@@ -37,8 +37,8 @@ public class CommoditiesController extends HttpServlet {
                 List<Commodity> AvailableCommoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , AvailableCommodities);
                 double numberOfPages = ceil(AvailableCommodities.size()/12);
                 body.put("commodities" ,AvailableCommoditiesPage);
-                body.put("total_page", numberOfPages);
-                body.put("page_number" , PageNum);
+                body.put("total_page", (Object) numberOfPages);
+                body.put("page_number" ,(Object) PageNum);
                 return ResponseEntity.status(HttpStatus.OK).body(body);
             }
             else {
@@ -46,8 +46,8 @@ public class CommoditiesController extends HttpServlet {
                 List<Commodity> commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , commodities);
                 double numberOfPages = ceil(commodities.size()/12);
                 body.put("commodities" ,commoditiesPage);
-                body.put("total_page", numberOfPages);
-                body.put("page_number" , PageNum);
+                body.put("total_page", (Object) numberOfPages);
+                body.put("page_number" , (Object) PageNum);
                 return ResponseEntity.status(HttpStatus.OK).body(body);
             }
 
