@@ -5,6 +5,7 @@ import edu.app.api.DB;
 import edu.app.api.User;
 import edu.app.site.Initial;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class BalootService {
@@ -38,6 +39,16 @@ public class BalootService {
         this.loggedUser = user;
     }
 
+    public void Register(String userName, String password, String email, LocalDate birthDay, String address){
+        if (this.database.findUser(userName) != null)
+            throw new RuntimeException("This userName is already taken");
+        else if (this.database.findUserByEmail(email) != null)
+            throw new RuntimeException("This email is already taken");
+        else {
+            User user = new User(userName, password, email, birthDay, address, 0);
+            this.database.addUser(user);
+        }
+    }
     public void logout() {
         this.loggedUser = null;
     }
