@@ -37,7 +37,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity login(
             @RequestBody JSONObject loginData) throws IOException {
-        System.out.println("in login");
+        System.out.println(loginData.get("username"));
         System.out.println("email is " + loginData.get("email"));
         try {
             BalootService.getInstance().login((String) loginData.get("username") ,(String) loginData.get("password"));

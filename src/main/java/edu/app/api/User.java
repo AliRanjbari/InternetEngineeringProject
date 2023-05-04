@@ -141,4 +141,5 @@ public class User {
         this.currentDiscount = null;
     }
 
+    public List<Discount> getUsedDiscount() { return usedDiscount; }
 }

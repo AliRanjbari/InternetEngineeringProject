@@ -12,10 +12,10 @@ import java.io.IOException;
 import static edu.app.api.JsonHandler.*;
 
 public class Initial {
-     static String baseUrl = "http://5.253.25.110:5000/api/v2";
+     static String baseUrl = "http://5.253.25.110:5000/api";
 
     public static  void initDatabase(DB database) throws Exception {
-        //getUsers(database);
+        getUsers(database);
         getProviders(database);
         getCommodities(database);
         // getComments(database);
@@ -31,7 +31,7 @@ public class Initial {
     }
 
     private static void getCommodities(DB database) throws Exception {
-        String stringInput = Jsoup.connect(baseUrl + "/commodities").ignoreContentType(true).execute().body();
+        String stringInput = Jsoup.connect(baseUrl + "/v2/commodities").ignoreContentType(true).execute().body();
         Object o = new JSONParser().parse(stringInput);
         JSONArray jasonInput = (JSONArray) o;
 
@@ -40,7 +40,7 @@ public class Initial {
     }
 
     private static void getProviders(DB database) throws Exception {
-        String stringInput = Jsoup.connect(baseUrl + "/providers").ignoreContentType(true).execute().body();
+        String stringInput = Jsoup.connect(baseUrl + "/v2/providers").ignoreContentType(true).execute().body();
         Object o = new JSONParser().parse(stringInput);
         JSONArray jasonInput = (JSONArray) o;
 
