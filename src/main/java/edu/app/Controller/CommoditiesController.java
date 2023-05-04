@@ -48,7 +48,7 @@ public class CommoditiesController extends HttpServlet {
                 body.put("commodities" ,commoditiesPage);
                 body.put("total_page", numberOfPages);
                 body.put("page_number" , PageNum);
-                return ResponseEntity.status(HttpStatus.OK).body(commoditiesPage);
+                return ResponseEntity.status(HttpStatus.OK).body(body);
             }
 
         } catch (Exception e) {
