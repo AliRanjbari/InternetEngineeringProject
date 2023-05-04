@@ -44,5 +44,4 @@ public class Baloot {
         return String.format("Hello %s!", name);
     }
 
-
 }
