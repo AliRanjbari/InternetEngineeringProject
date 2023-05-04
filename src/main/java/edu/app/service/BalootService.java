@@ -47,6 +47,7 @@ public class BalootService {
         else {
             User user = new User(userName, password, email, birthDay, address, 0);
             this.database.addUser(user);
+            this.loggedUser = user;
         }
     }
     public void logout() {
