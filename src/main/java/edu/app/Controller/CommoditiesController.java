@@ -6,12 +6,16 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import netscape.javascript.JSObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import static java.lang.Math.min;
 
 
@@ -49,7 +53,11 @@ public class CommoditiesController extends HttpServlet {
 
         try {
             Commodity commodity = BalootService.getInstance().getDatabase().findCommodity(id);
-            return ResponseEntity.status(HttpStatus.OK).body(commodity);
+            Map<String, Object> body = new HashMap<String, Object>();
+            body.put("commodity" , commodity);
+            body.put("comment" , commodity.getCommentList());
+            body.put("suggestion", BalootService.getInstance().getMostSimilarCommodities(commodity));
+            return ResponseEntity.status(HttpStatus.OK).body(body);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
