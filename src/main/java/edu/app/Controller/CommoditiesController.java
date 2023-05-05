@@ -32,24 +32,24 @@ public class CommoditiesController extends HttpServlet {
 
         try {
             Map<String , Object> body = new HashMap<String, Object>();
+            List<Commodity> commodities = new ArrayList<>() ;
+            List<Commodity> commoditiesPage = new ArrayList<>();
+            int numberOfPages;
+
             if(Available) {
-                List<Commodity> AvailableCommodities = BalootService.getInstance().getDatabase().getAvailableCommodities();
-                List<Commodity> AvailableCommoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , AvailableCommodities);
-                int numberOfPages = (int) ceil((double)AvailableCommodities.size()/12);
-                body.put("commodities" ,AvailableCommoditiesPage);
-                body.put("total_page", (Object) numberOfPages);
-                body.put("page_number" ,(Object) PageNum);
-                return ResponseEntity.status(HttpStatus.OK).body(body);
+                commodities = BalootService.getInstance().getDatabase().getAvailableCommodities();
+                commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , commodities);
+                numberOfPages = (int) ceil((double)commodities.size()/12);
             }
             else {
-                List<Commodity> commodities = BalootService.getInstance().getCommodities();
-                List<Commodity> commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , commodities);
-                int numberOfPages = (int) ceil((double)commodities.size()/12);
-                body.put("commodities" ,commoditiesPage);
-                body.put("total_page", (Object) numberOfPages);
-                body.put("page_number" , (Object) PageNum);
-                return ResponseEntity.status(HttpStatus.OK).body(body);
+                commodities = BalootService.getInstance().getCommodities();
+                commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , commodities);
+                numberOfPages = (int) ceil((double)commodities.size()/12);
             }
+            body.put("total_page", (Object) numberOfPages);
+            body.put("commodities" ,commoditiesPage);
+            body.put("page_number" , (Object) PageNum);
+            return ResponseEntity.status(HttpStatus.OK).body(body);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
