@@ -38,14 +38,12 @@ public class CommoditiesController extends HttpServlet {
 
             if(Available) {
                 commodities = BalootService.getInstance().getDatabase().getAvailableCommodities();
-                commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , commodities);
-                numberOfPages = (int) ceil((double)commodities.size()/12);
             }
             else {
                 commodities = BalootService.getInstance().getCommodities();
-                commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , commodities);
-                numberOfPages = (int) ceil((double)commodities.size()/12);
             }
+            commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , commodities);
+            numberOfPages = (int) ceil((double)commodities.size()/12);
             body.put("total_page", (Object) numberOfPages);
             body.put("commodities" ,commoditiesPage);
             body.put("page_number" , (Object) PageNum);
