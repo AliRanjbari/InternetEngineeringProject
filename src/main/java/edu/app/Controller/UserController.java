@@ -74,14 +74,29 @@ public class UserController {
         }
     }
 
-    @PostMapping("/buyList/add/{commodityId}")
+    @PostMapping("/buyList/{commodityId}")
     public ResponseEntity addCommodityToBuyList (@PathVariable long commodityId) throws Exception {
 
         try {
             if (BalootService.getInstance().getLoggedUser() == null)
                 throw new RuntimeException("You're not logged in");
-            String LogedUserName = BalootService.getInstance().getLoggedUser().getUserName();
-            BalootService.getInstance().getDatabase().addToBuyList(LogedUserName , commodityId);
+            String LoggedUserName = BalootService.getInstance().getLoggedUser().getUserName();
+            BalootService.getInstance().getDatabase().addToBuyList(LoggedUserName , commodityId);
+            return ResponseEntity.status(HttpStatus.OK).body(BalootService.getInstance().getLoggedUser().getBuyList());
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/buyList/{commodityId}")
+    public ResponseEntity RemoveCommodityFromBuyList (@PathVariable long commodityId) throws Exception {
+
+        try {
+            if (BalootService.getInstance().getLoggedUser() == null)
+                throw new RuntimeException("You're not logged in");
+            String LoggedUserName = BalootService.getInstance().getLoggedUser().getUserName();
+            BalootService.getInstance().getDatabase().removeFromBuyList(LoggedUserName, commodityId);
             return ResponseEntity.status(HttpStatus.OK).body(BalootService.getInstance().getLoggedUser().getBuyList());
         }
         catch (Exception e) {

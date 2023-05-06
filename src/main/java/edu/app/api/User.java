@@ -57,6 +57,14 @@ public class User {
 
         int index = findItemId(commodityId);
         this.buyList.remove(index);
+        for (HashMap.Entry <Long,Integer> item : this.numberOfCommoditiesInBuyList.entrySet())
+        {
+            if(item.getKey() == commodityId)
+            {
+                item.setValue(item.getValue()-1);
+                return;
+            }
+        }
     }
 
     private int findItemId (long commodityId) {
