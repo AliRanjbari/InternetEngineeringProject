@@ -48,10 +48,13 @@ public class UserController {
             if (BalootService.getInstance().getLoggedUser() == null)
                 throw new RuntimeException("You're not logged in");
             User user = BalootService.getInstance().getLoggedUser();
-            Map<String, Object> body = new HashMap<String, Object>();
-            Map<Long , Integer> numberOfCommoditiesInBuyList ;
-            body.put("buyList" , user.getBuyList());
-            return ResponseEntity.status(HttpStatus.OK).body(body);
+            Map<String, Map<Commodity , Integer>> body = new HashMap<>();
+            Map<Long , Integer> numberOfCommoditiesInBuyList = user.getNumberOfCommoditiesInBuyList();
+            Map<Commodity , Integer> BuyListAndCount = new HashMap<>();
+            for (int i = 0; i < user.getBuyList().size() ;i++)
+                BuyListAndCount.put(user.getBuyList().get(i), numberOfCommoditiesInBuyList.get(user.getBuyList().get(i).getId()));
+            body.put("buyList" , BuyListAndCount);
+            return ResponseEntity.status(HttpStatus.OK).body(BuyListAndCount);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
@@ -71,7 +74,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/buylist/add/{commodityId}")
+    @PostMapping("/buyList/add/{commodityId}")
     public ResponseEntity addCommodityToBuyList (@PathVariable long commodityId) throws Exception {
 
         try {
@@ -79,7 +82,7 @@ public class UserController {
                 throw new RuntimeException("You're not logged in");
             String LogedUserName = BalootService.getInstance().getLoggedUser().getUserName();
             BalootService.getInstance().getDatabase().addToBuyList(LogedUserName , commodityId);
-            return ResponseEntity.status(HttpStatus.OK).body("Item added successfully");
+            return ResponseEntity.status(HttpStatus.OK).body(BalootService.getInstance().getLoggedUser().getBuyList());
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
