@@ -1,11 +1,13 @@
 package edu.app.service;
 
 import edu.app.api.Commodity;
+import edu.app.api.CommodityInBuyList;
 import edu.app.api.DB;
 import edu.app.api.User;
 import edu.app.site.Initial;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BalootService {
@@ -97,4 +99,23 @@ public class BalootService {
         return database.getMostSimilarCommodities(commodity);
     }
 
+    public List<CommodityInBuyList> removeDuplicate (List<CommodityInBuyList> commodities) {
+        List<Long> commodityIds = new ArrayList<>();
+        List<CommodityInBuyList> newCommodities = new ArrayList<>();
+        for (int i = 0; i < commodities.size(); i++) {
+            if (!commodityIds.contains(commodities.get(i).getId()))
+                    commodityIds.add(commodities.get(i).getId());
+        }
+
+            for (int j = 0; j < commodityIds.size(); j++){
+                for (int i = 0; i < commodities.size();i++) {
+                    if (commodities.get(i).getId() == commodityIds.get(j)) {
+                        newCommodities.add(commodities.get(i));
+                        break;
+                    }
+                }
+            }
+            System.out.println(commodityIds);
+        return newCommodities;
+    }
 }

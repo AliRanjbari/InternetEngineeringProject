@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
-public class Commodity {
+public class CommodityInBuyList {
     private long id;
     private String name;
     private long providerId;
@@ -15,12 +15,12 @@ public class Commodity {
     private long inStock;
     private String imgURL;
     private Map<String, Double> userRates = new HashMap<String, Double>();
-
     private List<Comment> commentList = new ArrayList<Comment>();
 
+    private int quantity;
 
-    public Commodity(long id, String name, long providerId, long price,
-                     ArrayList<String> categories, double rating, long inStock, String imgURL) {
+    public CommodityInBuyList(long id, String name, long providerId, long price,
+                     ArrayList<String> categories, double rating, long inStock, String imgURL, int quantity) {
         this.id = id;
         this.name = name;
         this.providerId = providerId;
@@ -29,9 +29,9 @@ public class Commodity {
         this.rating = rating;
         this.inStock = inStock;
         this.imgURL = imgURL;
-
+        this.quantity = quantity;
     }
-    public Commodity(Commodity commodity) {
+    public CommodityInBuyList(Commodity commodity, int quantity) {
         this.id = commodity.getId();
         this.name = commodity.getName();
         this.providerId = commodity.getProviderId();
@@ -40,6 +40,7 @@ public class Commodity {
         this.rating = commodity.getRating();
         this.inStock = commodity.getInStock();
         this.imgURL = commodity.getImgURL();
+        this.quantity = quantity;
     }
 
     public void update(String name, long providerId, long price,
@@ -138,5 +139,9 @@ public class Commodity {
             if (!commodity.getCategories().contains(category))
                 return 0;
         return 1;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 }

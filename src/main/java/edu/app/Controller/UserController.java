@@ -1,9 +1,6 @@
 package edu.app.Controller;
 
-import edu.app.api.Commodity;
-import edu.app.api.Discount;
-import edu.app.api.Provider;
-import edu.app.api.User;
+import edu.app.api.*;
 import edu.app.service.BalootService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -48,13 +45,16 @@ public class UserController {
             if (BalootService.getInstance().getLoggedUser() == null)
                 throw new RuntimeException("You're not logged in");
             User user = BalootService.getInstance().getLoggedUser();
-            Map<String, Map<Commodity , Integer>> body = new HashMap<>();
-            Map<Long , Integer> numberOfCommoditiesInBuyList = user.getNumberOfCommoditiesInBuyList();
-            Map<Commodity , Integer> BuyListAndCount = new HashMap<>();
-            for (int i = 0; i < user.getBuyList().size() ;i++)
-                BuyListAndCount.put(user.getBuyList().get(i), numberOfCommoditiesInBuyList.get(user.getBuyList().get(i).getId()));
-            body.put("buyList" , BuyListAndCount);
-            return ResponseEntity.status(HttpStatus.OK).body(BuyListAndCount);
+            Map<String, List<CommodityInBuyList>> body = new HashMap<>();
+            List<CommodityInBuyList> commoditiesWithNumber = new ArrayList<>();
+            List<CommodityInBuyList> newcommoditiesWithNumber = new ArrayList<>();
+            for (int i = 0; i < user.getBuyList().size() ;i++) {
+                CommodityInBuyList temp = new CommodityInBuyList(user.getBuyList().get(i) , user.getNumberOfCommodityInBuyList(user.getBuyList().get(i).getId()));
+                commoditiesWithNumber.add(temp);
+            }
+            newcommoditiesWithNumber= BalootService.getInstance().removeDuplicate(commoditiesWithNumber);
+            body.put("buyList" , commoditiesWithNumber);
+            return ResponseEntity.status(HttpStatus.OK).body(newcommoditiesWithNumber);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }

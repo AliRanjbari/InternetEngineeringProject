@@ -165,4 +165,14 @@ public class User {
     public List<Discount> getUsedDiscount() { return usedDiscount; }
 
     public Map<Long, Integer> getNumberOfCommoditiesInBuyList() { return numberOfCommoditiesInBuyList; }
+
+    public int getNumberOfCommodityInBuyList (long CommodityId) {
+
+        int numberOfCommodityInBuyList = 0;
+        for (int i = 0; i < this.buyList.size(); i++) {
+            if (this.buyList.get(i).getId() == CommodityId)
+                numberOfCommodityInBuyList++;
+        }
+        return numberOfCommodityInBuyList;
+    }
 }
