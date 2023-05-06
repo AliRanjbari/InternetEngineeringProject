@@ -32,6 +32,7 @@ public class UserController {
             body.put("credit" , user.getCredit());
             body.put("currentDiscount" , user.getCurrentDiscount());
             body.put("usedDiscount" , user.getUsedDiscount());
+            body.put("CartSize", user.getBuyList().size());
             return ResponseEntity.status(HttpStatus.OK).body(body);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());

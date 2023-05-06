@@ -175,4 +175,5 @@ public class User {
         }
         return numberOfCommodityInBuyList;
     }
+
 }
