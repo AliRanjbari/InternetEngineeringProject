@@ -68,6 +68,7 @@ public class CommoditiesController extends HttpServlet {
             body.put("commodity" , commodity);
             body.put("comment" , commodity.getCommentList());
             body.put("suggestion", BalootService.getInstance().getMostSimilarCommodities(commodity));
+            body.put("providerName", BalootService.getInstance().getDatabase().findProvider(commodity.getProviderId()).getName());
             return ResponseEntity.status(HttpStatus.OK).body(body);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());

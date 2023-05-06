@@ -139,4 +139,10 @@ public class Commodity {
                 return 0;
         return 1;
     }
+    public void decreaseInStock(){
+        this.inStock = this.getInStock() - 1;
+    }
+    public void increaseInStock(){
+        this.inStock = this.getInStock() + 1;
+    }
 }

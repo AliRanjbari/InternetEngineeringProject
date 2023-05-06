@@ -79,10 +79,15 @@ public class UserController {
     public ResponseEntity addCommodityToBuyList (@PathVariable long commodityId) throws Exception {
 
         try {
+            if (BalootService.getInstance().getDatabase().findCommodity(commodityId).getInStock() == 0)
+                throw new RuntimeException("There is not enough of this Commodity");
             if (BalootService.getInstance().getLoggedUser() == null)
                 throw new RuntimeException("You're not logged in");
             String LoggedUserName = BalootService.getInstance().getLoggedUser().getUserName();
-            BalootService.getInstance().getDatabase().addToBuyList(LoggedUserName , commodityId);
+            if (BalootService.getInstance().getDatabase().findCommodity(commodityId).getInStock() > 0) {
+                BalootService.getInstance().getDatabase().addToBuyList(LoggedUserName, commodityId);
+                BalootService.getInstance().getDatabase().findCommodity(commodityId).decreaseInStock();
+            }
             return ResponseEntity.status(HttpStatus.OK).body(BalootService.getInstance().getLoggedUser().getBuyList());
         }
         catch (Exception e) {
@@ -98,6 +103,7 @@ public class UserController {
                 throw new RuntimeException("You're not logged in");
             String LoggedUserName = BalootService.getInstance().getLoggedUser().getUserName();
             BalootService.getInstance().getDatabase().removeFromBuyList(LoggedUserName, commodityId);
+            BalootService.getInstance().getDatabase().findCommodity(commodityId).increaseInStock();
             return ResponseEntity.status(HttpStatus.OK).body(BalootService.getInstance().getLoggedUser().getBuyList());
         }
         catch (Exception e) {
