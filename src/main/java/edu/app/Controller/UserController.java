@@ -23,7 +23,7 @@ import java.util.Map;
 public class UserController {
 
     @GetMapping("")
-    public ResponseEntity getProviderById(){
+    public ResponseEntity getUserInfo(){
 
         try {
             if (BalootService.getInstance().getLoggedUser() == null)
@@ -37,6 +37,35 @@ public class UserController {
             body.put("credit" , user.getCredit());
             body.put("currentDiscount" , user.getCurrentDiscount());
             body.put("usedDiscount" , user.getUsedDiscount());
+            return ResponseEntity.status(HttpStatus.OK).body(body);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/buyList")
+    public ResponseEntity getUserBuyList(){
+
+        try {
+            if (BalootService.getInstance().getLoggedUser() == null)
+                throw new RuntimeException("You're not logged in");
+            User user = BalootService.getInstance().getLoggedUser();
+            Map<String, Object> body = new HashMap<String, Object>();
+            body.put("buyList" , user.getBuyList());
+            return ResponseEntity.status(HttpStatus.OK).body(body);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
+    }
+    @GetMapping("/historyList")
+    public ResponseEntity getUserHistoryList(){
+
+        try {
+            if (BalootService.getInstance().getLoggedUser() == null)
+                throw new RuntimeException("You're not logged in");
+            User user = BalootService.getInstance().getLoggedUser();
+            Map<String, Object> body = new HashMap<String, Object>();
+            body.put("historyList" , user.getPurchasedList());
             return ResponseEntity.status(HttpStatus.OK).body(body);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());

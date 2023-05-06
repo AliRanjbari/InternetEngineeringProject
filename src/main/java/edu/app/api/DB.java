@@ -218,6 +218,12 @@ public class DB {
         Collections.reverse(commoditiesSortedByPrice);
         return commoditiesSortedByPrice;
     }
+    public List<Commodity> getCommoditiesSortByPrice(List<Commodity> commodities) {
+        List<Commodity> commoditiesSortedByPrice = new ArrayList<>(commodities);
+        commoditiesSortedByPrice.sort(Comparator.comparingLong(Commodity::getPrice));
+        Collections.reverse(commoditiesSortedByPrice);
+        return commoditiesSortedByPrice;
+    }
 
     public void voteComment(String username, int commentId, long vote) {
         if (findUser(username) == null)
