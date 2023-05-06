@@ -6,10 +6,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -165,6 +168,26 @@ public class CommoditiesController extends HttpServlet {
         else
         BalootService.getInstance().getDatabase().addCommodity(commodity);
         return commodity;
+    }
+    @PostMapping("/{commodityId}")
+    public ResponseEntity rateAndCommentCommodity (@RequestBody JSONObject Body, @PathVariable long commodityId) throws Exception {
+
+        if (BalootService.getInstance().getLoggedUser() == null)
+            throw new RuntimeException("You're not logged in");
+        try {
+            if (Body.get("comment") != null) {
+                String comment = (String) Body.get("comment");
+                BalootService.getInstance().getDatabase().addComment(BalootService.getInstance().getLoggedUser().getEmail(), commodityId, comment , LocalDate.of(2023,10,10) );
+            }
+            if (Body.get("rate") != null) {
+                double rate = (double) Body.get("rate");
+                BalootService.getInstance().getDatabase().rateCommodity(BalootService.getInstance().getLoggedUser().getUserName() , commodityId,rate);
+            }
+            return ResponseEntity.ok("ok");
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

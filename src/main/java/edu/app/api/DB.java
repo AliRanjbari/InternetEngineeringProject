@@ -98,7 +98,7 @@ public class DB {
             throw new RuntimeException("User does not exists");
 
         User user = findUserByEmail(email);
-        Comment comment = new Comment(this.comments.size(), user, text, commentDate);
+        Comment comment = new Comment(this.comments.size(), user.getUserName(), text, commentDate);
 
         Commodity commodity = findCommodity(commodityId);
 

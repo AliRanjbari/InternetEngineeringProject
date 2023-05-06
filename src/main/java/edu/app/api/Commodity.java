@@ -14,7 +14,7 @@ public class Commodity {
     private double rating;
     private long inStock;
     private String imgURL;
-    private Map<String, Double> userRates = new HashMap<String, Double>();
+    private Map<String, Double> userRates = new HashMap<>();
 
     private List<Comment> commentList = new ArrayList<Comment>();
 

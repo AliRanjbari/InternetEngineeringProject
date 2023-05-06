@@ -7,16 +7,16 @@ import java.util.Map;
 public class Comment {
     long id;
 
-    private User user ;
+    private String username ;
     private String text;
     private long likes;
     private LocalDate commentDate;
 
     private Map<String, Long> userRates = new HashMap<String, Long>();
 
-    public Comment(long id, User user, String text, LocalDate commentDate) {
+    public Comment(long id, String username, String text, LocalDate commentDate) {
         this.id = id;
-        this.user = user;
+        this.username = username;
         this.text = text;
         this.likes =  0;
         this.commentDate = commentDate;
@@ -42,8 +42,8 @@ public class Comment {
             this.likes += 1;
     }
 
-    public User getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
     public String getText() {

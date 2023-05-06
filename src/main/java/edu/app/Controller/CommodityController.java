@@ -80,10 +80,10 @@ public class CommodityController extends HttpServlet {
                         handleComment(request, baloot, id);
                         break;
                     }
-                    case "rate": {
-                        handleRate(request, baloot, id);
-                        break;
-                    }
+//                    case "rate": {
+//                        handleRate(request, baloot, id);
+//                        break;
+//                    }
                     default: {
                         throw new RuntimeException("Action not found!");
                     }
@@ -122,12 +122,12 @@ public class CommodityController extends HttpServlet {
         baloot.getDatabase().addComment(baloot.getLoggedUser().getEmail(), commodityId, comment, LocalDate.now());
     }
 
-    private void handleRate(HttpServletRequest request, BalootService baloot, long commodityId) throws Exception {
-        if (request.getParameter("quantity").isBlank())
-            throw new RuntimeException("quantity can't be blank");
-        double score = Double.parseDouble(request.getParameter("quantity"));
-        baloot.getDatabase().rateCommodity(baloot.getLoggedUser().getUserName(), commodityId, score);
-    }
+//    private void handleRate(HttpServletRequest request, BalootService baloot, long commodityId) throws Exception {
+//        if (request.getParameter("quantity").isBlank())
+//            throw new RuntimeException("quantity can't be blank");
+//        int score = Double.parseDouble(request.getParameter("quantity"));
+//        baloot.getDatabase().rateCommodity(baloot.getLoggedUser().getUserName(), commodityId, score);
+//    }
 
     private void handleAddToBuyList(BalootService baloot, long commodityId) throws Exception {
         baloot.getDatabase().addToBuyList(baloot.getLoggedUser().getUserName(), commodityId);
