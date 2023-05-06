@@ -5,12 +5,10 @@ import edu.app.api.Discount;
 import edu.app.api.Provider;
 import edu.app.api.User;
 import edu.app.service.BalootService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -51,6 +49,7 @@ public class UserController {
                 throw new RuntimeException("You're not logged in");
             User user = BalootService.getInstance().getLoggedUser();
             Map<String, Object> body = new HashMap<String, Object>();
+            Map<Long , Integer> numberOfCommoditiesInBuyList ;
             body.put("buyList" , user.getBuyList());
             return ResponseEntity.status(HttpStatus.OK).body(body);
         } catch (Exception e) {
@@ -68,6 +67,35 @@ public class UserController {
             body.put("historyList" , user.getPurchasedList());
             return ResponseEntity.status(HttpStatus.OK).body(body);
         } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/buylist/add/{commodityId}")
+    public ResponseEntity addCommodityToBuyList (@PathVariable long commodityId) throws Exception {
+
+        try {
+            if (BalootService.getInstance().getLoggedUser() == null)
+                throw new RuntimeException("You're not logged in");
+            String LogedUserName = BalootService.getInstance().getLoggedUser().getUserName();
+            BalootService.getInstance().getDatabase().addToBuyList(LogedUserName , commodityId);
+            return ResponseEntity.status(HttpStatus.OK).body("Item added successfully");
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("addCredit/{amount}")
+    public ResponseEntity addCredit (@PathVariable int amount) throws Exception {
+
+        try {
+            if (BalootService.getInstance().getLoggedUser() == null)
+                throw new RuntimeException("You're not logged in");
+            BalootService.getInstance().getLoggedUser().addCredit(amount);
+            return ResponseEntity.status(HttpStatus.OK).body(BalootService.getInstance().getLoggedUser().getCredit());
+        }
+        catch (Exception e){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
     }

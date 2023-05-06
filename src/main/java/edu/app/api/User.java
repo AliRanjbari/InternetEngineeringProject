@@ -2,7 +2,9 @@ package edu.app.api;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class User {
@@ -12,6 +14,8 @@ public class User {
     private LocalDate birthDay;
     private String address;
     private final List<Commodity> buyList = new ArrayList<Commodity>();
+
+    private Map<Long , Integer> numberOfCommoditiesInBuyList = new HashMap<>();
     private final List<Commodity> purchasedList = new ArrayList<Commodity>();
     private long credit;
     private Discount currentDiscount;
@@ -36,6 +40,15 @@ public class User {
 
     public void addItemToList (Commodity commodity) {
         this.buyList.add(commodity);
+        for (HashMap.Entry <Long,Integer> item : this.numberOfCommoditiesInBuyList.entrySet())
+        {
+            if(item.getKey() == commodity.getId())
+            {
+                item.setValue(item.getValue()+1);
+                return;
+            }
+        }
+        this.numberOfCommoditiesInBuyList.put(commodity.getId(),1);
     }
 
     public void removeCommodity (long commodityId) {
@@ -142,4 +155,6 @@ public class User {
     }
 
     public List<Discount> getUsedDiscount() { return usedDiscount; }
+
+    public Map<Long, Integer> getNumberOfCommoditiesInBuyList() { return numberOfCommoditiesInBuyList; }
 }
