@@ -82,9 +82,9 @@ public class UserController {
                 commoditiesWithNumber.add(temp);
             }
             newcommoditiesWithNumber= BalootService.getInstance().removeDuplicate(commoditiesWithNumber);
-            body.put("buyList" , commoditiesWithNumber);
+            body.put("buyList" , newcommoditiesWithNumber);
             body.put("totalPriceWithDiscount", user.getTotalBuyListPrice());
-            return ResponseEntity.status(HttpStatus.OK).body(newcommoditiesWithNumber);
+            return ResponseEntity.status(HttpStatus.OK).body(body);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
