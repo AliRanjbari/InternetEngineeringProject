@@ -42,6 +42,17 @@ public class CommodityInBuyList {
         this.imgURL = commodity.getImgURL();
         this.quantity = quantity;
     }
+    public CommodityInBuyList(CommodityInBuyList commodity, int quantity) {
+        this.id = commodity.getId();
+        this.name = commodity.getName();
+        this.providerId = commodity.getProviderId();
+        this.price = commodity.getPrice();
+        this.categories = commodity.getCategories();
+        this.rating = commodity.getRating();
+        this.inStock = commodity.getInStock();
+        this.imgURL = commodity.getImgURL();
+        this.quantity = quantity;
+    }
 
     public void update(String name, long providerId, long price,
                        ArrayList<String> categories, double rating, long inStock, String imgURL) {

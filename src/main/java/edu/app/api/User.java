@@ -13,13 +13,13 @@ public class User {
     private String email;
     private LocalDate birthDay;
     private String address;
-    private final List<Commodity> buyList = new ArrayList<Commodity>();
+    private List<Commodity> buyList = new ArrayList<>();
 
     private Map<Long , Integer> numberOfCommoditiesInBuyList = new HashMap<>();
-    private final List<CommodityInBuyList> purchasedList = new ArrayList<>();
+    private List<CommodityInBuyList> purchasedList = new ArrayList<>();
     private long credit;
     private Discount currentDiscount;
-    private final List<Discount> usedDiscount = new ArrayList<Discount>();
+    private List<Discount> usedDiscount = new ArrayList<>();
 
     public User(String userName, String password, String email, LocalDate birthDay, String address, long credit) {
         this.userName = userName;
@@ -84,7 +84,6 @@ public class User {
                 CommodityInBuyList temp = new CommodityInBuyList(this.getBuyList().get(i) , this.getNumberOfCommodityInBuyList(this.getBuyList().get(i).getId()));
                 this.purchasedList.add(temp);
             }
-//            this.purchasedList.addAll(this.buyList);
             this.buyList.clear();
             this.usedDiscount.add(this.currentDiscount);
             this.currentDiscount = null;

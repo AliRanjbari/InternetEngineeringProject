@@ -97,7 +97,7 @@ public class UserController {
                 throw new RuntimeException("You're not logged in");
             User user = BalootService.getInstance().getLoggedUser();
             Map<String, Object> body = new HashMap<String, Object>();
-            body.put("historyList" ,BalootService.getInstance().removeDuplicate(user.getPurchasedList()));
+            body.put("historyList" ,BalootService.getInstance().removeDuplicate2(user.getPurchasedList()));
             return ResponseEntity.status(HttpStatus.OK).body(body);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());

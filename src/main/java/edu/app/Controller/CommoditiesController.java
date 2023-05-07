@@ -30,9 +30,10 @@ public class CommoditiesController extends HttpServlet {
                                          defaultValue = "false" ,required = false) boolean Available ,
                                          final HttpServletResponse response) throws  Exception {
 
-        if (BalootService.getInstance().getLoggedUser() == null)
-            throw new RuntimeException("You're not logged in");
+
         try {
+            if (BalootService.getInstance().getLoggedUser() == null)
+                throw new RuntimeException("You're not logged in");
             Map<String , Object> body = new HashMap<>();
             List<Commodity> commodities;
             List<Commodity> commoditiesPage;

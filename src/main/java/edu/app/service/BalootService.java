@@ -8,7 +8,9 @@ import edu.app.site.Initial;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BalootService {
     private static BalootService instance;
@@ -116,6 +118,38 @@ public class BalootService {
                 }
             }
             System.out.println(commodityIds);
+        return newCommodities;
+    }
+    public List<CommodityInBuyList> removeDuplicate2 (List<CommodityInBuyList> commodities) {
+        List<Long> commodityIds = new ArrayList<>();
+        List<CommodityInBuyList> newCommodities = new ArrayList<>();
+        Map<Long , Integer> commodityInhistoryListQuantity = new HashMap<>();
+        for (int i = 0; i < commodities.size(); i++) {
+            if (!commodityIds.contains(commodities.get(i).getId()))
+                commodityIds.add(commodities.get(i).getId());
+        }
+
+        for (int j = 0; j < commodityIds.size(); j++){
+            int temp = 0;
+            for (int i = 0; i < commodities.size();i++) {
+                if (commodities.get(i).getId() == commodityIds.get(j)) {
+                    temp = commodities.get(i).getQuantity() + temp;
+                    i = i + commodities.get(i).getQuantity() - 1;
+                }
+                commodityInhistoryListQuantity.put(commodityIds.get(j) , temp);
+            }
+        }
+        for (int j = 0; j < commodityIds.size(); j++){
+            for (int i = 0; i < commodities.size();i++) {
+                if (commodities.get(i).getId() == commodityIds.get(j)) {
+                    CommodityInBuyList temp = new CommodityInBuyList(commodities.get(i), commodityInhistoryListQuantity.get(commodityIds.get(j)));
+                    newCommodities.add(temp);
+                    break;
+                }
+            }
+        }
+
+        System.out.println(commodityIds);
         return newCommodities;
     }
 }
