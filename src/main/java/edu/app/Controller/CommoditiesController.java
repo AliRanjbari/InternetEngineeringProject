@@ -28,8 +28,10 @@ public class CommoditiesController extends HttpServlet {
                                          int Sort, @RequestParam(value = "PageNum" , defaultValue = "1" ,
                                          required = false) int PageNum , @RequestParam(value = "Available" ,
                                          defaultValue = "false" ,required = false) boolean Available ,
-                                         final HttpServletResponse response) throws  IOException {
+                                         final HttpServletResponse response) throws  Exception {
 
+        if (BalootService.getInstance().getLoggedUser() == null)
+            throw new RuntimeException("You're not logged in");
         try {
             Map<String , Object> body = new HashMap<>();
             List<Commodity> commodities;
@@ -63,8 +65,10 @@ public class CommoditiesController extends HttpServlet {
     }
 
     @GetMapping("/{id}")
-    public  ResponseEntity getCommodityById(@PathVariable long id){
+    public  ResponseEntity getCommodityById(@PathVariable long id) throws Exception {
 
+        if (BalootService.getInstance().getLoggedUser() == null)
+            throw new RuntimeException("You're not logged in");
         try {
             Commodity commodity = BalootService.getInstance().getDatabase().findCommodity(id);
             Map<String, Object> body = new HashMap<>();
@@ -84,7 +88,9 @@ public class CommoditiesController extends HttpServlet {
                                                int Sort,@RequestParam(value = "PageNum" , defaultValue = "1" , required = false)
                                                int PageNum , @RequestParam(value = "Available" , defaultValue = "false",
                                                required = false) boolean Available ,final HttpServletResponse response,
-                                               @PathVariable String name) throws IOException {
+                                               @PathVariable String name) throws Exception {
+        if (BalootService.getInstance().getLoggedUser() == null)
+            throw new RuntimeException("You're not logged in");
         try {
             Map<String , Object> body = new HashMap<>();
             List<Commodity> commodities;
@@ -125,7 +131,9 @@ public class CommoditiesController extends HttpServlet {
                                                int PageNum , @RequestParam(value = "Available" , defaultValue = "false" ,
                                                required = false) boolean Available ,final HttpServletResponse response,
                                                @PathVariable String cat)
-            throws IOException {
+            throws Exception {
+        if (BalootService.getInstance().getLoggedUser() == null)
+            throw new RuntimeException("You're not logged in");
         try {
             Map<String , Object> body = new HashMap<>();
             List<Commodity> commodities;
@@ -165,8 +173,11 @@ public class CommoditiesController extends HttpServlet {
                                                    int Sort,@RequestParam(value = "PageNum" , defaultValue = "1" , required = false)
                                                    int PageNum , @RequestParam(value = "Available" , defaultValue = "false" ,
                                                    required = false) boolean Available ,final HttpServletResponse response,
-                                                   @PathVariable String providerName)
-            throws IOException {
+                                                   @PathVariable String providerName) throws Exception {
+
+        if (BalootService.getInstance().getLoggedUser() == null)
+            throw new RuntimeException("You're not logged in");
+
         try {
             Map<String , Object> body = new HashMap<>();
             List<Commodity> commodities;

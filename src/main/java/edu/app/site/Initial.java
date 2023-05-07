@@ -19,7 +19,7 @@ public class Initial {
         getProviders(database);
         getCommodities(database);
         // getComments(database);
-        //getDiscounts(database);
+        getDiscounts(database);
     }
     private static void getUsers(DB database) throws Exception {
         String stringInput = Jsoup.connect(baseUrl + "/users").ignoreContentType(true).execute().body();

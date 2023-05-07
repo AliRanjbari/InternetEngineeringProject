@@ -16,7 +16,7 @@ public class User {
     private final List<Commodity> buyList = new ArrayList<Commodity>();
 
     private Map<Long , Integer> numberOfCommoditiesInBuyList = new HashMap<>();
-    private final List<Commodity> purchasedList = new ArrayList<Commodity>();
+    private final List<CommodityInBuyList> purchasedList = new ArrayList<>();
     private long credit;
     private Discount currentDiscount;
     private final List<Discount> usedDiscount = new ArrayList<Discount>();
@@ -74,12 +74,17 @@ public class User {
         return -1;
     }
 
-    void purchaseBuyList() {
+    public void purchaseBuyList() {
         long totalCost = getTotalBuyListPrice();
 
         if (totalCost <= this.credit) {
             this.credit = this.credit - totalCost;
-            this.purchasedList.addAll(this.buyList);
+
+            for (int i = 0; i < this.getBuyList().size() ;i++) {
+                CommodityInBuyList temp = new CommodityInBuyList(this.getBuyList().get(i) , this.getNumberOfCommodityInBuyList(this.getBuyList().get(i).getId()));
+                this.purchasedList.add(temp);
+            }
+//            this.purchasedList.addAll(this.buyList);
             this.buyList.clear();
             this.usedDiscount.add(this.currentDiscount);
             this.currentDiscount = null;
@@ -131,7 +136,7 @@ public class User {
         return totalPrice;
     }
 
-    public List<Commodity> getPurchasedList() {
+    public List<CommodityInBuyList> getPurchasedList() {
         return purchasedList;
     }
 

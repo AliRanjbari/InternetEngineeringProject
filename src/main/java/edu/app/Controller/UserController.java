@@ -3,6 +3,7 @@ package edu.app.Controller;
 import edu.app.api.*;
 import edu.app.service.BalootService;
 import jakarta.servlet.http.HttpServletResponse;
+import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,33 @@ public class UserController {
         }
     }
 
+    @PostMapping("/buyList")
+    public ResponseEntity Purchase(){
+
+        try {
+            if (BalootService.getInstance().getLoggedUser() == null)
+                throw new RuntimeException("You're not logged in");
+            User user = BalootService.getInstance().getLoggedUser();
+            user.purchaseBuyList();
+            return ResponseEntity.ok("ok");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
+    }
+    @PostMapping("/buyList/discount")
+    public ResponseEntity ApplyDiscount(@RequestBody JSONObject Discount){
+
+        try {
+            if (BalootService.getInstance().getLoggedUser() == null)
+                throw new RuntimeException("You're not logged in");
+            User user = BalootService.getInstance().getLoggedUser();
+            String discountCode = (String) Discount.get("discount");
+            BalootService.getInstance().getDatabase().useDiscount(user , discountCode);
+            return ResponseEntity.ok("ok");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
+    }
     @GetMapping("/buyList")
     public ResponseEntity getUserBuyList(){
 
@@ -46,7 +74,7 @@ public class UserController {
             if (BalootService.getInstance().getLoggedUser() == null)
                 throw new RuntimeException("You're not logged in");
             User user = BalootService.getInstance().getLoggedUser();
-            Map<String, List<CommodityInBuyList>> body = new HashMap<>();
+            Map<String, Object> body = new HashMap<>();
             List<CommodityInBuyList> commoditiesWithNumber = new ArrayList<>();
             List<CommodityInBuyList> newcommoditiesWithNumber = new ArrayList<>();
             for (int i = 0; i < user.getBuyList().size() ;i++) {
@@ -55,6 +83,7 @@ public class UserController {
             }
             newcommoditiesWithNumber= BalootService.getInstance().removeDuplicate(commoditiesWithNumber);
             body.put("buyList" , commoditiesWithNumber);
+            body.put("totalPriceWithDiscount", user.getTotalBuyListPrice());
             return ResponseEntity.status(HttpStatus.OK).body(newcommoditiesWithNumber);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
@@ -68,7 +97,7 @@ public class UserController {
                 throw new RuntimeException("You're not logged in");
             User user = BalootService.getInstance().getLoggedUser();
             Map<String, Object> body = new HashMap<String, Object>();
-            body.put("historyList" , user.getPurchasedList());
+            body.put("historyList" ,BalootService.getInstance().removeDuplicate(user.getPurchasedList()));
             return ResponseEntity.status(HttpStatus.OK).body(body);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
