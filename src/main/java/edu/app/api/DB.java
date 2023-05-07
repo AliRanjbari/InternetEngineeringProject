@@ -224,6 +224,11 @@ public class DB {
         Collections.reverse(commoditiesSortedByPrice);
         return commoditiesSortedByPrice;
     }
+    public List<Commodity> getCommoditiesSortByName (List<Commodity> commodities) {
+        List<Commodity> commoditiesSortedByName = new ArrayList<>(commodities);
+        commoditiesSortedByName.sort(Comparator.comparing(Commodity::getName));
+        return commoditiesSortedByName;
+    }
 
     public void voteComment(String username, int commentId, long vote) {
         if (findUser(username) == null)

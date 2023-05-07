@@ -24,8 +24,8 @@ import static java.lang.Math.ceil;
 @RequestMapping("/commodities")
 public class CommoditiesController extends HttpServlet {
     @GetMapping("")
-    public ResponseEntity getCommodities (@RequestParam(value = "SortByPrice" , defaultValue = "false" , required = false)
-                                         boolean SortByPrice, @RequestParam(value = "PageNum" , defaultValue = "1" ,
+    public ResponseEntity getCommodities (@RequestParam(value = "Sort" , defaultValue = "0" , required = false)
+                                         int Sort, @RequestParam(value = "PageNum" , defaultValue = "1" ,
                                          required = false) int PageNum , @RequestParam(value = "Available" ,
                                          defaultValue = "false" ,required = false) boolean Available ,
                                          final HttpServletResponse response) throws  IOException {
@@ -42,8 +42,11 @@ public class CommoditiesController extends HttpServlet {
             else {
                 commodities = BalootService.getInstance().getCommodities();
             }
-            if (SortByPrice) {
+            if (Sort == 1) {
                 commodities = BalootService.getInstance().getCommoditiesSortByPrice(commodities);
+            }
+            else if (Sort == 2) {
+                commodities = BalootService.getInstance().getDatabase().getCommoditiesSortByName(commodities);
             }
             commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , commodities);
             numberOfPages = (int) ceil((double)commodities.size()/12);
@@ -69,6 +72,7 @@ public class CommoditiesController extends HttpServlet {
             body.put("comment" , commodity.getCommentList());
             body.put("suggestion", BalootService.getInstance().getMostSimilarCommodities(commodity));
             body.put("providerName", BalootService.getInstance().getDatabase().findProvider(commodity.getProviderId()).getName());
+            body.put("totalRates", commodity.getUserRates().size());
             return ResponseEntity.status(HttpStatus.OK).body(body);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
@@ -76,27 +80,38 @@ public class CommoditiesController extends HttpServlet {
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity getCommoditiesByName(@RequestParam(value = "SortByPrice" , defaultValue = "false" , required = false)
-                                               boolean SortByPrice,@RequestParam(value = "PageNum" , defaultValue = "1" , required = false)
+    public ResponseEntity getCommoditiesByName(@RequestParam(value = "Sort" , defaultValue = "0" , required = false)
+                                               int Sort,@RequestParam(value = "PageNum" , defaultValue = "1" , required = false)
                                                int PageNum , @RequestParam(value = "Available" , defaultValue = "false",
                                                required = false) boolean Available ,final HttpServletResponse response,
                                                @PathVariable String name) throws IOException {
         try {
+            Map<String , Object> body = new HashMap<>();
             List<Commodity> commodities;
             List<Commodity> commoditiesPage;
             List<Commodity> CommoditiesByName;
+            int numberOfPages;
+
             if(Available) {
                 commodities = BalootService.getInstance().getDatabase().getAvailableCommodities();
             }
             else {
                 commodities = BalootService.getInstance().getCommodities();
             }
-            if (SortByPrice) {
+            if (Sort == 1) {
                 commodities = BalootService.getInstance().getCommoditiesSortByPrice(commodities);
+            }
+            else if (Sort == 2) {
+                commodities = BalootService.getInstance().getDatabase().getCommoditiesSortByName(commodities);
             }
             CommoditiesByName = BalootService.getInstance().getCommoditiesByNameAndList(name , commodities);
             commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , CommoditiesByName);
-            return ResponseEntity.status(HttpStatus.OK).body(commoditiesPage);
+
+            numberOfPages = (int) ceil((double)CommoditiesByName.size()/12);
+            body.put("total_page", (Object) numberOfPages);
+            body.put("commodities" ,commoditiesPage);
+            body.put("page_number" , (Object) PageNum);
+            return ResponseEntity.status(HttpStatus.OK).body(body);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -105,28 +120,39 @@ public class CommoditiesController extends HttpServlet {
         }
     }
     @GetMapping("/category/{cat}")
-    public ResponseEntity getCommoditiesByCategory(@RequestParam(value = "SortByPrice" , defaultValue = "false" , required = false)
-                                               boolean SortByPrice,@RequestParam(value = "PageNum" , defaultValue = "1" , required = false)
+    public ResponseEntity getCommoditiesByCategory(@RequestParam(value = "Sort" , defaultValue = "0" , required = false)
+                                               int Sort,@RequestParam(value = "PageNum" , defaultValue = "1" , required = false)
                                                int PageNum , @RequestParam(value = "Available" , defaultValue = "false" ,
                                                required = false) boolean Available ,final HttpServletResponse response,
                                                @PathVariable String cat)
             throws IOException {
         try {
+            Map<String , Object> body = new HashMap<>();
             List<Commodity> commodities;
             List<Commodity> commoditiesPage;
             List<Commodity> CommoditiesByCategory;
+            int numberOfPages;
             if(Available) {
                 commodities = BalootService.getInstance().getDatabase().getAvailableCommodities();
             }
             else {
                 commodities = BalootService.getInstance().getCommodities();
             }
-            if (SortByPrice) {
+            if (Sort == 1) {
                 commodities = BalootService.getInstance().getCommoditiesSortByPrice(commodities);
+            }
+            else if (Sort == 2) {
+                commodities = BalootService.getInstance().getDatabase().getCommoditiesSortByName(commodities);
             }
             CommoditiesByCategory = BalootService.getInstance().getCommoditiesByCategoryAndList(cat , commodities);
             commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , CommoditiesByCategory);
-            return ResponseEntity.status(HttpStatus.OK).body(commoditiesPage);
+
+            numberOfPages = (int) ceil((double)CommoditiesByCategory.size()/12);
+            body.put("total_page", (Object) numberOfPages);
+            body.put("commodities" ,commoditiesPage);
+            body.put("page_number" , (Object) PageNum);
+            return ResponseEntity.status(HttpStatus.OK).body(body);
+
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -135,24 +161,39 @@ public class CommoditiesController extends HttpServlet {
         }
     }
     @GetMapping("/provider/{providerName}")
-    public ResponseEntity getCommoditiesByProvider(@RequestParam(value = "PageNum" , defaultValue = "1" , required = false)
+    public ResponseEntity getCommoditiesByProvider(@RequestParam(value = "Sort" , defaultValue = "0" , required = false)
+                                                   int Sort,@RequestParam(value = "PageNum" , defaultValue = "1" , required = false)
                                                    int PageNum , @RequestParam(value = "Available" , defaultValue = "false" ,
                                                    required = false) boolean Available ,final HttpServletResponse response,
                                                    @PathVariable String providerName)
             throws IOException {
         try {
+            Map<String , Object> body = new HashMap<>();
             List<Commodity> commodities;
             List<Commodity> commoditiesPage;
             List<Commodity> CommoditiesByProvider;
+            int numberOfPages;
             if(Available) {
                 commodities = BalootService.getInstance().getDatabase().getAvailableCommodities();
             }
             else {
                 commodities = BalootService.getInstance().getCommodities();
             }
+            if (Sort == 1) {
+                commodities = BalootService.getInstance().getCommoditiesSortByPrice(commodities);
+            }
+            else if (Sort == 2) {
+                commodities = BalootService.getInstance().getDatabase().getCommoditiesSortByName(commodities);
+            }
             CommoditiesByProvider = BalootService.getInstance().getCommoditiesByProviderAndList(providerName , commodities);
             commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , CommoditiesByProvider);
-            return ResponseEntity.status(HttpStatus.OK).body(commoditiesPage);
+
+            numberOfPages = (int) ceil((double)CommoditiesByProvider.size()/12);
+            body.put("total_page", (Object) numberOfPages);
+            body.put("commodities" ,commoditiesPage);
+            body.put("page_number" , (Object) PageNum);
+            return ResponseEntity.status(HttpStatus.OK).body(body);
+
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
