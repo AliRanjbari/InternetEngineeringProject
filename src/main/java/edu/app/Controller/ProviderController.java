@@ -1,6 +1,6 @@
 package edu.app.Controller;
 
-import edu.app.api.Provider;
+import edu.app.model.Provider;
 import edu.app.service.BalootService;
 import jakarta.servlet.http.HttpServlet;
 import org.springframework.http.HttpStatus;

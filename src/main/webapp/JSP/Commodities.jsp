@@ -1,6 +1,6 @@
 <%@ page import="edu.app.Baloot" %>
-<%@ page import="edu.app.api.User" %>
-<%@ page import="edu.app.api.Commodity" %>
+<%@ page import="edu.app.model.User" %>
+<%@ page import="edu.app.model.Commodity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.NumberFormat" %>
 

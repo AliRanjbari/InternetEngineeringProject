@@ -1,7 +1,7 @@
 <%@ page import="edu.app.Baloot" %>
-<%@ page import="edu.app.api.User" %>
-<%@ page import="edu.app.api.Commodity" %>
-<%@ page import="edu.app.api.Comment" %>
+<%@ page import="edu.app.model.User" %>
+<%@ page import="edu.app.model.Commodity" %>
+<%@ page import="edu.app.model.Comment" %>
 <%@ page import="java.text.NumberFormat" %>
 
 <%

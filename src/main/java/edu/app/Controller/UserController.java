@@ -1,14 +1,12 @@
 package edu.app.Controller;
 
-import edu.app.api.*;
+import edu.app.model.*;
 import edu.app.service.BalootService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

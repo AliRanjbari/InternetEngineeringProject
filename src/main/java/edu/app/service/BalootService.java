@@ -1,9 +1,9 @@
 package edu.app.service;
 
-import edu.app.api.Commodity;
-import edu.app.api.CommodityInBuyList;
-import edu.app.api.DB;
-import edu.app.api.User;
+import edu.app.model.Commodity;
+import edu.app.model.CommodityInBuyList;
+import edu.app.model.DB;
+import edu.app.model.User;
 import edu.app.site.Initial;
 
 import java.time.LocalDate;

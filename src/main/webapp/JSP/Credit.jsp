@@ -1,5 +1,5 @@
 <%@ page import="edu.app.Baloot" %>
-<%@ page import="edu.app.api.User" %>
+<%@ page import="edu.app.model.User" %>
 <%@ page import="java.text.NumberFormat" %>
 
 <%

@@ -1,13 +1,11 @@
-package edu.app.api;
+package edu.app.model;
 
 
-import jdk.jfr.Category;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 

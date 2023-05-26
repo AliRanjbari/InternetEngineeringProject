@@ -1,4 +1,4 @@
-package edu.app.api;
+package edu.app.model;
 
 public class Discount {
     private String discountCode;

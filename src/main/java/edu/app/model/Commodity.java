@@ -1,4 +1,4 @@
-package edu.app.api;
+package edu.app.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,15 +1,11 @@
 package edu.app.site;
 
-import edu.app.api.DB;
-import edu.app.api.Discount;
+import edu.app.model.DB;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.jsoup.Jsoup;
 
-import java.io.IOException;
-
-import static edu.app.api.JsonHandler.*;
+import static edu.app.model.JsonHandler.*;
 
 public class Initial {
      static String baseUrl = "http://5.253.25.110:5000/api";

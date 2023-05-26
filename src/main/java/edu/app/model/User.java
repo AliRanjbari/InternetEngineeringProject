@@ -1,4 +1,4 @@
-package edu.app.api;
+package edu.app.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,6 +8,7 @@ import java.util.Map;
 
 
 public class User {
+    private Long id;
     private String userName;
     private String password;
     private String email;
