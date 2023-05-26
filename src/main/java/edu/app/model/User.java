@@ -31,7 +31,7 @@ public class User {
         this.credit = credit;
     }
 
-    void update(String password, String email, LocalDate birthDay, String address, long credit) {
+    public void update(String password, String email, LocalDate birthDay, String address, long credit) {
         this.password = password;
         this.email = email;
         this.birthDay = birthDay;

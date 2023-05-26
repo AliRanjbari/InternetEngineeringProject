@@ -2,9 +2,9 @@ package edu.app.service;
 
 import edu.app.model.Commodity;
 import edu.app.model.CommodityInBuyList;
-import edu.app.model.DB;
+import edu.app.repository.DB;
 import edu.app.model.User;
-import edu.app.site.Initial;
+import edu.app.repository.InitialDataBase;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class BalootService {
 
     private BalootService() throws Exception {
         this.database = new DB();
-        Initial.initDatabase(this.database);
+        InitialDataBase.initDatabase(this.database);
     }
 
     public static BalootService getInstance() throws Exception{
@@ -115,7 +115,6 @@ public class BalootService {
                     }
                 }
             }
-            System.out.println(commodityIds);
         return newCommodities;
     }
 }

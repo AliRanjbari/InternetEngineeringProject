@@ -57,7 +57,6 @@ public class CommoditiesController extends HttpServlet {
             return ResponseEntity.status(HttpStatus.OK).body(body);
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
             return null;
         }
@@ -119,7 +118,6 @@ public class CommoditiesController extends HttpServlet {
             return ResponseEntity.status(HttpStatus.OK).body(body);
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
             return null;
         }
@@ -162,7 +160,6 @@ public class CommoditiesController extends HttpServlet {
 
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
             return null;
         }
@@ -206,7 +203,6 @@ public class CommoditiesController extends HttpServlet {
 
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
             return null;
         }

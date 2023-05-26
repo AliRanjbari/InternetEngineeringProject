@@ -1,13 +1,12 @@
-package edu.app.site;
+package edu.app.repository;
 
-import edu.app.model.DB;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.jsoup.Jsoup;
 
-import static edu.app.model.JsonHandler.*;
+import static edu.app.repository.JsonHandler.*;
 
-public class Initial {
+public class InitialDataBase {
      static String baseUrl = "http://5.253.25.110:5000/api";
 
     public static  void initDatabase(DB database) throws Exception {

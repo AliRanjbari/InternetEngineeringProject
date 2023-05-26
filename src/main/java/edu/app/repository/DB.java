@@ -1,4 +1,6 @@
-package edu.app.model;
+package edu.app.repository;
+
+import edu.app.model.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

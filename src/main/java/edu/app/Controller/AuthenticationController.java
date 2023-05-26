@@ -1,10 +1,6 @@
 package edu.app.Controller;
 
 import edu.app.service.BalootService;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -20,7 +16,6 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody JSONObject loginData) throws IOException {
-        System.out.println("in register");
         try {
             BalootService.getInstance().Register((String) loginData.get("username"),
                                                  (String) loginData.get("password"),
@@ -37,8 +32,6 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity login(
             @RequestBody JSONObject loginData) throws IOException {
-        System.out.println(loginData.get("username"));
-        System.out.println("email is " + loginData.get("email"));
         try {
             BalootService.getInstance().login((String) loginData.get("username") ,(String) loginData.get("password"));
             return ResponseEntity.ok("ok");
