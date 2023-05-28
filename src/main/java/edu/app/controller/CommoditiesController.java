@@ -1,4 +1,4 @@
-package edu.app.Controller;
+package edu.app.controller;
 
 import edu.app.service.BalootService;
 import edu.app.model.Commodity;

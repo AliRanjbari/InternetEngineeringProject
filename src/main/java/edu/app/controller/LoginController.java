@@ -1,4 +1,4 @@
-package edu.app.Controller;
+package edu.app.controller;
 
 import java.io.*;
 
