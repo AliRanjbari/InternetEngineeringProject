@@ -1,5 +1,9 @@
 package edu.app.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +12,7 @@ import java.util.Map;
 
 
 public class User {
+
     private Long id;
     private String userName;
     private String password;
@@ -181,5 +186,4 @@ public class User {
         }
         return numberOfCommodityInBuyList;
     }
-
 }

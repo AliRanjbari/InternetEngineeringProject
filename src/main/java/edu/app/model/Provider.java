@@ -1,10 +1,16 @@
 package edu.app.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Provider {
+
+
     private long id;
     private String name;
     private LocalDate registryDate;

@@ -1,10 +1,15 @@
 package edu.app.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Comment {
+
     long id;
 
     private String username ;

@@ -1,11 +1,16 @@
 package edu.app.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
 public class Commodity {
+
     private long id;
     private String name;
     private long providerId;

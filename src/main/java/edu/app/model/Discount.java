@@ -1,8 +1,14 @@
 package edu.app.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Discount {
-    private String discountCode;
-    private long discount;
+
+    @Id
+    private final String discountCode;
+    private final long discount;
 
 
     public Discount(String discountCode, long discount){
