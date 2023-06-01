@@ -1,8 +1,6 @@
 package edu.app.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,21 +8,41 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+@Entity
 public class User {
 
+    @Id
+    @GeneratedValue
     private Long id;
     private String userName;
     private String password;
     private String email;
     private LocalDate birthDay;
     private String address;
+    @ManyToMany
+    @JoinTable(name="BUY_LIST",
+                joinColumns = @JoinColumn(name="USER_ID"),
+                inverseJoinColumns = @JoinColumn(name = "COMMODITY_ID"))
     private final List<Commodity> buyList = new ArrayList<Commodity>();
-
-    private Map<Long , Integer> numberOfCommoditiesInBuyList = new HashMap<>();
+    @ElementCollection
+    @CollectionTable(name="number_of_commodities_in_buy_list",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
+    @MapKeyColumn(name = "commodity_id")
+    @Column(name = "buy_list_quantity")
+    private final  Map<Long , Integer> numberOfCommoditiesInBuyList = new HashMap<>();
+    @ManyToMany
+    @JoinTable(name="PURCHASED_LIST",
+            joinColumns = @JoinColumn(name="USER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "COMMODITY_ID"))
     private final List<CommodityInBuyList> purchasedList = new ArrayList<>();
     private long credit;
+    @ManyToOne
+    @JoinColumn(name="DISCOUNT_ID")
     private Discount currentDiscount;
+    @ManyToMany
+    @JoinTable(name = "USED_DISCOUNT",
+                joinColumns = @JoinColumn(name = "USER_ID"),
+                inverseJoinColumns = @JoinColumn(name = "DISCOUNT_ID"))
     private final List<Discount> usedDiscount = new ArrayList<Discount>();
 
     public User(String userName, String password, String email, LocalDate birthDay, String address, long credit) {

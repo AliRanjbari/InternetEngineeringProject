@@ -1,23 +1,30 @@
 package edu.app.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
+@Entity
 public class Comment {
 
-    long id;
-
+    @Id
+    @GeneratedValue
+    private long id;
     private String username ;
     private String text;
     private long likes;
     private LocalDate commentDate;
-
+    @ElementCollection
+    @CollectionTable(name="user_rate_comments",
+        joinColumns = {@JoinColumn(name = "comment_id", referencedColumnName = "id")})
+    @MapKeyColumn(name = "username")
+    @Column(name = "rate")
     private Map<String, Long> userRates = new HashMap<String, Long>();
+    @ManyToOne
+    @JoinColumn(name = "COMMODITY_ID")
+    private Commodity commodity;
 
     public Comment(long id, String username, String text, LocalDate commentDate) {
         this.id = id;

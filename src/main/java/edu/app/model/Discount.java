@@ -1,7 +1,9 @@
 package edu.app.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Discount {
@@ -10,6 +12,11 @@ public class Discount {
     private final String discountCode;
     private final long discount;
 
+    @OneToMany(mappedBy = "currentDiscount")
+    private final List<User> currentUsers = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "usedDiscount")
+    private final List<User> pastUsers = new ArrayList<>();
 
     public Discount(String discountCode, long discount){
         this.discountCode = discountCode;

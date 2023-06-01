@@ -1,28 +1,39 @@
 package edu.app.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
+@Entity
 public class Commodity {
 
+    @Id
+    @GeneratedValue
     private long id;
     private String name;
+    @Column(name = "PId", updatable = false, insertable = false)
     private long providerId;
     private long price;
     private ArrayList<String> categories;
     private double rating;
     private long inStock;
     private String imgURL;
+    @ElementCollection
+    @CollectionTable(name="user_rate_commodity",
+            joinColumns = {@JoinColumn(name = "commodity_id", referencedColumnName = "id")})
+    @MapKeyColumn(name = "username")
+    @Column(name = "rate")
     private Map<String, Double> userRates = new HashMap<>();
-
+    @OneToMany(mappedBy = "commodity")
     private List<Comment> commentList = new ArrayList<Comment>();
-
+    @ManyToMany(mappedBy = "buyList")
+    private final List<User> buyers = new ArrayList<User>();
+    @ManyToOne
+    @JoinColumn(name="PROVIDER_ID")
+    private Provider provider;
 
     public Commodity(long id, String name, long providerId, long price,
                      ArrayList<String> categories, double rating, long inStock, String imgURL) {

@@ -3,19 +3,22 @@ package edu.app.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Provider {
 
-
+    @Id
+    @GeneratedValue
     private long id;
     private String name;
     private LocalDate registryDate;
+    @OneToMany(mappedBy = "provider")
     private List<Commodity> commodities = new ArrayList<Commodity>();
-
     private String ImgUrl ;
 
     public Provider(long id, String name, LocalDate registryDate, String ImgUrl){
