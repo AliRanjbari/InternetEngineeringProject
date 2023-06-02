@@ -4,6 +4,7 @@ import edu.app.dao.UserRepo;
 import edu.app.model.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -16,11 +17,10 @@ import java.util.List;
 import static java.lang.Math.min;
 
 
-@Controller
+
 public class DB {
 
-    @Autowired
-    UserRepo userRepo;
+    private UserRepo userRepo = new UserRepo();
 
     List<User> users;
     List<Commodity> commodities;
@@ -30,6 +30,15 @@ public class DB {
     SessionFactory sessionFactory;
 
     public DB() {
+       /* sessionFactory = new Configuration()
+                .configure("hibernate.cfg.xml")
+                .addAnnotatedClass(User.class)
+                .addAnnotatedClass(Provider.class)
+                .addAnnotatedClass(Discount.class)
+                .addAnnotatedClass(CommodityInBuyList.class)
+                .addAnnotatedClass(Commodity.class)
+                .addAnnotatedClass(Comment.class)
+                .buildSessionFactory();*/
         this.users = new ArrayList<User>();
         this.commodities = new ArrayList<Commodity>();
         this.providers = new ArrayList<Provider>();
@@ -41,16 +50,18 @@ public class DB {
 
 
 
-        /*try (Session session = sessionFactory.openSession()) {
+        /*try (Session session = sessionFactory.getCurrentSession()) {
             System.out.println("seesssion factory!");
             session.beginTransaction();
             User newUser = new User(userName, password, email, birthDay, address, credit);
-            session.persist(newUser);
+            session.save(newUser);
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println("sessoin factory except");
             //
         }*/
+
+
 
         if(!User.isValidUsername(userName))
             throw new RuntimeException("Wrong username format");
@@ -60,7 +71,7 @@ public class DB {
             user.update(password, email, birthDay, address, credit);
         } else {
             User newUser = new User(userName, password, email, birthDay, address, credit);
-            userRepo.save(newUser);
+            userRepo.insert(newUser);
             users.add(newUser);
         }
     }
@@ -114,6 +125,16 @@ public class DB {
     }
 
     public void addDiscount(String discountCode, long discount){
+        /*try (Session session = sessionFactory.getCurrentSession()) {
+            System.out.println("seesssion factory!");
+            session.beginTransaction();
+            Discount newDiscount = new Discount(discountCode , discount);
+            session.persist(newDiscount);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("sessoin factory except");
+            //
+        }*/
         Discount newDiscount = new Discount(discountCode , discount);
         this.discounts.add(newDiscount);
     }
