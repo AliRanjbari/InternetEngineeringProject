@@ -2,6 +2,9 @@ package edu.app.repository;
 
 import edu.app.dao.UserRepo;
 import edu.app.model.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -49,6 +52,13 @@ public class DB {
     public void addUser(String userName, String password, String email, LocalDate birthDay, String address, long credit) {
 
 
+        User newUser = new User(userName, password, email, birthDay, address, credit);
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("baloot");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(newUser);
+        entityManager.getTransaction().commit();
+
 
         /*try (Session session = sessionFactory.getCurrentSession()) {
             System.out.println("seesssion factory!");
@@ -70,8 +80,7 @@ public class DB {
             User user = findUser(userName);
             user.update(password, email, birthDay, address, credit);
         } else {
-            User newUser = new User(userName, password, email, birthDay, address, credit);
-            userRepo.insert(newUser);
+            //User newUser = new User(userName, password, email, birthDay, address, credit);
             users.add(newUser);
         }
     }

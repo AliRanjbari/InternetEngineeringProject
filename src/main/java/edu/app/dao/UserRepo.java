@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public class UserRepo {
 
     @PersistenceContext
-    private EntityManager entityManager
+    private EntityManager entityManager;
 
     @Transactional
     public void insert(User user) {
