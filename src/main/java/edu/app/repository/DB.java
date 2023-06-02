@@ -1,6 +1,11 @@
 package edu.app.repository;
 
+import edu.app.dao.UserRepo;
 import edu.app.model.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,12 +15,19 @@ import java.util.List;
 
 import static java.lang.Math.min;
 
+
+@Controller
 public class DB {
+
+    @Autowired
+    UserRepo userRepo;
+
     List<User> users;
     List<Commodity> commodities;
     List<Provider> providers;
     List<Comment> comments;
     List<Discount> discounts;
+    SessionFactory sessionFactory;
 
     public DB() {
         this.users = new ArrayList<User>();
@@ -26,7 +38,21 @@ public class DB {
     }
 
     public void addUser(String userName, String password, String email, LocalDate birthDay, String address, long credit) {
-        if(User.isValidUsername(userName) == false)
+
+
+
+        /*try (Session session = sessionFactory.openSession()) {
+            System.out.println("seesssion factory!");
+            session.beginTransaction();
+            User newUser = new User(userName, password, email, birthDay, address, credit);
+            session.persist(newUser);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("sessoin factory except");
+            //
+        }*/
+
+        if(!User.isValidUsername(userName))
             throw new RuntimeException("Wrong username format");
 
         if (findUser(userName) != null){
@@ -34,6 +60,7 @@ public class DB {
             user.update(password, email, birthDay, address, credit);
         } else {
             User newUser = new User(userName, password, email, birthDay, address, credit);
+            userRepo.save(newUser);
             users.add(newUser);
         }
     }
