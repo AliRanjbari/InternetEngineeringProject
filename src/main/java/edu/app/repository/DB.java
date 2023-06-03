@@ -1,15 +1,9 @@
 package edu.app.repository;
 
-import edu.app.dao.UserRepo;
 import edu.app.model.*;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import org.hibernate.Session;
+import edu.app.model.Commodity.Commodity;
+import edu.app.model.User.User;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,7 +17,6 @@ import static java.lang.Math.min;
 
 public class DB {
 
-    private UserRepo userRepo = new UserRepo();
 
     List<User> users;
     List<Commodity> commodities;
@@ -52,12 +45,12 @@ public class DB {
     public void addUser(String userName, String password, String email, LocalDate birthDay, String address, long credit) {
 
 
-        User newUser = new User(userName, password, email, birthDay, address, credit);
+        /*User newUser = new User(userName, password, email, birthDay, address, credit);
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("baloot");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(newUser);
-        entityManager.getTransaction().commit();
+        entityManager.getTransaction().commit();*/
 
 
         /*try (Session session = sessionFactory.getCurrentSession()) {
@@ -80,7 +73,7 @@ public class DB {
             User user = findUser(userName);
             user.update(password, email, birthDay, address, credit);
         } else {
-            //User newUser = new User(userName, password, email, birthDay, address, credit);
+            User newUser = new User(userName, password, email, birthDay, address, credit);
             users.add(newUser);
         }
     }

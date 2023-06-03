@@ -1,8 +1,11 @@
 package edu.app.controller;
 
 import edu.app.model.*;
+import edu.app.model.User.User;
+import edu.app.model.User.UserDao;
 import edu.app.service.BalootService;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +18,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    @Autowired
+    private UserDao userDao;
 
     @GetMapping("")
     public ResponseEntity getUserInfo(){

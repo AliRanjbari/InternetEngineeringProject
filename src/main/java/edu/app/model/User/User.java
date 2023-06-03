@@ -1,5 +1,8 @@
-package edu.app.model;
+package edu.app.model.User;
 
+import edu.app.model.Commodity.Commodity;
+import edu.app.model.CommodityInBuyList;
+import edu.app.model.Discount;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;

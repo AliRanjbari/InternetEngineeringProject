@@ -1,10 +1,10 @@
 package edu.app.model;
 
+import edu.app.model.Commodity.Commodity;
+import edu.app.model.User.User;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
 
 @Entity

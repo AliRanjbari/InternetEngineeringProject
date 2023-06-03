@@ -1,5 +1,6 @@
 package edu.app.model;
 
+import edu.app.model.User.User;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

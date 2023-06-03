@@ -1,8 +1,8 @@
 package edu.app.repository;
 
 
-import edu.app.model.Commodity;
-import edu.app.repository.DB;
+import edu.app.model.Commodity.Commodity;
+import edu.app.model.User.User;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
@@ -40,6 +40,23 @@ public class JsonHandler {
 
         dataBase.addUser(userName, password, email, birthDay, address, credit);
     }
+    static public User parseUser(String jsonString) throws Exception {
+
+        Object o = new JSONParser().parse(jsonString);
+        JSONObject j = (JSONObject) o;
+
+        checkVariables(addUserJsonVariables, j);
+
+        String userName = (String) j.get(addUserJsonVariables[0]);
+        String password = (String) j.get(addUserJsonVariables[1]);
+        String email = (String) j.get(addUserJsonVariables[2]);
+        String address = (String) j.get(addUserJsonVariables[3]);
+        LocalDate birthDay = LocalDate.parse((String) j.get(addUserJsonVariables[4]));
+        long credit = (long) j.get(addUserJsonVariables[5]);
+
+        return new User(userName, password, email, birthDay, address, credit);
+    }
+
 
     static public void addProvider(String jsonString, DB dataBase) throws Exception {
         Object o = new JSONParser().parse(jsonString);
@@ -86,6 +103,23 @@ public class JsonHandler {
         String imgURL = (String) j.get(addCommodityJsonVariables[7]);
 
         dataBase.addCommodity(id, name, providerId, price, categories, rating, inStock, imgURL);
+    }
+
+    static public Commodity parseCommodity(String jsonString) throws Exception {
+        Object o = new JSONParser().parse(jsonString);
+        JSONObject j = (JSONObject) o;
+
+        checkVariables(addCommodityJsonVariables, j);
+        long id = (long) j.get(addCommodityJsonVariables[0]);
+        String name = (String) j.get(addCommodityJsonVariables[1]);
+        long providerId = (long) j.get(addCommodityJsonVariables[2]);
+        long price = (long) j.get(addCommodityJsonVariables[3]);
+        ArrayList<String> categories = (ArrayList<String>) j.get(addCommodityJsonVariables[4]);
+        double rating = (double) j.get(addCommodityJsonVariables[5]);
+        long inStock = (long) j.get(addCommodityJsonVariables[6]);
+        String imgURL = (String) j.get(addCommodityJsonVariables[7]);
+
+        return new Commodity(id, name, providerId, price, categories, rating, inStock, imgURL);
     }
 
     static public void addDiscount(String jsonString, DB database) throws Exception {

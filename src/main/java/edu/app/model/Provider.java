@@ -1,5 +1,6 @@
 package edu.app.model;
 
+import edu.app.model.Commodity.Commodity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;

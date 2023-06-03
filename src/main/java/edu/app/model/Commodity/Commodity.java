@@ -1,5 +1,8 @@
-package edu.app.model;
+package edu.app.model.Commodity;
 
+import edu.app.model.Comment;
+import edu.app.model.Provider;
+import edu.app.model.User.User;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -34,6 +37,10 @@ public class Commodity {
     @ManyToOne
     @JoinColumn(name="PROVIDER_ID")
     private Provider provider;
+
+    public Commodity() {
+
+    }
 
     public Commodity(long id, String name, long providerId, long price,
                      ArrayList<String> categories, double rating, long inStock, String imgURL) {

@@ -1,19 +1,35 @@
 package edu.app.repository;
 
+import edu.app.model.Commodity.Commodity;
+import edu.app.model.Commodity.CommodityDao;
+import edu.app.model.Commodity.CommodityRepo;
+import edu.app.model.User.User;
+import edu.app.model.User.UserDao;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.jsoup.Jsoup;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
 
 import static edu.app.repository.JsonHandler.*;
 
-public class InitialDataBase {
+
+@Component
+public class InitialDataBase implements ApplicationRunner {
      static String baseUrl = "http://5.253.25.110:5000/api";
+
+     @Autowired
+     private UserDao userDao;
+     @Autowired
+     private CommodityDao commodityDao;
 
     public static  void initDatabase(DB database) throws Exception {
         getUsers(database);
         getProviders(database);
         getCommodities(database);
-        // getComments(database);
+        //getComments(database);
         getDiscounts(database);
     }
     private static void getUsers(DB database) throws Exception {
@@ -25,6 +41,19 @@ public class InitialDataBase {
             addUser(jasonInput.get(i).toString(), database);
     }
 
+    private void getUsers() throws Exception {
+        String stringInput = Jsoup.connect(baseUrl + "/users").ignoreContentType(true).execute().body();
+        Object o = new JSONParser().parse(stringInput);
+        JSONArray jasonInput = (JSONArray) o;
+
+        for(int i = 0; i < jasonInput.size() ; i++) {
+            User newUser = parseUser(jasonInput.get(i).toString());
+            this.userDao.save(newUser);
+        }
+
+    }
+
+
     private static void getCommodities(DB database) throws Exception {
         String stringInput = Jsoup.connect(baseUrl + "/v2/commodities").ignoreContentType(true).execute().body();
         Object o = new JSONParser().parse(stringInput);
@@ -32,6 +61,17 @@ public class InitialDataBase {
 
         for(int i = 0; i < jasonInput.size() ; i++)
             addCommodity(jasonInput.get(i).toString(), database);
+    }
+
+    private void getCommodities() throws Exception {
+        String stringInput = Jsoup.connect(baseUrl + "/v2/commodities").ignoreContentType(true).execute().body();
+        Object o = new JSONParser().parse(stringInput);
+        JSONArray jasonInput = (JSONArray) o;
+
+        for(int i = 0; i < jasonInput.size() ; i++) {
+            Commodity newCommodity = parseCommodity(jasonInput.get(i).toString());
+            this.commodityDao.save(newCommodity);
+        }
     }
 
     private static void getProviders(DB database) throws Exception {
@@ -61,4 +101,10 @@ public class InitialDataBase {
             addDiscount(jasonInput.get(i).toString(), database);
     }
 
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        System.out.println("Initializing database ... ");
+        getUsers();
+        getCommodities();
+    }
 }

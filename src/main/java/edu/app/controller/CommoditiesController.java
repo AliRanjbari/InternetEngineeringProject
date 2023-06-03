@@ -1,7 +1,7 @@
 package edu.app.controller;
 
 import edu.app.service.BalootService;
-import edu.app.model.Commodity;
+import edu.app.model.Commodity.Commodity;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
