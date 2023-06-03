@@ -1,6 +1,6 @@
 package edu.app;
 
-import edu.app.model.User;
+import edu.app.model.*;
 import edu.app.service.BalootService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,6 +21,11 @@ public class Baloot {
         SessionFactory factory = new Configuration()
                 .configure("hibernate.cfg.xml")
                 .addAnnotatedClass(User.class)
+                .addAnnotatedClass(Discount.class)
+                .addAnnotatedClass(Provider.class)
+                .addAnnotatedClass(Commodity.class)
+                .addAnnotatedClass(Comment.class)
+                .addAnnotatedClass(CommodityInBuyList.class)
                 .buildSessionFactory();
         Session session = factory.getCurrentSession();
 
