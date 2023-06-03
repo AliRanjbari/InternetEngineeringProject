@@ -1,7 +1,7 @@
 package edu.app.model.Commodity;
 
-import edu.app.model.Comment;
-import edu.app.model.Provider;
+import edu.app.model.Comment.Comment;
+import edu.app.model.Provider.Provider;
 import edu.app.model.User.User;
 import jakarta.persistence.*;
 

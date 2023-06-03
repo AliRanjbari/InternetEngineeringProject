@@ -1,5 +1,5 @@
-import edu.app.model.*;
 import edu.app.model.Commodity.Commodity;
+import edu.app.model.Provider.Provider;
 import edu.app.model.User.User;
 import edu.app.repository.DB;
 import edu.app.repository.JsonHandler;

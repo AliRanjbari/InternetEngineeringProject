@@ -1,7 +1,9 @@
 package edu.app.repository;
 
-import edu.app.model.*;
+import edu.app.model.Comment.Comment;
 import edu.app.model.Commodity.Commodity;
+import edu.app.model.Discount.Discount;
+import edu.app.model.Provider.Provider;
 import edu.app.model.User.User;
 import org.hibernate.SessionFactory;
 

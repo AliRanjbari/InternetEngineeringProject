@@ -1,6 +1,6 @@
 package edu.app.controller;
 
-import edu.app.model.*;
+import edu.app.model.CommodityInBuyList.CommodityInBuyList;
 import edu.app.model.User.User;
 import edu.app.model.User.UserDao;
 import edu.app.service.BalootService;

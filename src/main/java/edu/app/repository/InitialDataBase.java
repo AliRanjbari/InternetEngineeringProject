@@ -1,8 +1,14 @@
 package edu.app.repository;
 
+import edu.app.model.Comment.Comment;
+import edu.app.model.Comment.CommentDao;
 import edu.app.model.Commodity.Commodity;
 import edu.app.model.Commodity.CommodityDao;
 import edu.app.model.Commodity.CommodityRepo;
+import edu.app.model.Discount.Discount;
+import edu.app.model.Discount.DiscountDao;
+import edu.app.model.Provider.Provider;
+import edu.app.model.Provider.ProviderDao;
 import edu.app.model.User.User;
 import edu.app.model.User.UserDao;
 import org.json.simple.JSONArray;
@@ -24,6 +30,15 @@ public class InitialDataBase implements ApplicationRunner {
      private UserDao userDao;
      @Autowired
      private CommodityDao commodityDao;
+
+     @Autowired
+     private ProviderDao providerDao;
+
+     @Autowired
+     private CommentDao commentDao;
+
+     @Autowired
+     private DiscountDao discountDao;
 
     public static  void initDatabase(DB database) throws Exception {
         getUsers(database);
@@ -82,6 +97,17 @@ public class InitialDataBase implements ApplicationRunner {
         for(int i = 0; i < jasonInput.size() ; i++)
             addProvider(jasonInput.get(i).toString(), database);
     }
+    private void getProviders() throws Exception {
+        String stringInput = Jsoup.connect(baseUrl + "/v2/providers").ignoreContentType(true).execute().body();
+        Object o = new JSONParser().parse(stringInput);
+        JSONArray jasonInput = (JSONArray) o;
+
+        for(int i = 0; i < jasonInput.size() ; i++){
+            Provider newProvider = parseProvider(jasonInput.get(i).toString());
+            this.providerDao.save(newProvider);
+        }
+    }
+
 
     private static void getComments(DB database) throws Exception {
         String stringInput = Jsoup.connect(baseUrl + "/comments").ignoreContentType(true).execute().body();
@@ -92,6 +118,18 @@ public class InitialDataBase implements ApplicationRunner {
             addComment(jasonInput.get(i).toString(), database);
     }
 
+    private  void getComments() throws Exception {
+        String stringInput = Jsoup.connect(baseUrl + "/comments").ignoreContentType(true).execute().body();
+        Object o = new JSONParser().parse(stringInput);
+        JSONArray jasonInput = (JSONArray) o;
+
+        for(int i = 0; i < jasonInput.size() ; i++){
+            Comment newComment = parseComment(jasonInput.get(i).toString());
+            this.commentDao.save(newComment);
+        }
+
+    }
+
     private static void getDiscounts(DB database) throws Exception {
         String stringInput = Jsoup.connect(baseUrl + "/discount").ignoreContentType(true).execute().body();
         Object o = new JSONParser().parse(stringInput);
@@ -100,11 +138,24 @@ public class InitialDataBase implements ApplicationRunner {
         for(int i = 0; i < jasonInput.size() ; i++)
             addDiscount(jasonInput.get(i).toString(), database);
     }
+    private void getDiscounts() throws Exception {
+        String stringInput = Jsoup.connect(baseUrl + "/discount").ignoreContentType(true).execute().body();
+        Object o = new JSONParser().parse(stringInput);
+        JSONArray jasonInput = (JSONArray) o;
+
+        for(int i = 0; i < jasonInput.size() ; i++) {
+            Discount newDiscount = parseDiscount(jasonInput.get(i).toString());
+            this.discountDao.save(newDiscount);
+        }
+    }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("Initializing database ... ");
         getUsers();
         getCommodities();
+        getProviders();
+        getComments();
+        getDiscounts();
     }
 }

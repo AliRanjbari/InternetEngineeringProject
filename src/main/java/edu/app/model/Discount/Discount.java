@@ -1,4 +1,4 @@
-package edu.app.model;
+package edu.app.model.Discount;
 
 import edu.app.model.User.User;
 import jakarta.persistence.*;

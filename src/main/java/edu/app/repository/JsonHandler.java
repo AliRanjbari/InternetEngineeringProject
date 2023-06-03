@@ -1,7 +1,10 @@
 package edu.app.repository;
 
 
+import edu.app.model.Comment.Comment;
 import edu.app.model.Commodity.Commodity;
+import edu.app.model.Discount.Discount;
+import edu.app.model.Provider.Provider;
 import edu.app.model.User.User;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
@@ -72,6 +75,19 @@ public class JsonHandler {
         dataBase.addProvider(id, name, registryDate, ImgUrl);
     }
 
+    static public Provider parseProvider(String jsonString) throws Exception {
+        Object o = new JSONParser().parse(jsonString);
+        JSONObject j = (JSONObject) o;
+
+        checkVariables(addProviderJsonVariables, j);
+
+        long id = (long) j.get(addProviderJsonVariables[0]);
+        String name = (String) j.get(addProviderJsonVariables[1]);
+        LocalDate registryDate = LocalDate.parse((String) j.get(addProviderJsonVariables[2]));
+        String ImgUrl = (String) j.get(addProviderJsonVariables[3]);
+
+        return new Provider (id, name, registryDate, ImgUrl);
+    }
 
     static public void addComment(String jsonString, DB dataBase) throws Exception {
         Object o = new JSONParser().parse(jsonString);
@@ -87,7 +103,19 @@ public class JsonHandler {
         dataBase.addComment(email , commodityId , text , commentDate);
     }
 
+    static public Comment parseComment(String jsonString) throws Exception {
+        Object o = new JSONParser().parse(jsonString);
+        JSONObject j = (JSONObject) o;
 
+        checkVariables(addCommentJsonVariables, j);
+
+        String email = (String) j.get(addCommentJsonVariables[0]);
+        long commodityId = (long) j.get(addCommentJsonVariables[1]);
+        String text = (String) j.get(addCommentJsonVariables[2]);
+        LocalDate commentDate = LocalDate.parse((String) j.get(addCommentJsonVariables[3]));
+
+        return new Comment (commodityId , email , text , commentDate);
+    }
     static public void addCommodity(String jsonString, DB dataBase) throws Exception {
         Object o = new JSONParser().parse(jsonString);
         JSONObject j = (JSONObject) o;
@@ -131,6 +159,17 @@ public class JsonHandler {
         long discount = (long) j.get(addDiscountJsonVariables[1]);
 
         database.addDiscount(discountCode , discount);
+
+    }
+    static public Discount parseDiscount(String jsonString) throws Exception {
+        Object o = new JSONParser().parse(jsonString);
+        JSONObject j = (JSONObject) o;
+
+        checkVariables(addDiscountJsonVariables, j);
+        String discountCode = (String) j.get(addDiscountJsonVariables[0]);
+        long discount = (long) j.get(addDiscountJsonVariables[1]);
+
+        return new Discount(discountCode , discount);
 
     }
 

@@ -1,4 +1,4 @@
-package edu.app.model;
+package edu.app.model.CommodityInBuyList;
 
 import edu.app.model.Commodity.Commodity;
 import edu.app.model.User.User;

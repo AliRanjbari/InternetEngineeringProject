@@ -1,4 +1,4 @@
-package edu.app.model;
+package edu.app.model.Provider;
 
 import edu.app.model.Commodity.Commodity;
 import jakarta.persistence.Entity;
