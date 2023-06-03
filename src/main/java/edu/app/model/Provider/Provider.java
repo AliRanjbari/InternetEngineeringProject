@@ -29,6 +29,11 @@ public class Provider {
         this.ImgUrl = ImgUrl;
     }
 
+
+    public Provider() {
+
+    }
+
     public void update(String name, LocalDate registryDate , String imgUrl) {
         this.name = name;
         this.registryDate = registryDate;

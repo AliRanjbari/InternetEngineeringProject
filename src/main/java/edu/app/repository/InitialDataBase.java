@@ -153,8 +153,8 @@ public class InitialDataBase implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("Initializing database ... ");
         getUsers();
-        getCommodities();
         getProviders();
+        getCommodities();
         getComments();
         getDiscounts();
     }
