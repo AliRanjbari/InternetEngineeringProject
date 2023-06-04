@@ -24,6 +24,11 @@ public class Discount {
         this.discount = discount;
     }
 
+    public Discount() {
+        discountCode = "Default";
+        discount = 0;
+    }
+
     public String getDiscountCode() {
         return discountCode;
     }

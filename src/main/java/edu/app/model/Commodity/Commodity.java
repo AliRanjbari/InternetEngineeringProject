@@ -17,7 +17,7 @@ public class Commodity {
     @GeneratedValue
     private long id;
     private String name;
-    @Column(name = "PId", updatable = false, insertable = false)
+    @Column(name = "PId", nullable = false)
     private long providerId;
     private long price;
     private ArrayList<String> categories;

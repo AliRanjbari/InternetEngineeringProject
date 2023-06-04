@@ -104,7 +104,6 @@ public class InitialDataBase implements ApplicationRunner {
 
         for(int i = 0; i < jasonInput.size() ; i++){
             Provider newProvider = parseProvider(jasonInput.get(i).toString());
-            System.out.println(newProvider.getImgUrl().length());
             this.providerDao.save(newProvider);
         }
     }
@@ -153,10 +152,15 @@ public class InitialDataBase implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("Initializing database ... ");
+        System.out.println("Getting Users... ");
         getUsers();
+        System.out.println("Getting Providers... ");
         getProviders();
+        System.out.println("Getting Commodities... ");
         getCommodities();
-        getComments();
+        //System.out.println("Getting Comments... ");
+        //getComments();
+        System.out.println("Getting Discounts... ");
         getDiscounts();
     }
 }

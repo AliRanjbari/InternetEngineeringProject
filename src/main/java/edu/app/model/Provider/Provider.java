@@ -18,7 +18,7 @@ public class Provider {
     @OneToMany(mappedBy = "provider")
     private List<Commodity> commodities = new ArrayList<Commodity>();
     @Column(length = 360)
-    private String ImgUrl ;
+    private String ImgUrl;
 
     public Provider(long id, String name, LocalDate registryDate, String ImgUrl){
         this.id = id;
