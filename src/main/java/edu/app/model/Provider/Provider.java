@@ -1,10 +1,7 @@
 package edu.app.model.Provider;
 
 import edu.app.model.Commodity.Commodity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,6 +17,7 @@ public class Provider {
     private LocalDate registryDate;
     @OneToMany(mappedBy = "provider")
     private List<Commodity> commodities = new ArrayList<Commodity>();
+    @Column(length = 360)
     private String ImgUrl ;
 
     public Provider(long id, String name, LocalDate registryDate, String ImgUrl){
@@ -31,7 +29,6 @@ public class Provider {
 
 
     public Provider() {
-
     }
 
     public void update(String name, LocalDate registryDate , String imgUrl) {

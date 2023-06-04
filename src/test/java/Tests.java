@@ -24,8 +24,8 @@ public class Tests {
     private User user1, user2;
     private DB dataBase;
 
-    @Rule
-    public ExpectedException expectedEx = ExpectedException.none();
+//    @Rule
+//    public ExpectedException expectedEx = ExpectedException.none();
 
     @BeforeEach
     public void initTest() {

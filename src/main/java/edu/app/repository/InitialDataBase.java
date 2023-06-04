@@ -104,6 +104,7 @@ public class InitialDataBase implements ApplicationRunner {
 
         for(int i = 0; i < jasonInput.size() ; i++){
             Provider newProvider = parseProvider(jasonInput.get(i).toString());
+            System.out.println(newProvider.getImgUrl().length());
             this.providerDao.save(newProvider);
         }
     }
