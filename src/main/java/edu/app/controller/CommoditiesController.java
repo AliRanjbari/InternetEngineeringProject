@@ -1,5 +1,6 @@
 package edu.app.controller;
 
+import edu.app.model.Commodity.CommodityDao;
 import edu.app.service.BalootService;
 import edu.app.model.Commodity.Commodity;
 import jakarta.servlet.ServletException;
@@ -7,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,10 @@ import static java.lang.Math.ceil;
 @RestController
 @RequestMapping("/commodities")
 public class CommoditiesController extends HttpServlet {
+
+    @Autowired
+    private CommodityDao commodityDao;
+
     @GetMapping("")
     public ResponseEntity getCommodities (@RequestParam(value = "Sort" , defaultValue = "0" , required = false)
                                          int Sort, @RequestParam(value = "PageNum" , defaultValue = "1" ,
@@ -65,10 +71,11 @@ public class CommoditiesController extends HttpServlet {
     @GetMapping("/{id}")
     public  ResponseEntity getCommodityById(@PathVariable long id) throws Exception {
 
-        if (BalootService.getInstance().getLoggedUser() == null)
-            throw new RuntimeException("You're not logged in");
+
         try {
-            Commodity commodity = BalootService.getInstance().getDatabase().findCommodity(id);
+            if (BalootService.getInstance().getLoggedUser() == null)
+                throw new RuntimeException("You're not logged in");
+            Commodity commodity = commodityDao.findById(id).get();
             Map<String, Object> body = new HashMap<>();
             body.put("commodity" , commodity);
             body.put("comment" , commodity.getCommentList());

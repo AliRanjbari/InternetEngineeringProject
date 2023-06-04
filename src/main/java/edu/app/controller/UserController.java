@@ -24,7 +24,6 @@ public class UserController {
 
     @GetMapping("")
     public ResponseEntity getUserInfo(){
-
         try {
             if (BalootService.getInstance().getLoggedUser() == null)
                 throw new RuntimeException("You're not logged in");
@@ -95,7 +94,6 @@ public class UserController {
     }
     @GetMapping("/historyList")
     public ResponseEntity getUserHistoryList(){
-
         try {
             if (BalootService.getInstance().getLoggedUser() == null)
                 throw new RuntimeException("You're not logged in");
