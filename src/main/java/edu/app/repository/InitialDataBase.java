@@ -4,7 +4,6 @@ import edu.app.model.Comment.Comment;
 import edu.app.model.Comment.CommentDao;
 import edu.app.model.Commodity.Commodity;
 import edu.app.model.Commodity.CommodityDao;
-import edu.app.model.Commodity.CommodityRepo;
 import edu.app.model.Discount.Discount;
 import edu.app.model.Discount.DiscountDao;
 import edu.app.model.Provider.Provider;
@@ -53,8 +52,7 @@ public class InitialDataBase implements ApplicationRunner {
         Object o = new JSONParser().parse(stringInput);
         JSONArray jasonInput = (JSONArray) o;
 
-        for(int i = 0; i < jasonInput.size() ; i++)
-            addUser(jasonInput.get(i).toString(), database);
+        for (Object value : jasonInput) addUser(value.toString(), database);
     }
 
     private void getUsers() throws Exception {
@@ -75,8 +73,7 @@ public class InitialDataBase implements ApplicationRunner {
         Object o = new JSONParser().parse(stringInput);
         JSONArray jasonInput = (JSONArray) o;
 
-        for(int i = 0; i < jasonInput.size() ; i++)
-            addCommodity(jasonInput.get(i).toString(), database);
+        for (Object value : jasonInput) addCommodity(value.toString(), database);
     }
 
     private void getCommodities() throws Exception {
@@ -95,8 +92,7 @@ public class InitialDataBase implements ApplicationRunner {
         Object o = new JSONParser().parse(stringInput);
         JSONArray jasonInput = (JSONArray) o;
 
-        for(int i = 0; i < jasonInput.size() ; i++)
-            addProvider(jasonInput.get(i).toString(), database);
+        for (Object value : jasonInput) addProvider(value.toString(), database);
     }
     private void getProviders() throws Exception {
         String stringInput = Jsoup.connect(baseUrl + "/v2/providers").ignoreContentType(true).execute().body();
@@ -115,8 +111,7 @@ public class InitialDataBase implements ApplicationRunner {
         Object o = new JSONParser().parse(stringInput);
         JSONArray jasonInput = (JSONArray) o;
 
-        for(int i = 0; i < jasonInput.size() ; i++)
-            addComment(jasonInput.get(i).toString(), database);
+        for (Object value : jasonInput) addComment(value.toString(), database);
     }
 
     private  void getComments() throws Exception {

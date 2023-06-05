@@ -147,7 +147,7 @@ public class JsonHandler {
         long inStock = (long) j.get(addCommodityJsonVariables[6]);
         String imgURL = (String) j.get(addCommodityJsonVariables[7]);
 
-        return new Commodity(id, name, providerId, price, categories, rating, inStock, imgURL);
+        return new Commodity(id,name,providerId,price,categories,rating,inStock,imgURL);
     }
 
     static public void addDiscount(String jsonString, DB database) throws Exception {

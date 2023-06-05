@@ -1,6 +1,7 @@
 package edu.app.controller;
 
 import edu.app.model.Commodity.CommodityDao;
+import edu.app.model.Commodity.CommodityRepo;
 import edu.app.service.BalootService;
 import edu.app.model.Commodity.Commodity;
 import jakarta.servlet.ServletException;
@@ -28,6 +29,9 @@ public class CommoditiesController extends HttpServlet {
     @Autowired
     private CommodityDao commodityDao;
 
+    @Autowired
+    private CommodityRepo commodityRepo;
+
     @GetMapping("")
     public ResponseEntity getCommodities (@RequestParam(value = "Sort" , defaultValue = "0" , required = false)
                                          int Sort, @RequestParam(value = "PageNum" , defaultValue = "1" ,
@@ -44,7 +48,8 @@ public class CommoditiesController extends HttpServlet {
             int numberOfPages;
 
             if(Available) {
-                commodities = BalootService.getInstance().getDatabase().getAvailableCommodities();
+                commodities = commodityRepo.findByInStockGreaterThan(0);
+                //commodities = BalootService.getInstance().getDatabase().getAvailableCommodities();
             }
             else {
                 commodities = BalootService.getInstance().getCommodities();
