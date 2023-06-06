@@ -29,8 +29,6 @@ public class CommoditiesController extends HttpServlet {
     @Autowired
     private CommodityDao commodityDao;
 
-    @Autowired
-    private CommodityRepo commodityRepo;
 
     @GetMapping("")
     public ResponseEntity getCommodities (@RequestParam(value = "Sort" , defaultValue = "0" , required = false)
@@ -48,11 +46,12 @@ public class CommoditiesController extends HttpServlet {
             int numberOfPages;
 
             if(Available) {
-                commodities = commodityRepo.findByInStockGreaterThan(0);
+                commodities = commodityDao.findByInStockGreaterThan(0);
                 //commodities = BalootService.getInstance().getDatabase().getAvailableCommodities();
             }
             else {
-                commodities = BalootService.getInstance().getCommodities();
+                commodities = commodityDao.findAll();
+//                commodities = BalootService.getInstance().getCommodities();
             }
             if (Sort == 1) {
                 commodities = BalootService.getInstance().getCommoditiesSortByPrice(commodities);
@@ -109,10 +108,10 @@ public class CommoditiesController extends HttpServlet {
             int numberOfPages;
 
             if(Available) {
-                commodities = BalootService.getInstance().getDatabase().getAvailableCommodities();
+                commodities = commodityDao.findByInStockGreaterThanAndNameContaining(0,name);
             }
             else {
-                commodities = BalootService.getInstance().getCommodities();
+                commodities = commodityDao.findByNameContaining(name);
             }
             if (Sort == 1) {
                 commodities = BalootService.getInstance().getCommoditiesSortByPrice(commodities);
@@ -120,10 +119,10 @@ public class CommoditiesController extends HttpServlet {
             else if (Sort == 2) {
                 commodities = BalootService.getInstance().getDatabase().getCommoditiesSortByName(commodities);
             }
-            CommoditiesByName = BalootService.getInstance().getCommoditiesByNameAndList(name , commodities);
-            commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , CommoditiesByName);
+//            CommoditiesByName = BalootService.getInstance().getCommoditiesByNameAndList(name , commodities);
+            commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , commodities);
 
-            numberOfPages = (int) ceil((double)CommoditiesByName.size()/12);
+            numberOfPages = (int) ceil((double)commodities.size()/12);
             body.put("total_page", (Object) numberOfPages);
             body.put("commodities" ,commoditiesPage);
             body.put("page_number" , (Object) PageNum);
@@ -150,10 +149,10 @@ public class CommoditiesController extends HttpServlet {
             List<Commodity> CommoditiesByCategory;
             int numberOfPages;
             if(Available) {
-                commodities = BalootService.getInstance().getDatabase().getAvailableCommodities();
+                commodities = commodityDao.findByInStockGreaterThan(0);
             }
             else {
-                commodities = BalootService.getInstance().getCommodities();
+                commodities = commodityDao.findAll();
             }
             if (Sort == 1) {
                 commodities = BalootService.getInstance().getCommoditiesSortByPrice(commodities);
@@ -193,10 +192,10 @@ public class CommoditiesController extends HttpServlet {
             List<Commodity> CommoditiesByProvider;
             int numberOfPages;
             if(Available) {
-                commodities = BalootService.getInstance().getDatabase().getAvailableCommodities();
+                commodities = commodityDao.findByInStockGreaterThan(0);
             }
             else {
-                commodities = BalootService.getInstance().getCommodities();
+                commodities = commodityDao.findAll();
             }
             if (Sort == 1) {
                 commodities = BalootService.getInstance().getCommoditiesSortByPrice(commodities);
@@ -247,37 +246,6 @@ public class CommoditiesController extends HttpServlet {
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
-        }
-    }
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        String actionType = request.getParameter("action");
-        String searchField = request.getParameter("search");
-        try {
-            BalootService baloot = BalootService.getInstance();
-            List<Commodity> commodities = null;
-            if(baloot.getLoggedUser() == null)
-                throw new RuntimeException("Your not logged in");
-            switch (actionType) {
-                case "search_by_category":
-                    commodities = baloot.getCommoditiesByCategory(searchField);
-                    break;
-                case "search_by_name":
-                    commodities = baloot.getCommoditiesByName(searchField);
-                    break;
-                case "clear":
-                    commodities = baloot.getCommodities();
-                    break;
-                case "sort_by_price":
-                    commodities = baloot.getCommoditiesSortByPrice();
-                    break;
-            }
-            request.setAttribute("commodities", commodities);
-            request.getRequestDispatcher("/JSP/Commodities.jsp").forward(request, response);
-        } catch (Exception e) {
-            request.setAttribute("error_message", e.getMessage());
-            request.getRequestDispatcher("/JSP/error.jsp").forward(request, response);
         }
     }
 }
