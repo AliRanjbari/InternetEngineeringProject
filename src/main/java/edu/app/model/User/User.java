@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"userName"})})
 public class User {
 
     @Id
@@ -48,6 +49,10 @@ public class User {
                 joinColumns = @JoinColumn(name = "USER_ID"),
                 inverseJoinColumns = @JoinColumn(name = "DISCOUNT_ID"))
     private final List<Discount> usedDiscount = new ArrayList<Discount>();
+
+    public User() {
+
+    }
 
     public User(String userName, String password, String email, LocalDate birthDay, String address, long credit) {
         this.userName = userName;

@@ -4,6 +4,9 @@ package edu.app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+import java.util.Optional;
+
 @Service
 public class UserDao {
 
@@ -12,6 +15,10 @@ public class UserDao {
 
     public void save(User user) {
         repo.save(user);
+    }
+
+    public Optional<User> findByUserName(String UserName) {
+        return repo.findByUserName(UserName);
     }
 
 }

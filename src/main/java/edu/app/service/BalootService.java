@@ -41,6 +41,15 @@ public class BalootService {
         this.loggedUser = user;
     }
 
+    public void login(User user, String inputPassword) {
+        if (user == null)
+            throw new RuntimeException("Wrong username");
+        if (!user.getPassword().equals(inputPassword))
+            throw new RuntimeException("Wrong password");
+
+        this.loggedUser = user;
+    }
+
     public void Register(String userName, String password, String email, LocalDate birthDay, String address){
         if (this.database.findUser(userName) != null)
             throw new RuntimeException("This userName is already taken");

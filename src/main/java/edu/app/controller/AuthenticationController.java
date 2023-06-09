@@ -5,6 +5,7 @@ import edu.app.model.User.UserDao;
 import edu.app.service.BalootService;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,8 @@ public class AuthenticationController {
     public ResponseEntity login(
             @RequestBody JSONObject loginData) throws IOException {
         try {
-            BalootService.getInstance().login((String) loginData.get("username") ,(String) loginData.get("password"));
+            User user = userDao.findByUserName((String) loginData.get("username")).get();
+            BalootService.getInstance().login(user ,(String) loginData.get("password"));
             return ResponseEntity.ok("ok");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("user not found. invalid login");
