@@ -12,7 +12,7 @@ public interface CommodityRepo extends CrudRepository<Commodity, Long> {
 
     List<Commodity> findByNameContaining(String name);
 
-    List<Commodity> findByInStockGreaterThanAndCategoriesContaining(int inStock, String category);
+    // List<Commodity> findByInStockGreaterThanAndCategoriesContaining(int inStock, String category);
 
-    List<Commodity> findByCategoriesContaining(String category);
+    //List<Commodity> findByCategoriesContaining(String category);
 }

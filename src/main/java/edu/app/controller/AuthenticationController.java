@@ -1,10 +1,13 @@
 package edu.app.controller;
 
+import edu.app.model.User.User;
+import edu.app.model.User.UserDao;
 import edu.app.service.BalootService;
 import java.io.IOException;
 import java.time.LocalDate;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +17,19 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
 
 
+    @Autowired
+    private UserDao userDao;
+
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody JSONObject loginData) throws IOException {
         try {
-            BalootService.getInstance().Register((String) loginData.get("username"),
-                                                 (String) loginData.get("password"),
-                                                 (String) loginData.get("email"),
-                            LocalDate.parse((String) loginData.get("birthDate")),
-                                            (String) loginData.get("address"));
+            User newUser = new User((String) loginData.get("username"),
+                                    (String) loginData.get("password"),
+                                    (String) loginData.get("email"),
+                                    LocalDate.parse((String) loginData.get("birthDate")),
+                                    (String) loginData.get("address"),
+                                    0);
+            this.userDao.save(newUser);
             return ResponseEntity.ok("ok");
         }
         catch (Exception e) {
