@@ -13,6 +13,7 @@ public class Provider {
     @Id
     @GeneratedValue
     private long id;
+    @Column(unique = true)
     private String name;
     private LocalDate registryDate;
     @OneToMany(mappedBy = "provider")

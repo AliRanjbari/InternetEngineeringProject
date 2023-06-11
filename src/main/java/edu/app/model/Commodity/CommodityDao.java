@@ -30,6 +30,28 @@ public class CommodityDao {
 
     public List<Commodity> findByInStockGreaterThanAndNameContaining (int inStock , String name) {return repo.findByInStockGreaterThanAndNameContaining(inStock, name);}
 
+    public List<Commodity> findByProviderId(long providerId, boolean justAvailable, int sortOption) {
+        if (justAvailable) {
+            if (sortOption == 1) {
+                return repo.findByInStockGreaterThanAndProviderId(0, providerId, Sort.by(Sort.Direction.DESC, "price"));
+            } else if (sortOption == 2) {
+                return repo.findByInStockGreaterThanAndProviderId(0, providerId, Sort.by(Sort.Direction.ASC, "name"));
+            }
+            else {
+                return repo.findByInStockGreaterThanAndProviderId(0, providerId);
+            }
+        } else {
+            if (sortOption == 1) {
+                return repo.findByProviderId(providerId, Sort.by(Sort.Direction.DESC, "price"));
+            } else if (sortOption == 2) {
+                return repo.findByProviderId(providerId, Sort.by(Sort.Direction.ASC, "name"));
+            }
+            else {
+                return repo.findByProviderId(providerId);
+            }
+        }
+    }
+
     public List<Commodity> findByCategory(String categoryName, boolean justAvailable, int sortOption) {
         List<Commodity> allCommodities = this.findAll(justAvailable, sortOption);
         List<Commodity> listCommodityByCategory = new ArrayList<Commodity>();
@@ -50,7 +72,7 @@ public class CommodityDao {
                 return repo.findByInStockGreaterThanAndNameContaining(0, name, Sort.by(Sort.Direction.ASC, "name"));
             }
             else {
-                return repo.findByInStockGreaterThan(0);
+                return repo.findByInStockGreaterThanAndNameContaining(0, name);
             }
         } else {
             if (sortOption == 1) {
@@ -59,7 +81,7 @@ public class CommodityDao {
                 return repo.findByNameContaining(name, Sort.by(Sort.Direction.ASC, "name"));
             }
             else {
-                return repo.findAll();
+                return repo.findByNameContaining(name);
             }
         }
     }

@@ -143,36 +143,23 @@ public class CommoditiesController extends HttpServlet {
                                                    required = false) boolean Available ,final HttpServletResponse response,
                                                    @PathVariable String providerName) throws Exception {
 
-        if (BalootService.getInstance().getLoggedUser() == null)
-            throw new RuntimeException("You're not logged in");
-
         try {
-            Map<String , Object> body = new HashMap<>();
-            List<Commodity> commodities;
-            List<Commodity> commoditiesPage;
-            List<Commodity> CommoditiesByProvider;
-            int numberOfPages;
-            if(Available) {
-                commodities = commodityDao.findByInStockGreaterThan(0);
-            }
-            else {
-                commodities = commodityDao.findAll();
-            }
-            if (Sort == 1) {
-                commodities = BalootService.getInstance().getCommoditiesSortByPrice(commodities);
-            }
-            else if (Sort == 2) {
-                commodities = BalootService.getInstance().getDatabase().getCommoditiesSortByName(commodities);
-            }
-            CommoditiesByProvider = BalootService.getInstance().getCommoditiesByProviderAndList(providerName , commodities);
-            commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , CommoditiesByProvider);
+            if (BalootService.getInstance().getLoggedUser() == null)
+                throw new RuntimeException("You're not logged in");
 
-            numberOfPages = (int) ceil((double)CommoditiesByProvider.size()/12);
+            long providerId = providerDao.getIdByName(providerName);
+            System.out.println("name: " + providerName + " privider Id: " + providerId);
+
+            Map<String , Object> body = new HashMap<>();
+            List<Commodity> commodities = commodityDao.findByProviderId(providerId, Available, Sort);
+            List<Commodity> commoditiesPage;
+            int numberOfPages;
+            commoditiesPage = CommodityDao.paginate(PageNum , commodities);
+            numberOfPages = (int) ceil((double)commodities.size()/12);
             body.put("total_page", (Object) numberOfPages);
             body.put("commodities" ,commoditiesPage);
             body.put("page_number" , (Object) PageNum);
             return ResponseEntity.status(HttpStatus.OK).body(body);
-
 
         } catch (Exception e) {
             response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
@@ -189,6 +176,7 @@ public class CommoditiesController extends HttpServlet {
         BalootService.getInstance().getDatabase().addCommodity(commodity);
         return commodity;
     }
+
     @PostMapping("/{commodityId}")
     public ResponseEntity rateAndCommentCommodity (@RequestBody JSONObject Body, @PathVariable long commodityId) throws Exception {
 
