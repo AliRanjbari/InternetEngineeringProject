@@ -114,7 +114,9 @@ public class CommodityDao {
         return commodities.subList((PageNum - 1) * CommodityDao.COMMODITY_PER_PAGE ,  min(((PageNum) * CommodityDao.COMMODITY_PER_PAGE ) , commodities.size()));
     }
 
-    // public List<Commodity> findByInStockGreaterThanAndCategoriesContaining(int inStock , String category) {return repo.findByInStockGreaterThanAndCategoriesContaining(inStock , category);}
+    public void rateCommodity(String username, long commodityId, double score) {
+        Commodity commodity = repo.findById(commodityId).get();
+        commodity.rate(username, score);
+    }
 
-    // public List<Commodity> findByCategoriesContaining(String category) {return repo.findByCategoriesContaining(category);}
 }

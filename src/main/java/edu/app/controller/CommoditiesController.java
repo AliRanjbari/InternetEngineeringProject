@@ -1,20 +1,18 @@
 package edu.app.controller;
 
+import edu.app.model.Comment.Comment;
+import edu.app.model.Comment.CommentDao;
 import edu.app.model.Commodity.CommodityDao;
-import edu.app.model.Commodity.CommodityRepo;
 import edu.app.model.Provider.ProviderDao;
 import edu.app.service.BalootService;
 import edu.app.model.Commodity.Commodity;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -29,9 +27,10 @@ public class CommoditiesController extends HttpServlet {
 
     @Autowired
     private CommodityDao commodityDao;
-
     @Autowired
     private ProviderDao providerDao;
+    @Autowired
+    private CommentDao commentDao;
 
     @GetMapping("")
     public ResponseEntity getCommodities (@RequestParam(value = "Sort" , defaultValue = "0" , required = false)
@@ -167,29 +166,31 @@ public class CommoditiesController extends HttpServlet {
         }
     }
 
-    @PostMapping("")
+    /*@PostMapping("")
     public Object addCommodity (@RequestBody Commodity commodity, final HttpServletResponse response) throws Exception {
         if (BalootService.getInstance().getDatabase().findCommodity(commodity.getId()) != null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Commodity already existed");
         }
-        else
         BalootService.getInstance().getDatabase().addCommodity(commodity);
         return commodity;
-    }
+    }*/
 
     @PostMapping("/{commodityId}")
     public ResponseEntity rateAndCommentCommodity (@RequestBody JSONObject Body, @PathVariable long commodityId) throws Exception {
-
-        if (BalootService.getInstance().getLoggedUser() == null)
-            throw new RuntimeException("You're not logged in");
         try {
+            if (BalootService.getInstance().getLoggedUser() == null)
+                throw new RuntimeException("You're not logged in");
+
             if (Body.get("comment") != null) {
                 String comment = (String) Body.get("comment");
-                BalootService.getInstance().getDatabase().addComment(BalootService.getInstance().getLoggedUser().getEmail(), commodityId, comment , LocalDate.of(2023,10,10) );
+                Comment newComment = new Comment(BalootService.getInstance().getLoggedUser().getUserName(),  comment , LocalDate.of(2023,10,10));
+                commentDao.save(newComment);
+                // BalootService.getInstance().getDatabase().addComment(BalootService.getInstance().getLoggedUser().getEmail(), commodityId, comment , LocalDate.of(2023,10,10) );
             }
             if (Body.get("rate") != null) {
                 double rate = (double) Body.get("rate");
-                BalootService.getInstance().getDatabase().rateCommodity(BalootService.getInstance().getLoggedUser().getUserName() , commodityId,rate);
+                commodityDao.rateCommodity(BalootService.getInstance().getLoggedUser().getUserName() , commodityId,rate);
+                //BalootService.getInstance().getDatabase().rateCommodity(BalootService.getInstance().getLoggedUser().getUserName() , commodityId,rate);
             }
             return ResponseEntity.ok("ok");
         }

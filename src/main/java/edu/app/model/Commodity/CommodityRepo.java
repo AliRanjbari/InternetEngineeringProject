@@ -25,8 +25,4 @@ public interface CommodityRepo extends JpaRepository<Commodity, Long> {
     List<Commodity> findByInStockGreaterThanAndProviderId(int inStock, long pid);
     List<Commodity> findByInStockGreaterThanAndProviderId(int inStock, long pid, Sort sort);
 
-
-    // List<Commodity> findByInStockGreaterThanAndCategoriesContaining(int inStock, String category);
-
-    //List<Commodity> findByCategoriesContaining(String searchString);
 }

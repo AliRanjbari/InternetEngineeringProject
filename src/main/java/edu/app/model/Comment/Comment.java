@@ -35,6 +35,13 @@ public class Comment {
         this.commentDate = commentDate;
     }
 
+    public Comment(String username, String text, LocalDate commentDate) {
+        this.username = username;
+        this.text = text;
+        this.likes =  0;
+        this.commentDate = commentDate;
+    }
+
     public void rate(String userName , long score){
         if(score > 1)
             throw new RuntimeException("Score is more than 1");
