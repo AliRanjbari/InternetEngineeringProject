@@ -31,6 +31,4 @@ public class CommodityDao {
     // public List<Commodity> findByInStockGreaterThanAndCategoriesContaining(int inStock , String category) {return repo.findByInStockGreaterThanAndCategoriesContaining(inStock , category);}
 
     // public List<Commodity> findByCategoriesContaining(String category) {return repo.findByCategoriesContaining(category);}
-
-
 }
