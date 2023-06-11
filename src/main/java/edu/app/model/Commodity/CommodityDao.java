@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,8 @@ import static java.lang.Math.min;
 
 @Service
 public class CommodityDao {
+
+    static int COMMODITY_PER_PAGE = 12;
 
     @Autowired
     private CommodityRepo repo;
@@ -26,6 +29,16 @@ public class CommodityDao {
     public List<Commodity> findByInStockGreaterThan (int inStock) {return repo.findByInStockGreaterThan(inStock);}
 
     public List<Commodity> findByInStockGreaterThanAndNameContaining (int inStock , String name) {return repo.findByInStockGreaterThanAndNameContaining(inStock, name);}
+
+    public List<Commodity> findByCategory(String categoryName, boolean justAvailable, int sortOption) {
+        List<Commodity> allCommodities = this.findAll(justAvailable, sortOption);
+        List<Commodity> listCommodityByCategory = new ArrayList<Commodity>();
+        for (Commodity commodity : allCommodities)
+            if (commodity.doesCategoryExists(categoryName))
+                listCommodityByCategory.add(commodity);
+
+        return listCommodityByCategory;
+    }
 
     public List<Commodity> findByName(String name) {return repo.findByNameContaining(name);}
 
@@ -76,7 +89,7 @@ public class CommodityDao {
     }
 
     public static List<Commodity> paginate(int PageNum , List<Commodity> commodities){
-        return commodities.subList((PageNum - 1) * 12 ,  min(((PageNum)* 12 ) , commodities.size()));
+        return commodities.subList((PageNum - 1) * CommodityDao.COMMODITY_PER_PAGE ,  min(((PageNum) * CommodityDao.COMMODITY_PER_PAGE ) , commodities.size()));
     }
 
     // public List<Commodity> findByInStockGreaterThanAndCategoriesContaining(int inStock , String category) {return repo.findByInStockGreaterThanAndCategoriesContaining(inStock , category);}

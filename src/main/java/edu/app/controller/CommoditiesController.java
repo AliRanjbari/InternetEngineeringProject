@@ -2,6 +2,7 @@ package edu.app.controller;
 
 import edu.app.model.Commodity.CommodityDao;
 import edu.app.model.Commodity.CommodityRepo;
+import edu.app.model.Provider.ProviderDao;
 import edu.app.service.BalootService;
 import edu.app.model.Commodity.Commodity;
 import jakarta.servlet.ServletException;
@@ -29,6 +30,8 @@ public class CommoditiesController extends HttpServlet {
     @Autowired
     private CommodityDao commodityDao;
 
+    @Autowired
+    private ProviderDao providerDao;
 
     @GetMapping("")
     public ResponseEntity getCommodities (@RequestParam(value = "Sort" , defaultValue = "0" , required = false)
@@ -68,7 +71,7 @@ public class CommoditiesController extends HttpServlet {
             body.put("commodity" , commodity);
             body.put("comment" , commodity.getCommentList());
             body.put("suggestion", BalootService.getInstance().getMostSimilarCommodities(commodity));
-            body.put("providerName", BalootService.getInstance().getDatabase().findProvider(commodity.getProviderId()).getName());
+            body.put("providerName", providerDao.findById(commodity.getProviderId()).get().getName());
             body.put("totalRates", commodity.getUserRates().size());
             return ResponseEntity.status(HttpStatus.OK).body(body);
         } catch (Exception e) {
@@ -108,32 +111,18 @@ public class CommoditiesController extends HttpServlet {
                                                int Sort,@RequestParam(value = "PageNum" , defaultValue = "1" , required = false)
                                                int PageNum , @RequestParam(value = "Available" , defaultValue = "false" ,
                                                required = false) boolean Available ,final HttpServletResponse response,
-                                               @PathVariable String cat)
-            throws Exception {
+                                               @PathVariable String cat) throws Exception {
 
         try {
             if (BalootService.getInstance().getLoggedUser() == null)
                 throw new RuntimeException("You're not logged in");
             Map<String , Object> body = new HashMap<>();
-            List<Commodity> commodities;
+            List<Commodity> commodities = commodityDao.findByCategory(cat, Available, Sort);
             List<Commodity> commoditiesPage;
             List<Commodity> CommoditiesByCategory;
             int numberOfPages;
-            if(Available) {
-                commodities = commodityDao.findByInStockGreaterThan(0);
-            }
-            else {
-                commodities = commodityDao.findAll();
-            }
-            if (Sort == 1) {
-                commodities = BalootService.getInstance().getCommoditiesSortByPrice(commodities);
-            }
-            else if (Sort == 2) {
-                commodities = BalootService.getInstance().getDatabase().getCommoditiesSortByName(commodities);
-            }
             CommoditiesByCategory = BalootService.getInstance().getCommoditiesByCategoryAndList(cat , commodities);
-            commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , CommoditiesByCategory);
-
+            commoditiesPage = CommodityDao.paginate(PageNum , CommoditiesByCategory);
             numberOfPages = (int) ceil((double)CommoditiesByCategory.size()/12);
             body.put("total_page", (Object) numberOfPages);
             body.put("commodities" ,commoditiesPage);
@@ -146,6 +135,7 @@ public class CommoditiesController extends HttpServlet {
             return null;
         }
     }
+
     @GetMapping("/provider/{providerName}")
     public ResponseEntity getCommoditiesByProvider(@RequestParam(value = "Sort" , defaultValue = "0" , required = false)
                                                    int Sort,@RequestParam(value = "PageNum" , defaultValue = "1" , required = false)
