@@ -37,29 +37,14 @@ public class CommoditiesController extends HttpServlet {
                                          defaultValue = "false" ,required = false) boolean Available ,
                                          final HttpServletResponse response) throws  Exception {
 
-        if (BalootService.getInstance().getLoggedUser() == null)
-            throw new RuntimeException("You're not logged in");
         try {
+            if (BalootService.getInstance().getLoggedUser() == null)
+                throw new RuntimeException("You're not logged in");
             Map<String , Object> body = new HashMap<>();
-            List<Commodity> commodities;
+            List<Commodity> commodities = commodityDao.findAll(Available, Sort);
             List<Commodity> commoditiesPage;
             int numberOfPages;
-
-            if(Available) {
-                commodities = commodityDao.findByInStockGreaterThan(0);
-                //commodities = BalootService.getInstance().getDatabase().getAvailableCommodities();
-            }
-            else {
-                commodities = commodityDao.findAll();
-//                commodities = BalootService.getInstance().getCommodities();
-            }
-            if (Sort == 1) {
-                commodities = BalootService.getInstance().getCommoditiesSortByPrice(commodities);
-            }
-            else if (Sort == 2) {
-                commodities = BalootService.getInstance().getDatabase().getCommoditiesSortByName(commodities);
-            }
-            commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , commodities);
+            commoditiesPage = CommodityDao.paginate(PageNum , commodities);
             numberOfPages = (int) ceil((double)commodities.size()/12);
             body.put("total_page", (Object) numberOfPages);
             body.put("commodities" ,commoditiesPage);
@@ -74,7 +59,6 @@ public class CommoditiesController extends HttpServlet {
 
     @GetMapping("/{id}")
     public  ResponseEntity getCommodityById(@PathVariable long id) throws Exception {
-
 
         try {
             if (BalootService.getInstance().getLoggedUser() == null)
@@ -98,30 +82,15 @@ public class CommoditiesController extends HttpServlet {
                                                int PageNum , @RequestParam(value = "Available" , defaultValue = "false",
                                                required = false) boolean Available ,final HttpServletResponse response,
                                                @PathVariable String name) throws Exception {
-        if (BalootService.getInstance().getLoggedUser() == null)
-            throw new RuntimeException("You're not logged in");
+
         try {
+            if (BalootService.getInstance().getLoggedUser() == null)
+                throw new RuntimeException("You're not logged in");
             Map<String , Object> body = new HashMap<>();
-            List<Commodity> commodities;
+            List<Commodity> commodities = commodityDao.findByName(name, Available, Sort);
             List<Commodity> commoditiesPage;
-            List<Commodity> CommoditiesByName;
             int numberOfPages;
-
-            if(Available) {
-                commodities = commodityDao.findByInStockGreaterThanAndNameContaining(0,name);
-            }
-            else {
-                commodities = commodityDao.findByNameContaining(name);
-            }
-            if (Sort == 1) {
-                commodities = BalootService.getInstance().getCommoditiesSortByPrice(commodities);
-            }
-            else if (Sort == 2) {
-                commodities = BalootService.getInstance().getDatabase().getCommoditiesSortByName(commodities);
-            }
-//            CommoditiesByName = BalootService.getInstance().getCommoditiesByNameAndList(name , commodities);
-            commoditiesPage = BalootService.getInstance().getDatabase().getPage(PageNum , commodities);
-
+            commoditiesPage = CommodityDao.paginate(PageNum , commodities);
             numberOfPages = (int) ceil((double)commodities.size()/12);
             body.put("total_page", (Object) numberOfPages);
             body.put("commodities" ,commoditiesPage);
@@ -133,6 +102,7 @@ public class CommoditiesController extends HttpServlet {
             return null;
         }
     }
+
     @GetMapping("/category/{cat}")
     public ResponseEntity getCommoditiesByCategory(@RequestParam(value = "Sort" , defaultValue = "0" , required = false)
                                                int Sort,@RequestParam(value = "PageNum" , defaultValue = "1" , required = false)
@@ -140,9 +110,10 @@ public class CommoditiesController extends HttpServlet {
                                                required = false) boolean Available ,final HttpServletResponse response,
                                                @PathVariable String cat)
             throws Exception {
-        if (BalootService.getInstance().getLoggedUser() == null)
-            throw new RuntimeException("You're not logged in");
+
         try {
+            if (BalootService.getInstance().getLoggedUser() == null)
+                throw new RuntimeException("You're not logged in");
             Map<String , Object> body = new HashMap<>();
             List<Commodity> commodities;
             List<Commodity> commoditiesPage;
