@@ -62,7 +62,8 @@ public class InitialDataBase implements ApplicationRunner {
 
         for(int i = 0; i < jasonInput.size() ; i++) {
             User newUser = parseUser(jasonInput.get(i).toString());
-            this.userDao.save(newUser);
+            if(this.userDao.findByUserName(newUser.getUserName()).isEmpty())
+                this.userDao.save(newUser);
         }
     }
 
@@ -82,7 +83,8 @@ public class InitialDataBase implements ApplicationRunner {
 
         for(int i = 0; i < jasonInput.size() ; i++) {
             Commodity newCommodity = parseCommodity(jasonInput.get(i).toString());
-            this.commodityDao.save(newCommodity);
+            if(commodityDao.findById(newCommodity.getId()).isEmpty())
+                this.commodityDao.save(newCommodity);
         }
     }
 
@@ -100,7 +102,8 @@ public class InitialDataBase implements ApplicationRunner {
 
         for(int i = 0; i < jasonInput.size() ; i++){
             Provider newProvider = parseProvider(jasonInput.get(i).toString());
-            this.providerDao.save(newProvider);
+            if(providerDao.findById(newProvider.getId()).isEmpty())
+                this.providerDao.save(newProvider);
         }
     }
 
@@ -140,7 +143,8 @@ public class InitialDataBase implements ApplicationRunner {
 
         for(int i = 0; i < jasonInput.size() ; i++) {
             Discount newDiscount = parseDiscount(jasonInput.get(i).toString());
-            this.discountDao.save(newDiscount);
+            if(discountDao.findByDiscountCode(newDiscount.getDiscountCode()).isEmpty())
+                this.discountDao.save(newDiscount);
         }
     }
 

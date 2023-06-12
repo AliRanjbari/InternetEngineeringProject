@@ -16,11 +16,7 @@ public class DiscountDao {
         repo.save(discount);
     }
 
-    public Discount findByDiscountCode(String discountCode){
-        try {
-            return repo.findByDiscountCode(discountCode).get();
-        } catch (Exception e) {
-            throw new RuntimeException("Discount not found");
-        }
+    public Optional<Discount> findByDiscountCode(String discountCode){
+        return repo.findByDiscountCode(discountCode);
     }
 }

@@ -71,9 +71,12 @@ public class UserController {
         try {
             if (BalootService.getInstance().getLoggedUser() == null)
                 throw new RuntimeException("You're not logged in");
-            User user = BalootService.getInstance().getLoggedUser();
             String discountCode = (String) jsonData.get("discount");
-            Discount discount  = discountDao.findByDiscountCode(discountCode);
+            if(discountDao.findByDiscountCode(discountCode).isEmpty())
+                throw new RuntimeException("Can't find this discount code");
+
+            User user = BalootService.getInstance().getLoggedUser();
+            Discount discount  = discountDao.findByDiscountCode(discountCode).get();
             user.setDiscount(discount);
             userDao.save(user);
             return ResponseEntity.ok("ok");
