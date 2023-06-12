@@ -29,7 +29,7 @@ public class User {
                 joinColumns = @JoinColumn(name="USER_ID"),
                 inverseJoinColumns = @JoinColumn(name = "COMMODITY_ID"))
     private final List<Commodity> buyList = new ArrayList<Commodity>();
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="number_of_commodities_in_buy_list",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
     @MapKeyColumn(name = "commodity_id")

@@ -1,5 +1,6 @@
 package edu.app.controller;
 
+import edu.app.model.Commodity.Commodity;
 import edu.app.model.Commodity.CommodityDao;
 import edu.app.model.CommodityInBuyList.CommodityInBuyList;
 import edu.app.model.Discount.Discount;
@@ -121,15 +122,24 @@ public class UserController {
     public ResponseEntity addCommodityToBuyList (@PathVariable long commodityId) throws Exception {
 
         try {
-            if (BalootService.getInstance().getDatabase().findCommodity(commodityId).getInStock() == 0)
+            if (commodityDao.findById(commodityId).isEmpty())
+                throw new RuntimeException("Can't find commodity");
+            Commodity commodity = commodityDao.findById(commodityId).get();
+            if (commodity.getInStock() == 0)
                 throw new RuntimeException("There is not enough of this Commodity");
             if (BalootService.getInstance().getLoggedUser() == null)
                 throw new RuntimeException("You're not logged in");
-            String LoggedUserName = BalootService.getInstance().getLoggedUser().getUserName();
+
+            BalootService.getInstance().getLoggedUser().addItemToList(commodity);
+            commodity.decreaseInStock();
+            commodityDao.save(commodity);
+            userDao.save(BalootService.getInstance().getLoggedUser());
+
+            /*String LoggedUserName = BalootService.getInstance().getLoggedUser().getUserName();
             if (BalootService.getInstance().getDatabase().findCommodity(commodityId).getInStock() > 0) {
                 BalootService.getInstance().getDatabase().addToBuyList(LoggedUserName, commodityId);
                 BalootService.getInstance().getDatabase().findCommodity(commodityId).decreaseInStock();
-            }
+            }*/
             return ResponseEntity.status(HttpStatus.OK).body(BalootService.getInstance().getLoggedUser().getBuyList());
         }
         catch (Exception e) {
@@ -143,9 +153,17 @@ public class UserController {
         try {
             if (BalootService.getInstance().getLoggedUser() == null)
                 throw new RuntimeException("You're not logged in");
-            String LoggedUserName = BalootService.getInstance().getLoggedUser().getUserName();
+            if (commodityDao.findById(commodityId).isEmpty())
+                throw new RuntimeException("Can't find commodity");
+            Commodity commodity = commodityDao.findById(commodityId).get();
+            BalootService.getInstance().getLoggedUser().removeCommodity(commodityId);
+            commodity.increaseInStock();
+            userDao.save(BalootService.getInstance().getLoggedUser());
+            commodityDao.save(commodity);
+
+            /*String LoggedUserName = BalootService.getInstance().getLoggedUser().getUserName();
             BalootService.getInstance().getDatabase().removeFromBuyList(LoggedUserName, commodityId);
-            BalootService.getInstance().getDatabase().findCommodity(commodityId).increaseInStock();
+            BalootService.getInstance().getDatabase().findCommodity(commodityId).increaseInStock();*/
             return ResponseEntity.status(HttpStatus.OK).body(BalootService.getInstance().getLoggedUser().getBuyList());
         }
         catch (Exception e) {
