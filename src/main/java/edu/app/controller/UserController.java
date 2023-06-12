@@ -1,6 +1,9 @@
 package edu.app.controller;
 
+import edu.app.model.Commodity.CommodityDao;
 import edu.app.model.CommodityInBuyList.CommodityInBuyList;
+import edu.app.model.Discount.Discount;
+import edu.app.model.Discount.DiscountDao;
 import edu.app.model.User.User;
 import edu.app.model.User.UserDao;
 import edu.app.service.BalootService;
@@ -21,6 +24,10 @@ public class UserController {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private CommodityDao commodityDao;
+    @Autowired
+    private DiscountDao discountDao;
 
     @GetMapping("")
     public ResponseEntity getUserInfo(){
@@ -35,8 +42,8 @@ public class UserController {
             body.put("address" , user.getAddress());
             body.put("credit" , user.getCredit());
             body.put("currentDiscount" , user.getCurrentDiscount());
-            //body.put("usedDiscount" , user.getUsedDiscount());
-            //body.put("CartSize", user.getBuyList().size());
+            body.put("usedDiscount" , user.getUsedDiscount());
+            body.put("CartSize", user.getBuyList().size());
             return ResponseEntity.status(HttpStatus.OK).body(body);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
@@ -51,25 +58,29 @@ public class UserController {
                 throw new RuntimeException("You're not logged in");
             User user = BalootService.getInstance().getLoggedUser();
             user.purchaseBuyList();
+            userDao.save(user);
             return ResponseEntity.ok("ok");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
     }
-    @PostMapping("/buyList/discount")
-    public ResponseEntity ApplyDiscount(@RequestBody JSONObject Discount){
 
+    @PostMapping("/buyList/discount")
+    public ResponseEntity ApplyDiscount(@RequestBody JSONObject jsonData){
         try {
             if (BalootService.getInstance().getLoggedUser() == null)
                 throw new RuntimeException("You're not logged in");
             User user = BalootService.getInstance().getLoggedUser();
-            String discountCode = (String) Discount.get("discount");
-            BalootService.getInstance().getDatabase().useDiscount(user , discountCode);
+            String discountCode = (String) jsonData.get("discount");
+            Discount discount  = discountDao.findByDiscountCode(discountCode);
+            user.setDiscount(discount);
+            userDao.save(user);
             return ResponseEntity.ok("ok");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
     }
+
     @GetMapping("/buyList")
     public ResponseEntity getUserBuyList(){
 

@@ -24,7 +24,7 @@ public class User {
     private String email;
     private LocalDate birthDay;
     private String address;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="BUY_LIST",
                 joinColumns = @JoinColumn(name="USER_ID"),
                 inverseJoinColumns = @JoinColumn(name = "COMMODITY_ID"))
@@ -35,7 +35,7 @@ public class User {
     @MapKeyColumn(name = "commodity_id")
     @Column(name = "buy_list_quantity")
     private final  Map<Long , Integer> numberOfCommoditiesInBuyList = new HashMap<>();
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="PURCHASED_LIST",
             joinColumns = @JoinColumn(name="USER_ID"),
             inverseJoinColumns = @JoinColumn(name = "COMMODITY_ID"))
@@ -44,7 +44,7 @@ public class User {
     @ManyToOne
     @JoinColumn(name="DISCOUNT_ID")
     private Discount currentDiscount;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "USED_DISCOUNT",
                 joinColumns = @JoinColumn(name = "USER_ID"),
                 inverseJoinColumns = @JoinColumn(name = "DISCOUNT_ID"))

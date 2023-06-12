@@ -4,6 +4,8 @@ import edu.app.model.Commodity.Commodity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class DiscountDao {
 
@@ -14,4 +16,11 @@ public class DiscountDao {
         repo.save(discount);
     }
 
+    public Discount findByDiscountCode(String discountCode){
+        try {
+            return repo.findByDiscountCode(discountCode).get();
+        } catch (Exception e) {
+            throw new RuntimeException("Discount not found");
+        }
+    }
 }
