@@ -181,15 +181,16 @@ public class CommoditiesController extends HttpServlet {
             if (BalootService.getInstance().getLoggedUser() == null)
                 throw new RuntimeException("You're not logged in");
 
+            Commodity commodity = commodityDao.findById(commodityId).get();
             if (Body.get("comment") != null) {
                 String comment = (String) Body.get("comment");
-                Comment newComment = new Comment(BalootService.getInstance().getLoggedUser().getUserName(),  comment , LocalDate.of(2023,10,10));
+                Comment newComment = new Comment(BalootService.getInstance().getLoggedUser().getUserName(),  comment, LocalDate.of(2023,10,10), commodity);
                 commentDao.save(newComment);
                 // BalootService.getInstance().getDatabase().addComment(BalootService.getInstance().getLoggedUser().getEmail(), commodityId, comment , LocalDate.of(2023,10,10) );
             }
             if (Body.get("rate") != null) {
                 double rate = (double) Body.get("rate");
-                commodityDao.rateCommodity(BalootService.getInstance().getLoggedUser().getUserName() , commodityId,rate);
+                commodityDao.rateCommodity(BalootService.getInstance().getLoggedUser().getUserName() , commodityId, rate);
                 //BalootService.getInstance().getDatabase().rateCommodity(BalootService.getInstance().getLoggedUser().getUserName() , commodityId,rate);
             }
             return ResponseEntity.ok("ok");

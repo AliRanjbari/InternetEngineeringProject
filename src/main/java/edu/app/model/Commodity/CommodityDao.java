@@ -117,6 +117,7 @@ public class CommodityDao {
     public void rateCommodity(String username, long commodityId, double score) {
         Commodity commodity = repo.findById(commodityId).get();
         commodity.rate(username, score);
+        repo.save(commodity);
     }
 
 }

@@ -27,6 +27,10 @@ public class Comment {
     @JoinColumn(name = "COMMODITY_ID")
     private Commodity commodity;
 
+    public Comment() {
+
+    }
+
     public Comment(long id, String username, String text, LocalDate commentDate) {
         this.id = id;
         this.username = username;
@@ -35,11 +39,12 @@ public class Comment {
         this.commentDate = commentDate;
     }
 
-    public Comment(String username, String text, LocalDate commentDate) {
+    public Comment(String username, String text, LocalDate commentDate, Commodity commodity) {
         this.username = username;
         this.text = text;
         this.likes =  0;
         this.commentDate = commentDate;
+        this.commodity = commodity;
     }
 
     public void rate(String userName , long score){
