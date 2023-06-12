@@ -64,7 +64,6 @@ public class InitialDataBase implements ApplicationRunner {
             User newUser = parseUser(jasonInput.get(i).toString());
             this.userDao.save(newUser);
         }
-
     }
 
 

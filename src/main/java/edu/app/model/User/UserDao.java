@@ -21,4 +21,10 @@ public class UserDao {
         return repo.findByUserName(UserName);
     }
 
+    public void addCredit(long id, int amount) {
+        User user = repo.findById(id).get();
+        user.addCredit(amount);
+        repo.save(user);
+    }
+
 }

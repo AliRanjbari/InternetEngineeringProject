@@ -177,6 +177,8 @@ public class User {
         return credit;
     }
 
+    public long getId() {return id;}
+
     public void addCredit(long credit) {
         this.credit += credit;
     }

@@ -35,8 +35,8 @@ public class UserController {
             body.put("address" , user.getAddress());
             body.put("credit" , user.getCredit());
             body.put("currentDiscount" , user.getCurrentDiscount());
-            body.put("usedDiscount" , user.getUsedDiscount());
-            body.put("CartSize", user.getBuyList().size());
+            //body.put("usedDiscount" , user.getUsedDiscount());
+            //body.put("CartSize", user.getBuyList().size());
             return ResponseEntity.status(HttpStatus.OK).body(body);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
@@ -149,6 +149,7 @@ public class UserController {
             if (BalootService.getInstance().getLoggedUser() == null)
                 throw new RuntimeException("You're not logged in");
             BalootService.getInstance().getLoggedUser().addCredit(amount);
+            userDao.addCredit(BalootService.getInstance().getLoggedUser().getId(), amount);
             return ResponseEntity.status(HttpStatus.OK).body(BalootService.getInstance().getLoggedUser().getCredit());
         }
         catch (Exception e){
