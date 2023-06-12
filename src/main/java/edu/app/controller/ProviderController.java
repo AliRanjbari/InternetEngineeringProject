@@ -20,8 +20,7 @@ public class ProviderController extends HttpServlet{
     public  ResponseEntity getProviderById(@PathVariable long id){
 
         try {
-            Provider provder = providerDao.findById(id).get();
-            Provider provider = BalootService.getInstance().getDatabase().findProvider(id);
+            Provider provider = providerDao.findById(id).get();
             return ResponseEntity.status(HttpStatus.OK).body(provider);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());

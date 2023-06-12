@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static java.lang.Math.min;
 
@@ -118,6 +116,13 @@ public class CommodityDao {
         Commodity commodity = repo.findById(commodityId).get();
         commodity.rate(username, score);
         repo.save(commodity);
+    }
+
+    public List<Commodity> getMostSimilarCommodities(Commodity commodity) {
+        List<Commodity> mostSimilarCommodities = new ArrayList<>(repo.findAll());
+        mostSimilarCommodities.sort(Comparator.comparingDouble(c -> c.getRating() + 11 * commodity.hasSameCategories(c)));
+        Collections.reverse(mostSimilarCommodities);
+        return mostSimilarCommodities;
     }
 
 }

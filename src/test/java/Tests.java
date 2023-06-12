@@ -1,13 +1,11 @@
 import edu.app.model.Commodity.Commodity;
 import edu.app.model.Provider.Provider;
 import edu.app.model.User.User;
-import edu.app.repository.DB;
 import edu.app.repository.JsonHandler;
 import org.json.simple.parser.ParseException;
-import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.rules.ExpectedException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

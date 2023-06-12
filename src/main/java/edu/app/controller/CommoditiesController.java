@@ -69,7 +69,7 @@ public class CommoditiesController extends HttpServlet {
             Map<String, Object> body = new HashMap<>();
             body.put("commodity" , commodity);
             body.put("comment" , commodity.getCommentList());
-            body.put("suggestion", BalootService.getInstance().getMostSimilarCommodities(commodity));
+            body.put("suggestion", commodityDao.getMostSimilarCommodities(commodity));
             body.put("providerName", providerDao.findById(commodity.getProviderId()).get().getName());
             body.put("totalRates", commodity.getUserRates().size());
             return ResponseEntity.status(HttpStatus.OK).body(body);
@@ -118,11 +118,9 @@ public class CommoditiesController extends HttpServlet {
             Map<String , Object> body = new HashMap<>();
             List<Commodity> commodities = commodityDao.findByCategory(cat, Available, Sort);
             List<Commodity> commoditiesPage;
-            List<Commodity> CommoditiesByCategory;
             int numberOfPages;
-            CommoditiesByCategory = BalootService.getInstance().getCommoditiesByCategoryAndList(cat , commodities);
-            commoditiesPage = CommodityDao.paginate(PageNum , CommoditiesByCategory);
-            numberOfPages = (int) ceil((double)CommoditiesByCategory.size()/12);
+            commoditiesPage = CommodityDao.paginate(PageNum , commodities);
+            numberOfPages = (int) ceil((double)commodities.size()/12);
             body.put("total_page", (Object) numberOfPages);
             body.put("commodities" ,commoditiesPage);
             body.put("page_number" , (Object) PageNum);
