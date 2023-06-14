@@ -46,7 +46,7 @@ public class AuthenticationController {
             BalootService.getInstance().login(user ,(String) loginData.get("password"));
             return ResponseEntity.ok("ok");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("user not found. invalid login");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
     }
 

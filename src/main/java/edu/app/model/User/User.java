@@ -5,11 +5,11 @@ import edu.app.model.CommodityInBuyList.CommodityInBuyList;
 import edu.app.model.Discount.Discount;
 import jakarta.persistence.*;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"userName"})})
@@ -56,7 +56,7 @@ public class User {
 
     public User(String userName, String password, String email, LocalDate birthDay, String address, long credit) {
         this.userName = userName;
-        this.password = password;
+        this.password = this.hashPassword(password);
         this.email = email;
         this.birthDay = birthDay;
         this.address = address;
@@ -138,9 +138,9 @@ public class User {
         return this.userName;
     }
 
-    public String getPassword() {
+    /*public String getPassword() {
         return password;
-    }
+    }*/
 
     public String getEmail() {
         return email;
@@ -214,5 +214,20 @@ public class User {
                 numberOfCommodityInBuyList++;
         }
         return numberOfCommodityInBuyList;
+    }
+
+    public boolean checkPassword(String password){
+        String hashedPassword = hashPassword(password);
+        return this.password.equals(hashedPassword);
+    }
+
+    private String hashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            return new String(Base64.getEncoder().encode(hash));
+        } catch (Exception e) {
+            return "";              // if algorithm does not exist just returning an empty string!
+        }
     }
 }

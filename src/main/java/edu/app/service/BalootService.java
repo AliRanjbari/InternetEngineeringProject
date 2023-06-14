@@ -26,7 +26,7 @@ public class BalootService {
     public void login(User user, String inputPassword) {
         if (user == null)
             throw new RuntimeException("Wrong username");
-        if (!user.getPassword().equals(inputPassword))
+        if (!user.checkPassword(inputPassword))
             throw new RuntimeException("Wrong password");
 
         this.loggedUser = user;
