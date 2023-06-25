@@ -2,6 +2,7 @@ package edu.app.controller;
 
 import edu.app.model.User.User;
 import edu.app.model.User.UserDao;
+import edu.app.security.JWTUtils;
 import edu.app.service.BalootService;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -31,7 +32,8 @@ public class AuthenticationController {
                                     (String) loginData.get("address"),
                                     0);
             this.userDao.save(newUser);
-            return ResponseEntity.ok("ok");
+            String jwtToken = JWTUtils.createJWT(newUser.getUserName());
+            return ResponseEntity.status(200).body(jwtToken);
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("invalid register");
@@ -41,10 +43,13 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity login(
             @RequestBody JSONObject loginData) throws IOException {
+        System.out.println("login page");
         try {
             User user = userDao.findByUserName((String) loginData.get("username")).get();
             BalootService.getInstance().login(user ,(String) loginData.get("password"));
-            return ResponseEntity.ok("ok");
+            String jwtToken = JWTUtils.createJWT(user.getUserName());
+            System.out.println("jwttoken:" + jwtToken);
+            return ResponseEntity.status(200).body(jwtToken);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
