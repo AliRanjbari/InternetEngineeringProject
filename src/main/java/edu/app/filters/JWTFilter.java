@@ -37,20 +37,28 @@ public class JWTFilter implements Filter {
                 response.getWriter().println("You have not authorized yet!");
             }
             else {
-                String username = JWTUtils.verifyJWT(token);
-                if(username == null) {
+                try {
+                    String username = JWTUtils.verifyJWT(token);
+                    System.out.println("user is: " + username);
+                    if(username == null) {
+                        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                        response.getWriter().println("The JWT token is invalidated!");
+                    }
+                    else {
+                        try {
+                            User user = userDao.findByUserName(username).get();
+                            request.setAttribute("username", username);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        chain.doFilter(request, response);
+                    }
+                } catch (Exception e) {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     response.getWriter().println("The JWT token is invalidated!");
+                    System.out.println(e.getMessage());
                 }
-                else {
-                    try {
-                        User user = userDao.findByUserName(username).get();
-                        request.setAttribute("student", username);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    chain.doFilter(request, response);
-                }
+
             }
         }
     }

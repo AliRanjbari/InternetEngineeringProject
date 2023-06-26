@@ -27,7 +27,7 @@ public class AuthenticationController {
         try {
             User newUser = new User((String) loginData.get("username"),
                                     (String) loginData.get("password"),
-                                    (String) loginData.get("email"),
+                                     (String) loginData.get("email"),
                                     LocalDate.parse((String) loginData.get("birthDate")),
                                     (String) loginData.get("address"),
                                     0);

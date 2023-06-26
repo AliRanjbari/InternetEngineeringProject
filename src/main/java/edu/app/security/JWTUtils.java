@@ -11,6 +11,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 //import jakarta.xml.bind.DatatypeConverter;
 
 import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.Date;
 
@@ -26,16 +27,6 @@ public class JWTUtils {
 
     public static String createJWT(String username) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-        /*byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
-        SecretKeySpec signingKey = new SecretKeySpec(SECRET_KEY.getBytes(), signatureAlgorithm.getJcaName());
-
-        JwtBuilder builder = Jwts.builder();
-        builder.setIssuer(userMail);
-        builder.setIssuedAt(new Date(System.currentTimeMillis()));
-        builder.setExpiration(expirationDate());
-        builder.signWith(signatureAlgorithm, signingKey);*/
-
-
 
         return Jwts.builder()
                 .setIssuer(username)
@@ -45,17 +36,16 @@ public class JWTUtils {
                 .compact();
     }
 
-    public static String verifyJWT(String jwt) {
-        /*Claims claims = Jwts.parser()
+    public static String verifyJWT(String jwtToken) {
+        Claims claims = Jwts.parser()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
-                .parseClaimsJws(jwt).getBody();
+                .parseClaimsJws(jwtToken).getBody();
         if(claims.getIssuedAt() == null ||
                 claims.getExpiration()== null ||
                 claims.getIssuer() == null)
             throw new ForbiddenException("Authorization invalid");
         if (claims.getExpiration().getTime() < System.currentTimeMillis())
             return null;
-        return claims.getIssuer();*/
-        return "hello";
+        return claims.getIssuer();
     }
 }

@@ -31,11 +31,9 @@ public class UserController {
     private DiscountDao discountDao;
 
     @GetMapping("")
-    public ResponseEntity getUserInfo(){
+    public ResponseEntity getUserInfo(@RequestAttribute("username") String username){
         try {
-            if (BalootService.getInstance().getLoggedUser() == null)
-                throw new RuntimeException("You're not logged in");
-            User user = BalootService.getInstance().getLoggedUser();
+            User user = userDao.findByUserName(username).get();
             Map<String, Object> body = new HashMap<String, Object>();
             body.put("username" , user.getUserName());
             body.put("email" , user.getEmail());
@@ -52,12 +50,10 @@ public class UserController {
     }
 
     @PostMapping("/buyList")
-    public ResponseEntity Purchase(){
+    public ResponseEntity Purchase(@RequestAttribute("username") String username){
 
         try {
-            if (BalootService.getInstance().getLoggedUser() == null)
-                throw new RuntimeException("You're not logged in");
-            User user = BalootService.getInstance().getLoggedUser();
+            User user = userDao.findByUserName(username).get();
             user.purchaseBuyList();
             userDao.save(user);
             return ResponseEntity.ok("ok");
@@ -67,15 +63,13 @@ public class UserController {
     }
 
     @PostMapping("/buyList/discount")
-    public ResponseEntity ApplyDiscount(@RequestBody JSONObject jsonData){
+    public ResponseEntity ApplyDiscount(@RequestBody JSONObject jsonData, @RequestAttribute("username") String username){
         try {
-            if (BalootService.getInstance().getLoggedUser() == null)
-                throw new RuntimeException("You're not logged in");
             String discountCode = (String) jsonData.get("discount");
             if(discountDao.findByDiscountCode(discountCode).isEmpty())
                 throw new RuntimeException("Can't find this discount code");
 
-            User user = BalootService.getInstance().getLoggedUser();
+            User user = userDao.findByUserName(username).get();
             Discount discount  = discountDao.findByDiscountCode(discountCode).get();
             user.setDiscount(discount);
             userDao.save(user);
@@ -86,12 +80,10 @@ public class UserController {
     }
 
     @GetMapping("/buyList")
-    public ResponseEntity getUserBuyList(){
+    public ResponseEntity getUserBuyList(@RequestAttribute("username") String username){
 
         try {
-            if (BalootService.getInstance().getLoggedUser() == null)
-                throw new RuntimeException("You're not logged in");
-            User user = BalootService.getInstance().getLoggedUser();
+            User user = userDao.findByUserName(username).get();
             Map<String, Object> body = new HashMap<>();
             List<CommodityInBuyList> commoditiesWithNumber = new ArrayList<>();
             List<CommodityInBuyList> newcommoditiesWithNumber = new ArrayList<>();
@@ -108,11 +100,9 @@ public class UserController {
         }
     }
     @GetMapping("/historyList")
-    public ResponseEntity getUserHistoryList(){
+    public ResponseEntity getUserHistoryList(@RequestAttribute("username") String username){
         try {
-            if (BalootService.getInstance().getLoggedUser() == null)
-                throw new RuntimeException("You're not logged in");
-            User user = BalootService.getInstance().getLoggedUser();
+            User user = userDao.findByUserName(username).get();
             Map<String, Object> body = new HashMap<String, Object>();
             body.put("historyList" ,BalootService.getInstance().removeDuplicate(user.getPurchasedList()));
             return ResponseEntity.status(HttpStatus.OK).body(body);
@@ -122,7 +112,7 @@ public class UserController {
     }
 
     @PostMapping("/buyList/{commodityId}")
-    public ResponseEntity addCommodityToBuyList (@PathVariable long commodityId) throws Exception {
+    public ResponseEntity addCommodityToBuyList (@PathVariable long commodityId, @RequestAttribute("username") String username) throws Exception {
 
         try {
             if (commodityDao.findById(commodityId).isEmpty())
@@ -130,19 +120,13 @@ public class UserController {
             Commodity commodity = commodityDao.findById(commodityId).get();
             if (commodity.getInStock() == 0)
                 throw new RuntimeException("There is not enough of this Commodity");
-            if (BalootService.getInstance().getLoggedUser() == null)
-                throw new RuntimeException("You're not logged in");
 
-            BalootService.getInstance().getLoggedUser().addItemToList(commodity);
+            User user = userDao.findByUserName(username).get();
+            user.addItemToList(commodity);
             commodity.decreaseInStock();
             commodityDao.save(commodity);
             userDao.save(BalootService.getInstance().getLoggedUser());
 
-            /*String LoggedUserName = BalootService.getInstance().getLoggedUser().getUserName();
-            if (BalootService.getInstance().getDatabase().findCommodity(commodityId).getInStock() > 0) {
-                BalootService.getInstance().getDatabase().addToBuyList(LoggedUserName, commodityId);
-                BalootService.getInstance().getDatabase().findCommodity(commodityId).decreaseInStock();
-            }*/
             return ResponseEntity.status(HttpStatus.OK).body(BalootService.getInstance().getLoggedUser().getBuyList());
         }
         catch (Exception e) {
@@ -151,22 +135,18 @@ public class UserController {
     }
 
     @DeleteMapping("/buyList/{commodityId}")
-    public ResponseEntity RemoveCommodityFromBuyList (@PathVariable long commodityId) throws Exception {
+    public ResponseEntity RemoveCommodityFromBuyList (@PathVariable long commodityId, @RequestAttribute("username") String username) throws Exception {
 
         try {
-            if (BalootService.getInstance().getLoggedUser() == null)
-                throw new RuntimeException("You're not logged in");
             if (commodityDao.findById(commodityId).isEmpty())
                 throw new RuntimeException("Can't find commodity");
             Commodity commodity = commodityDao.findById(commodityId).get();
-            BalootService.getInstance().getLoggedUser().removeCommodity(commodityId);
+            User user = userDao.findByUserName(username).get();
+            user.removeCommodity(commodityId);
             commodity.increaseInStock();
             userDao.save(BalootService.getInstance().getLoggedUser());
             commodityDao.save(commodity);
 
-            /*String LoggedUserName = BalootService.getInstance().getLoggedUser().getUserName();
-            BalootService.getInstance().getDatabase().removeFromBuyList(LoggedUserName, commodityId);
-            BalootService.getInstance().getDatabase().findCommodity(commodityId).increaseInStock();*/
             return ResponseEntity.status(HttpStatus.OK).body(BalootService.getInstance().getLoggedUser().getBuyList());
         }
         catch (Exception e) {
@@ -175,12 +155,11 @@ public class UserController {
     }
 
     @PostMapping("addCredit/{amount}")
-    public ResponseEntity addCredit (@PathVariable int amount) throws Exception {
+    public ResponseEntity addCredit (@PathVariable int amount, @RequestAttribute("username") String username) throws Exception {
 
         try {
-            if (BalootService.getInstance().getLoggedUser() == null)
-                throw new RuntimeException("You're not logged in");
-            BalootService.getInstance().getLoggedUser().addCredit(amount);
+            User user = userDao.findByUserName(username).get();
+            user.addCredit(amount);
             userDao.addCredit(BalootService.getInstance().getLoggedUser().getId(), amount);
             return ResponseEntity.status(HttpStatus.OK).body(BalootService.getInstance().getLoggedUser().getCredit());
         }
