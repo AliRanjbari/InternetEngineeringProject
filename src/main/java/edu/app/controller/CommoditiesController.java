@@ -86,8 +86,6 @@ public class CommoditiesController extends HttpServlet {
                                                @PathVariable String name) throws Exception {
 
         try {
-            if (BalootService.getInstance().getLoggedUser() == null)
-                throw new RuntimeException("You're not logged in");
             Map<String , Object> body = new HashMap<>();
             List<Commodity> commodities = commodityDao.findByName(name, Available, Sort);
             List<Commodity> commoditiesPage;
@@ -113,8 +111,6 @@ public class CommoditiesController extends HttpServlet {
                                                @PathVariable String cat) throws Exception {
 
         try {
-            if (BalootService.getInstance().getLoggedUser() == null)
-                throw new RuntimeException("You're not logged in");
             Map<String , Object> body = new HashMap<>();
             List<Commodity> commodities = commodityDao.findByCategory(cat, Available, Sort);
             List<Commodity> commoditiesPage;
@@ -141,9 +137,6 @@ public class CommoditiesController extends HttpServlet {
                                                    @PathVariable String providerName) throws Exception {
 
         try {
-            if (BalootService.getInstance().getLoggedUser() == null)
-                throw new RuntimeException("You're not logged in");
-
             long providerId = providerDao.getIdByName(providerName);
             System.out.println("name: " + providerName + " privider Id: " + providerId);
 
@@ -176,9 +169,6 @@ public class CommoditiesController extends HttpServlet {
     @PostMapping("/{commodityId}")
     public ResponseEntity rateAndCommentCommodity (@RequestBody JSONObject Body, @PathVariable long commodityId) throws Exception {
         try {
-            if (BalootService.getInstance().getLoggedUser() == null)
-                throw new RuntimeException("You're not logged in");
-
             Commodity commodity = commodityDao.findById(commodityId).get();
             if (Body.get("comment") != null) {
                 String comment = (String) Body.get("comment");
