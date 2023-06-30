@@ -63,12 +63,11 @@ public class User {
         this.credit = credit;
     }
 
-    public void update(String password, String email, LocalDate birthDay, String address, long credit) {
+    public void update(String password, String email, LocalDate birthDay, String address) {
         this.password = password;
         this.email = email;
         this.birthDay = birthDay;
         this.address = address;
-        this.credit = credit;
     }
 
     public void addItemToList (Commodity commodity) {
