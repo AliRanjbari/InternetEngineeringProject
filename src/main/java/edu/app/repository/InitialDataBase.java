@@ -105,7 +105,7 @@ public class InitialDataBase implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        System.out.println("Initializing database ... ");
+        /*System.out.println("Initializing database ... ");
         System.out.println("Getting Users... ");
         getUsers();
         System.out.println("Getting Providers... ");
@@ -115,6 +115,6 @@ public class InitialDataBase implements ApplicationRunner {
         //System.out.println("Getting Comments... ");
         //getComments();
         System.out.println("Getting Discounts... ");
-        getDiscounts();
+        getDiscounts();*/
     }
 }

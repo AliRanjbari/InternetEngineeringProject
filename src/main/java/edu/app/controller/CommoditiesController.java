@@ -4,7 +4,6 @@ import edu.app.model.Comment.Comment;
 import edu.app.model.Comment.CommentDao;
 import edu.app.model.Commodity.CommodityDao;
 import edu.app.model.Provider.ProviderDao;
-import edu.app.service.BalootService;
 import edu.app.model.Commodity.Commodity;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletResponse;
@@ -40,8 +39,6 @@ public class CommoditiesController extends HttpServlet {
                                          final HttpServletResponse response) throws  Exception {
 
         try {
-            if (BalootService.getInstance().getLoggedUser() == null)
-                throw new RuntimeException("You're not logged in");
             Map<String , Object> body = new HashMap<>();
             List<Commodity> commodities = commodityDao.findAll(Available, Sort);
             List<Commodity> commoditiesPage;
@@ -63,8 +60,6 @@ public class CommoditiesController extends HttpServlet {
     public  ResponseEntity getCommodityById(@PathVariable long id) throws Exception {
 
         try {
-            if (BalootService.getInstance().getLoggedUser() == null)
-                throw new RuntimeException("You're not logged in");
             Commodity commodity = commodityDao.findById(id).get();
             Map<String, Object> body = new HashMap<>();
             body.put("commodity" , commodity);
@@ -166,19 +161,17 @@ public class CommoditiesController extends HttpServlet {
     }*/
 
     @PostMapping("/{commodityId}")
-    public ResponseEntity rateAndCommentCommodity (@RequestBody JSONObject Body, @PathVariable long commodityId) throws Exception {
+    public ResponseEntity rateAndCommentCommodity (@RequestBody JSONObject Body, @PathVariable long commodityId, @RequestAttribute("username") String username) throws Exception {
         try {
             Commodity commodity = commodityDao.findById(commodityId).get();
             if (Body.get("comment") != null) {
                 String comment = (String) Body.get("comment");
-                Comment newComment = new Comment(BalootService.getInstance().getLoggedUser().getUserName(),  comment, LocalDate.of(2023,10,10), commodity);
+                Comment newComment = new Comment(username,  comment, LocalDate.of(2023,10,10), commodity);
                 commentDao.save(newComment);
-                // BalootService.getInstance().getDatabase().addComment(BalootService.getInstance().getLoggedUser().getEmail(), commodityId, comment , LocalDate.of(2023,10,10) );
             }
             if (Body.get("rate") != null) {
                 double rate = (double) Body.get("rate");
-                commodityDao.rateCommodity(BalootService.getInstance().getLoggedUser().getUserName() , commodityId, rate);
-                //BalootService.getInstance().getDatabase().rateCommodity(BalootService.getInstance().getLoggedUser().getUserName() , commodityId,rate);
+                commodityDao.rateCommodity(username , commodityId, rate);
             }
             return ResponseEntity.ok("ok");
         }

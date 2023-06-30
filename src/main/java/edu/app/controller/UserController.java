@@ -7,7 +7,7 @@ import edu.app.model.Discount.Discount;
 import edu.app.model.Discount.DiscountDao;
 import edu.app.model.User.User;
 import edu.app.model.User.UserDao;
-import edu.app.service.BalootService;
+import edu.app.service.Utils;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -91,7 +91,7 @@ public class UserController {
                 CommodityInBuyList temp = new CommodityInBuyList(user.getBuyList().get(i) , user.getNumberOfCommodityInBuyList(user.getBuyList().get(i).getId()));
                 commoditiesWithNumber.add(temp);
             }
-            newcommoditiesWithNumber= BalootService.getInstance().removeDuplicate(commoditiesWithNumber);
+            newcommoditiesWithNumber= Utils.removeDuplicate(commoditiesWithNumber);
             body.put("buyList" , newcommoditiesWithNumber);
             body.put("totalPriceWithDiscount", user.getTotalBuyListPrice());
             return ResponseEntity.status(HttpStatus.OK).body(body);
@@ -104,7 +104,7 @@ public class UserController {
         try {
             User user = userDao.findByUserName(username).get();
             Map<String, Object> body = new HashMap<String, Object>();
-            body.put("historyList" ,BalootService.getInstance().removeDuplicate(user.getPurchasedList()));
+            body.put("historyList" , Utils.removeDuplicate(user.getPurchasedList()));
             return ResponseEntity.status(HttpStatus.OK).body(body);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
@@ -125,9 +125,9 @@ public class UserController {
             user.addItemToList(commodity);
             commodity.decreaseInStock();
             commodityDao.save(commodity);
-            userDao.save(BalootService.getInstance().getLoggedUser());
+            userDao.save(user);
 
-            return ResponseEntity.status(HttpStatus.OK).body(BalootService.getInstance().getLoggedUser().getBuyList());
+            return ResponseEntity.status(HttpStatus.OK).body(user.getBuyList());
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
@@ -144,10 +144,10 @@ public class UserController {
             User user = userDao.findByUserName(username).get();
             user.removeCommodity(commodityId);
             commodity.increaseInStock();
-            userDao.save(BalootService.getInstance().getLoggedUser());
+            userDao.save(user);
             commodityDao.save(commodity);
 
-            return ResponseEntity.status(HttpStatus.OK).body(BalootService.getInstance().getLoggedUser().getBuyList());
+            return ResponseEntity.status(HttpStatus.OK).body(user.getBuyList());
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
@@ -160,8 +160,8 @@ public class UserController {
         try {
             User user = userDao.findByUserName(username).get();
             user.addCredit(amount);
-            userDao.addCredit(BalootService.getInstance().getLoggedUser().getId(), amount);
-            return ResponseEntity.status(HttpStatus.OK).body(BalootService.getInstance().getLoggedUser().getCredit());
+            userDao.addCredit(user.getId(), amount);
+            return ResponseEntity.status(HttpStatus.OK).body(user.getCredit());
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());

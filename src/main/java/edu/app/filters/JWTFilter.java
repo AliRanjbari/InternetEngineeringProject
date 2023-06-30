@@ -27,7 +27,7 @@ public class JWTFilter implements Filter {
         String url = request.getRequestURI();
         String method = request.getMethod();
 
-        if(url.equals("/register") || url.equals("/login"))
+        if(url.equals("/register") || url.equals("/login") || url.equals("/auth/github"))
             chain.doFilter(request, response);
         else {
             String token = request.getHeader("Authorization");
