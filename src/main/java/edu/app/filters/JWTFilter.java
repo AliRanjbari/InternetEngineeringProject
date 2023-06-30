@@ -25,7 +25,6 @@ public class JWTFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         String url = request.getRequestURI();
-        System.out.println("jwt filter url " + url);
         String method = request.getMethod();
 
         if(url.equals("/register") || url.equals("/login"))
@@ -39,7 +38,6 @@ public class JWTFilter implements Filter {
             else {
                 try {
                     String username = JWTUtils.verifyJWT(token);
-                    System.out.println("user is: " + username);
                     if(username == null) {
                         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                         response.getWriter().println("The JWT token is invalidated!");
@@ -56,7 +54,6 @@ public class JWTFilter implements Filter {
                 } catch (Exception e) {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     response.getWriter().println("The JWT token is invalidated!");
-                    System.out.println(e.getMessage());
                 }
 
             }

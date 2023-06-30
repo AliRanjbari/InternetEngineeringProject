@@ -43,12 +43,10 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity login(
             @RequestBody JSONObject loginData) throws IOException {
-        System.out.println("login page");
         try {
             User user = userDao.findByUserName((String) loginData.get("username")).get();
             BalootService.getInstance().login(user ,(String) loginData.get("password"));
             String jwtToken = JWTUtils.createJWT(user.getUserName());
-            System.out.println("jwttoken:" + jwtToken);
             return ResponseEntity.status(200).body(jwtToken);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());

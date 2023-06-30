@@ -138,7 +138,6 @@ public class CommoditiesController extends HttpServlet {
 
         try {
             long providerId = providerDao.getIdByName(providerName);
-            System.out.println("name: " + providerName + " privider Id: " + providerId);
 
             Map<String , Object> body = new HashMap<>();
             List<Commodity> commodities = commodityDao.findByProviderId(providerId, Available, Sort);
