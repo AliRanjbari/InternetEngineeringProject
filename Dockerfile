@@ -1,4 +1,5 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:17-jdk-alpine
 MAINTAINER AliRanjbari
-COPY target/baloot.jar message-server-1.0.0.jar
-ENTRYPOINT ["java","-jar","/message-server-1.0.0.jar"]
+COPY target/Baloot.jar baloot-server.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/baloot-server.jar"]
