@@ -18,6 +18,8 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.io.EOFException;
+
 import static edu.app.repository.JsonHandler.*;
 
 
@@ -40,41 +42,58 @@ public class InitialDataBase implements ApplicationRunner {
      private DiscountDao discountDao;
 
     private void getUsers() throws Exception {
-        String stringInput = Jsoup.connect(baseUrl + "/users").ignoreContentType(true).execute().body();
-        Object o = new JSONParser().parse(stringInput);
-        JSONArray jasonInput = (JSONArray) o;
+        System.out.println("Getting Users... ");
+        try{
+            String stringInput = Jsoup.connect(baseUrl + "/users").ignoreContentType(true).execute().body();
+            Object o = new JSONParser().parse(stringInput);
+            JSONArray jasonInput = (JSONArray) o;
 
-        for(int i = 0; i < jasonInput.size() ; i++) {
-            User newUser = parseUser(jasonInput.get(i).toString());
-            if(this.userDao.findByUserName(newUser.getUserName()).isEmpty())
-                this.userDao.save(newUser);
+            for(int i = 0; i < jasonInput.size() ; i++) {
+                User newUser = parseUser(jasonInput.get(i).toString());
+                if(this.userDao.findByUserName(newUser.getUserName()).isEmpty())
+                    this.userDao.save(newUser);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: fail to get users");
         }
     }
 
 
 
     private void getCommodities() throws Exception {
-        String stringInput = Jsoup.connect(baseUrl + "/v2/commodities").ignoreContentType(true).execute().body();
-        Object o = new JSONParser().parse(stringInput);
-        JSONArray jasonInput = (JSONArray) o;
+        System.out.println("Getting Commodities... ");
+        try {
+            String stringInput = Jsoup.connect(baseUrl + "/v2/commodities").ignoreContentType(true).execute().body();
+            Object o = new JSONParser().parse(stringInput);
+            JSONArray jasonInput = (JSONArray) o;
 
-        for(int i = 0; i < jasonInput.size() ; i++) {
-            Commodity newCommodity = parseCommodity(jasonInput.get(i).toString());
-            if(commodityDao.findById(newCommodity.getId()).isEmpty())
-                this.commodityDao.save(newCommodity);
+            for(int i = 0; i < jasonInput.size() ; i++) {
+                Commodity newCommodity = parseCommodity(jasonInput.get(i).toString());
+                if(commodityDao.findById(newCommodity.getId()).isEmpty())
+                    this.commodityDao.save(newCommodity);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: fail to get commodities");
         }
+
     }
 
     private void getProviders() throws Exception {
-        String stringInput = Jsoup.connect(baseUrl + "/v2/providers").ignoreContentType(true).execute().body();
-        Object o = new JSONParser().parse(stringInput);
-        JSONArray jasonInput = (JSONArray) o;
+        System.out.println("Getting Providers... ");
+        try {
+            String stringInput = Jsoup.connect(baseUrl + "/v2/providers").ignoreContentType(true).execute().body();
+            Object o = new JSONParser().parse(stringInput);
+            JSONArray jasonInput = (JSONArray) o;
 
-        for(int i = 0; i < jasonInput.size() ; i++){
-            Provider newProvider = parseProvider(jasonInput.get(i).toString());
-            if(providerDao.findById(newProvider.getId()).isEmpty())
-                this.providerDao.save(newProvider);
+            for(int i = 0; i < jasonInput.size() ; i++){
+                Provider newProvider = parseProvider(jasonInput.get(i).toString());
+                if(providerDao.findById(newProvider.getId()).isEmpty())
+                    this.providerDao.save(newProvider);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: fail to get providers");
         }
+
     }
 
 
@@ -92,29 +111,31 @@ public class InitialDataBase implements ApplicationRunner {
     }
 
     private void getDiscounts() throws Exception {
-        String stringInput = Jsoup.connect(baseUrl + "/discount").ignoreContentType(true).execute().body();
-        Object o = new JSONParser().parse(stringInput);
-        JSONArray jasonInput = (JSONArray) o;
+        System.out.println("Getting Discounts... ");
+        try {
+            String stringInput = Jsoup.connect(baseUrl + "/discount").ignoreContentType(true).execute().body();
+            Object o = new JSONParser().parse(stringInput);
+            JSONArray jasonInput = (JSONArray) o;
 
-        for(int i = 0; i < jasonInput.size() ; i++) {
-            Discount newDiscount = parseDiscount(jasonInput.get(i).toString());
-            if(discountDao.findByDiscountCode(newDiscount.getDiscountCode()).isEmpty())
-                this.discountDao.save(newDiscount);
+            for(int i = 0; i < jasonInput.size() ; i++) {
+                Discount newDiscount = parseDiscount(jasonInput.get(i).toString());
+                if(discountDao.findByDiscountCode(newDiscount.getDiscountCode()).isEmpty())
+                    this.discountDao.save(newDiscount);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: fail to get discounts");
         }
+
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        /*System.out.println("Initializing database ... ");
-        System.out.println("Getting Users... ");
+        System.out.println("Initializing database ... ");
         getUsers();
-        System.out.println("Getting Providers... ");
         getProviders();
-        System.out.println("Getting Commodities... ");
         getCommodities();
         //System.out.println("Getting Comments... ");
         //getComments();
-        System.out.println("Getting Discounts... ");
-        getDiscounts();*/
+        getDiscounts();
     }
 }
