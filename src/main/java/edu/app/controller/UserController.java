@@ -159,7 +159,6 @@ public class UserController {
 
         try {
             User user = userDao.findByUserName(username).get();
-            user.addCredit(amount);
             userDao.addCredit(user.getId(), amount);
             return ResponseEntity.status(HttpStatus.OK).body(user.getCredit());
         }
